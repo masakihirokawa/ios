@@ -1,4 +1,4 @@
-ios
+DCLibrary
 ===
 
 Objective-Cのクラスライブラリ「DCLibrary」です。お役に立つものがあれば幸いです。
