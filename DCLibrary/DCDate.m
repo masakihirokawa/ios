@@ -44,6 +44,14 @@ static UIDatePicker *datePicker;
     return date;
 }
 
+//ピッカーで指定されている時間をテキストで取得
++ (NSString *)dateText:(NSString *)dateFormat
+{
+    NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
+    dateFormatter.dateFormat = dateFormat;
+    return [dateFormatter stringFromDate:DCDate.datePicker.date];
+}
+
 //ピッカーで指定されている年取得
 + (NSInteger)pickerYear
 {
