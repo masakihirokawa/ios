@@ -12,7 +12,7 @@
 #pragma mark method prototype
 + (void)setIdleTimerDisabled:(BOOL)isDisabled;
 + (void)socialShare:(id)delegate shareText:(NSString *)shareText shareImage:(UIImage *)shareImage;
-+ (void)copyToPasteBoard:(NSString *)copyText;
++ (void)copyToPasteBoard:(NSString *)copyText completeAlertMessage:(NSString *)completeAlertMessage;
 + (void)openUrl:(NSString *)url;
 + (void)showAlert:(NSString *)title message:(NSString *)message cancelButtonTitle:(NSString *)cancelButtonTitle otherButtonTitles:(NSString *)otherButtonTitles;
 + (NSString *)getStrFromPlist:(NSString *)key;

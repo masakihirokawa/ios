@@ -9,13 +9,15 @@
 
 @implementation DCUtil
 
-#pragma mark social share
+#pragma mark set idle timer disabled
 
 //スリープ禁止の切り替え
 + (void)setIdleTimerDisabled:(BOOL)isDisabled
 {
     [[UIApplication sharedApplication] setIdleTimerDisabled:isDisabled];
 }
+
+#pragma mark social share
 
 //シェアする
 + (void)socialShare:(id)delegate shareText:(NSString *)shareText shareImage:(UIImage *)shareImage
@@ -33,14 +35,14 @@
 #pragma mark copy to paste board
 
 //ペーストボードにコピー
-+ (void)copyToPasteBoard:(NSString *)copyText
++ (void)copyToPasteBoard:(NSString *)copyText completeAlertMessage:(NSString *)completeAlertMessage
 {
     //ペーストボードにコピー
     UIPasteboard *board = [UIPasteboard generalPasteboard];
     [board setValue:copyText forPasteboardType:@"public.utf8-plain-text"];
     
     //コピー完了アラート表示
-    [DCUtil showAlert:nil message:@"クリップボードにコピーしました" cancelButtonTitle:nil otherButtonTitles:nil];
+    [DCUtil showAlert:nil message:completeAlertMessage cancelButtonTitle:nil otherButtonTitles:nil];
 }
 
 #pragma mark open url
