@@ -38,4 +38,17 @@
     [[UIApplication sharedApplication] openURL:[NSURL URLWithString:LineUrlString]];
 }
 
+//シェアする
++ (void)socialShare:(id)delegate shareText:(NSString *)shareText shareImage:(UIImage *)shareImage
+{
+    if([UIActivityViewController class]) {
+        NSString *textToShare = shareText;
+        UIImage *imageToShare = shareImage;
+        NSArray *itemsToShare = [[NSArray alloc] initWithObjects:textToShare, imageToShare, nil];
+        UIActivityViewController *activityVC = [[UIActivityViewController alloc] initWithActivityItems:itemsToShare applicationActivities:nil];
+        activityVC.excludedActivityTypes = [[NSArray alloc] initWithObjects: UIActivityTypePrint, UIActivityTypeCopyToPasteboard, UIActivityTypeAssignToContact, UIActivityTypeSaveToCameraRoll, UIActivityTypeMessage, UIActivityTypePostToWeibo, nil];
+        [delegate presentViewController:activityVC animated:YES completion:nil];
+    }
+}
+
 @end
