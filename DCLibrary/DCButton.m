@@ -56,7 +56,7 @@
         button.showsTouchWhenHighlighted = NO;
         button.adjustsImageWhenHighlighted = NO;
     } else if(on_img != nil || ![on_img isEqual:[NSNull null]]) {
-        [button setImage:on_img forState:UIControlStateNormal];
+        [button setImage:on_img forState:UIControlStateHighlighted];
     }
     
     //ボタンのタグを指定
