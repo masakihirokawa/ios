@@ -13,9 +13,9 @@
 @synthesize targetView = _targetView;
 @synthesize isBound = _isBound;
 
-#pragma mark animations
+#pragma mark - Animations
 
-//フェードアニメーション
+// フェードアニメーション
 - (void)fade:(UIView *)view duration:(float)duration isFadeIn:(BOOL)isFadeIn
 {
     _targetView = view;
@@ -27,7 +27,7 @@
     [UIView commitAnimations];
 }
 
-//スライドアニメーション
+// スライドアニメーション
 - (void)slide:(UIView *)view duration:(float)duration aimRect:(CGRect)rect
 {
     _targetView = view;
@@ -38,7 +38,7 @@
     [UIView commitAnimations];
 }
 
-//回転アニメーション
+// 回転アニメーション
 - (void)rotate:(UIView *)view duration:(float)duration aimAngle:(float)angle
 {
     _targetView = view;
@@ -50,7 +50,7 @@
     [UIView commitAnimations];
 }
 
-//拡縮アニメーション
+// 拡縮アニメーション
 - (void)scale:(UIView *)view duration:(float)duration aimScale:(float)scale
 {
     _targetView = view;
@@ -62,7 +62,7 @@
     [UIView commitAnimations];
 }
 
-//拡大アニメーション
+// 拡大アニメーション
 - (void)scaleUp:(UIView *)view duration:(float)duration isBound:(BOOL)isBound
 {
     _targetView = view;
@@ -77,7 +77,7 @@
     [UIView commitAnimations];
 }
 
-//縮小アニメーション
+// 縮小アニメーション
 - (void)scaleDown:(UIView *)view duration:(float)duration
 {
     _targetView = view;
@@ -89,7 +89,7 @@
     [UIView commitAnimations];
 }
 
-//XY方向に平行移動
+// XY方向に平行移動
 - (void)translate:(UIView *)view duration:(float)duration movePosition:(float)position
 {
     _targetView = view;
@@ -101,40 +101,40 @@
     [UIView commitAnimations];
 }
 
-#pragma mark animation delegate
+#pragma mark - AnimationDidStop
 
 - (void)animationDidStop:(NSString *)animationID finished:(NSNumber *)finished context:(void *)context {
-    if([animationID isEqualToString:ANIM_ID_FADE]) {
-        if(finished) {
+    if ([animationID isEqualToString:ANIM_ID_FADE]) {
+        if (finished) {
         }
-    } else if([animationID isEqualToString:ANIM_ID_SLIDE]) {
-        if(finished) {
+    } else if ([animationID isEqualToString:ANIM_ID_SLIDE]) {
+        if (finished) {
         }
-    } else if([animationID isEqualToString:ANIM_ID_ROTATE]) {
-        if(finished) {
+    } else if ([animationID isEqualToString:ANIM_ID_ROTATE]) {
+        if (finished) {
         }
-    } else if([animationID isEqualToString:ANIM_ID_SCALE]) {
-        if(finished) {
+    } else if ([animationID isEqualToString:ANIM_ID_SCALE]) {
+        if (finished) {
         }
-    } else if([animationID isEqualToString:ANIM_ID_SCALE_UP]) {
-        if(finished) {
+    } else if ([animationID isEqualToString:ANIM_ID_SCALE_UP]) {
+        if (finished) {
             if (_isBound) {
                 [UIView beginAnimations:nil context:nil];
                 _targetView.transform = CGAffineTransformMakeScale(1.0f, 1.0f);
                 [UIView commitAnimations];
             }
         }
-    } else if([animationID isEqualToString:ANIM_ID_SCALE_DOWN]) {
-        if(finished) {
+    } else if ([animationID isEqualToString:ANIM_ID_SCALE_DOWN]) {
+        if (finished) {
             _targetView.transform = CGAffineTransformMakeScale(1.0, 1.0);
         }
-    } else if([animationID isEqualToString:ANIM_ID_TRANSLATE]) {
-        if(finished) {
+    } else if ([animationID isEqualToString:ANIM_ID_TRANSLATE]) {
+        if (finished) {
         }
     }
-    if(finished) {
-        //ここでデリゲートメソッドを呼ぶ事ができます
-        //[self.dc_delegate animFinish:animationID];
+    if (finished) {
+        // ここでデリゲートメソッドを呼ぶ事ができます
+        
     }
 }
 

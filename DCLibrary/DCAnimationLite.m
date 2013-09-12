@@ -9,7 +9,7 @@
 
 @implementation DCAnimationLite
 
-//フェードアニメーション
+// フェードアニメーション
 + (void)fade:(UIView *)imageView duration:(float)duration isFadeIn:(BOOL)isFadeIn
 {
   [UIView beginAnimations:nil context:NULL];
@@ -19,7 +19,7 @@
   [UIView commitAnimations];
 }
 
-//スライドアニメーション
+// スライドアニメーション
 + (void)slide:(UIView *)imageView duration:(float)duration aimRect:(CGRect)rect
 {
   [UIView beginAnimations:nil context:NULL];
@@ -28,7 +28,7 @@
   [UIView commitAnimations];
 }
 
-//回転アニメーション
+// 回転アニメーション
 + (void)rotate:(UIView *)imageView duration:(float)duration aimAngle:(float)angle
 {
   [UIView beginAnimations:nil context:NULL];
@@ -38,7 +38,7 @@
   [UIView commitAnimations];
 }
 
-//拡縮アニメーション
+// 拡縮アニメーション
 + (void)scale:(UIView *)imageView duration:(float)duration aimScale:(float)scale
 {
   [UIView beginAnimations:nil context:NULL];
@@ -48,7 +48,7 @@
   [UIView commitAnimations];
 }
 
-//XY方向に平行移動
+// XY方向に平行移動
 + (void)translate:(UIView *)imageView duration:(float)duration movePosition:(float)position
 {
   [UIView beginAnimations:nil context:NULL];

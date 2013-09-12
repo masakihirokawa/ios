@@ -9,7 +9,7 @@
 
 @interface DCUtil : NSObject
 
-#pragma mark method prototype
+#pragma mark - public method
 + (void)setIdleTimerDisabled:(BOOL)isDisabled;
 + (void)socialShare:(id)delegate shareText:(NSString *)shareText shareImage:(UIImage *)shareImage;
 + (void)copyToPasteBoard:(NSString *)copyText completeAlertMessage:(NSString *)completeAlertMessage;

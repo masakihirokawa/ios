@@ -9,9 +9,9 @@
 
 @implementation DCClock
 
-#pragma mark digital clock time
+#pragma mark - Digital Clock Time
 
-//デジタル時計の文字列取得
+// デジタル時計の文字列取得
 + (NSString *)digitalClockTime:(NSInteger)seconds
 {
     NSString *hour = [DCClock increaseDigits:[DCClock hour:seconds] digits:1];
@@ -20,49 +20,49 @@
     return [NSString stringWithFormat:@"%@:%@:%@", hour, min, sec];
 }
 
-#pragma mark integer time
+#pragma mark - Integer Time
 
-//時間を取得
+// 時間を取得
 + (NSInteger)hour:(NSInteger)seconds
 {
     return floor((seconds / MIN_SEC) / MIN_SEC);
 }
 
-//分数を取得
+// 分数を取得
 + (NSInteger)min:(NSInteger)seconds
 {
     return floor((seconds / MIN_SEC) % MIN_SEC);
 }
 
-//病数を取得
+// 病数を取得
 + (NSInteger)sec:(NSInteger)seconds
 {
     return floor(seconds % MIN_SEC);
 }
 
-#pragma mark string time
+#pragma mark - String Time
 
-//時間の文字列を取得
+// 時間の文字列を取得
 + (NSString *)hourStr:(NSInteger)seconds
 {
     return [NSString stringWithFormat:@"%d", [DCClock hour:seconds]];
 }
 
-//分数の文字列を取得
+// 分数の文字列を取得
 + (NSString *)minStr:(NSInteger)seconds
 {
     return [NSString stringWithFormat:@"%d", [DCClock min:seconds]];
 }
 
-//秒数の文字列を取得
+// 秒数の文字列を取得
 + (NSString *)secStr:(NSInteger)seconds
 {
     return [NSString stringWithFormat:@"%d", [DCClock sec:seconds]];
 }
 
-#pragma mark util
+#pragma mark - Util
 
-//桁数を増やす
+// 桁数を増やす
 + (NSString *)increaseDigits:(NSInteger)value digits:(NSUInteger)digits
 {
     NSString *valueStr = [NSString stringWithFormat:@"%d", value];

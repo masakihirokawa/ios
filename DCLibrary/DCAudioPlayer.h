@@ -18,9 +18,8 @@
     id<DCAudioPlayerDelegate> _ap_delegate;
 }
 
-#pragma mark property prototype
-@property (nonatomic, assign) id<DCAudioPlayerDelegate> ap_delegate;
-
+#pragma mark - property
+@property (nonatomic, assign)                 id<DCAudioPlayerDelegate> ap_delegate;
 @property AVAudioPlayer                       *audioPlayer;
 @property NSTimeInterval                      currentTime;
 @property (readonly) NSData                   *data;
@@ -33,7 +32,7 @@
 @property (readonly) NSURL                    *url;
 @property float                               volume;
 
-#pragma mark method prototype
+#pragma mark - public method
 - (id)initWithAudio:(NSString *)fileName ext:(NSString *)ext isUseDelegate:(BOOL)isUseDelegate;
 - (void)play;
 - (void)pause;
@@ -46,6 +45,7 @@
 
 @end
 
-#pragma mark delegate prototype
+#pragma mark - delegate method
 @protocol DCAudioPlayerDelegate <NSObject>
+@optional
 @end

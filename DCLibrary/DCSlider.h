@@ -9,7 +9,7 @@
 
 @interface DCSlider : UISlider
 
-#pragma mark method prototype
+#pragma mark - public method
 + (UISlider *)planeSlider:(id)delegate rect:(CGRect)rect minVolume:(CGFloat)minVolume maxVolume:(CGFloat)maxVolume defaultVolume:(CGFloat)defaultVolume continuous:(BOOL)continuous tag:(NSUInteger)tag selector:(SEL)selector;
 + (UISlider *)imageSlider:(id)delegate rect:(CGRect)rect minVolume:(CGFloat)minVolume maxVolume:(CGFloat)maxVolume defaultVolume:(CGFloat)defaultVolume continuous:(BOOL)continuous thumbImage:(UIImage *)thumbImage thumbHighlitedImage:(UIImage *)thumbHighlitedImage minImage:(UIImage *)minImage maxImage:(UIImage *)maxImage tag:(NSUInteger)tag selector:(SEL)selector;
 

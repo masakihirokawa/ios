@@ -9,7 +9,7 @@
 
 @interface DCBlendImage : UIImage
 
-#pragma mark method prototype
+#pragma mark - public method
 + (UIImage *)blendImage:(UIImage *)baseImage blendImage:(UIImage *)blendImage blendMode:(CGBlendMode)blendMode blendAlpha:(CGFloat)blendAlpha rect:(CGRect)rect;
 + (UIImageView *)blendImageView:(UIImage *)baseImage blendImage:(UIImage *)blendImage blendMode:(CGBlendMode)blendMode blendAlpha:(CGFloat)blendAlpha rect:(CGRect)rect;
 

@@ -9,7 +9,7 @@
 
 @implementation DCDevice
 
-//iOSデバイス名の取得
+// iOSデバイス名の取得
 + (NSString *)iOSDevice
 {
     if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPhone) {
@@ -36,56 +36,66 @@
     return (@"unknown");
 }
 
-//iPhone 5端末であるか
+// iPhone 5端末であるか
 + (BOOL)isIphone5
 {
     return ([[DCDevice iOSDevice] isEqualToString:IPHONE_5]);
 }
 
-//iPhone 4/4S端末であるか
+// iPhone 4/4S端末であるか
 + (BOOL)isIphone4
 {
     return ([[DCDevice iOSDevice] isEqualToString:IPHONE_4]);
 }
 
-//iPhone 3G/3GSであるか
+// iPhone 3G/3GSであるか
 + (BOOL)isIphone3
 {
     return ([[DCDevice iOSDevice] isEqualToString:IPHONE_3]);
 }
 
-//iPad端末であるか
+// iPad端末であるか
 + (BOOL)isIpad
 {
     return ([[DCDevice iOSDevice] isEqualToString:IPAD]);
 }
 
-//iPad Retina端末であるか
+// iPad Retina端末であるか
 + (BOOL)isIpadRetina
 {
     return ([[DCDevice iOSDevice] isEqualToString:IPAD_RETINA]);
 }
 
-//iOS6以降であるか
-+ (BOOL)isIOS6 {
+// iOS6以降であるか
++ (BOOL)isIOS6
+{
     NSString *osversion = [UIDevice currentDevice].systemVersion;
     NSArray *a = [osversion componentsSeparatedByString:@"."];
     return ([(NSString*)[a objectAtIndex:0] intValue] >= 6);
 }
 
-//4インチ端末であるか
-+ (BOOL)is4inch {
+// iOS7以降であるか
++ (BOOL)isIOS7
+{
+    NSString *osversion = [UIDevice currentDevice].systemVersion;
+    NSArray *a = [osversion componentsSeparatedByString:@"."];
+    return ([(NSString*)[a objectAtIndex:0] intValue] >= 7);
+}
+
+// 4インチ端末であるか
++ (BOOL)is4inch
+{
     CGSize screenSize = [[UIScreen mainScreen] bounds].size;
     return (screenSize.width == 320.0 && screenSize.height == 568.0);
 }
 
-//iOSのバージョンを返す
+// iOSのバージョンを返す
 + (CGFloat)iOSVersion
 {
     return ([[[UIDevice currentDevice] systemVersion] floatValue]);
 }
 
-//言語設定取得
+// 言語設定取得
 + (BOOL)isJapaneseLanguage
 {
     static BOOL isJapanese;

@@ -15,7 +15,7 @@
 @synthesize backgroundImageHeight = _backgroundImageHeight;
 @synthesize backgroundImageExt    = _backgroundImageExt;
 
-#pragma mark init
+#pragma mark - Init
 
 - (id)init
 {
@@ -27,9 +27,9 @@
     return self;
 }
 
-#pragma mark image
+#pragma mark - Image View
 
-//画像の取得
+// 画像の取得
 + (UIImageView *)imageView:(NSString *)imageName imageExt:(NSString *)imageExt rect:(CGRect)rect
 {
     UIImage *image = [DCImage getUIImageFromResources:imageName ext:imageExt];
@@ -44,9 +44,9 @@
     return (imageView);
 }
 
-#pragma mark background image
+#pragma mark - Background Image
 
-//背景画像のレクタングル定義
+// 背景画像のレクタングル定義
 - (void)setBackgroundImageRectangle
 {
     _backgroundImageX      = 0;
@@ -55,7 +55,7 @@
     _backgroundImageHeight = [self backgroundImageHeight];
 }
 
-//背景画像のファイル名接尾詞定義
+// 背景画像のファイル名接尾詞定義
 - (void)setBackgroundImageType
 {
     _backgroundImageType = [NSArray arrayWithObjects:
@@ -66,27 +66,27 @@
                             nil];
 }
 
-//背景画像の拡張子定義
+// 背景画像の拡張子定義
 - (void)setBackgroundImageExt:(NSString *)ext
 {
     _backgroundImageExt = ext;
 }
 
-//背景画像のファイル名取得
+// 背景画像のファイル名取得
 - (NSString *)backgroundImageFile:(NSString *)imageTitle
 {
     return ([NSString stringWithFormat:@"%@%@%@",
              imageTitle, [self backgroundImageType], _backgroundImageExt]);
 }
 
-//背景画像の名前を取得 (拡張子を含まない)
+// 背景画像の名前を取得 (拡張子を含まない)
 - (NSString *)backgroundImageName:(NSString *)imageTitle
 {
     return ([NSString stringWithFormat:@"%@%@",
              imageTitle, [self backgroundImageType]]);
 }
 
-//背景画像のファイル名接尾詞取得
+// 背景画像のファイル名接尾詞取得
 - (NSString *)backgroundImageType
 {
     if ([DCDevice isIphone5]) {
@@ -102,7 +102,7 @@
     return ([_backgroundImageType objectAtIndex:0]);
 }
 
-//背景画像の横幅取得
+// 背景画像の横幅取得
 - (int)backgroundImageWidth
 {
     if ([DCDevice isIphone5]) {
@@ -118,7 +118,7 @@
     return (BG_IMG_WIDTH_IPHONE5);
 }
 
-//背景画像の縦幅取得
+// 背景画像の縦幅取得
 - (int)backgroundImageHeight
 {
     if ([DCDevice isIphone5]) {
@@ -134,9 +134,9 @@
     return (BG_IMG_HEIGHT_IPHONE5);
 }
 
-#pragma mark mask image
+#pragma mark - Mask Image
 
-//画像にマスク適用
+// 画像にマスク適用
 + (UIImage *)mask:(UIImage *)image withMask:(UIImage *)maskImage
 {
     CGImageRef maskRef = maskImage.CGImage;
@@ -150,9 +150,9 @@
     return ([UIImage imageWithCGImage:masked]);
 }
 
-#pragma mark resize image
+#pragma mark - Resize Image
 
-//画像のリサイズ
+// 画像のリサイズ
 + (UIImage *)resize:(UIImage *)image rect:(CGRect)rect
 {
     UIGraphicsBeginImageContext(rect.size);
@@ -164,9 +164,9 @@
     return (resizedImage);
 }
 
-#pragma mark get image file
+#pragma mark - getter method
 
-//画像ファイル名取得
+// 画像ファイル名取得
 + (NSString *)getImgFileName:(NSString *)src
 {
     NSArray *a = [src componentsSeparatedByString:@"."];
@@ -178,7 +178,7 @@
     return [NSString stringWithFormat:@"%@@2x.%@", [a objectAtIndex:0], [a objectAtIndex:1]];
 }
 
-//画像ファイル取得
+// 画像ファイル取得
 + (UIImage *)getUIImageFromResources:(NSString*)fileName ext:(NSString*)ext
 {
     NSString *path = [[NSBundle mainBundle] pathForResource:fileName ofType:ext];

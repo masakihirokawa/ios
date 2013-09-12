@@ -11,30 +11,30 @@
 
 static UIDatePicker *datePicker;
 
-#pragma mark date picker method
+#pragma mark - Date Picker
 
-//ピッカー取得
+// ピッカー取得
 + (UIDatePicker *)picker:(id)delegate rect:(CGRect)rect mode:(UIDatePickerMode)mode minuteInterval:(NSUInteger)minuteInterval dateText:(NSString *)dateText dateFormat:(NSString *)dateFormat action:(SEL)action
 {
-    //ピッカー初期化
+    // ピッカー初期化
     DCDate.datePicker = [[UIDatePicker alloc] initWithFrame:rect];
     
-    //日付の表示モードを変更する
+    // 日付の表示モードを変更する
     DCDate.datePicker.datePickerMode = mode;
     
-    //何分刻みにするか
+    // 何分刻みにするか
     DCDate.datePicker.minuteInterval = minuteInterval;
     
-    //初期時刻設定
+    // 初期時刻設定
     [DCDate.datePicker setDate:[DCDate date:dateText dateFormat:dateFormat]];
     
-    //ピッカーの値が変更されたときに呼ばれるメソッドを設定
+    // ピッカーの値が変更されたときに呼ばれるメソッドを設定
     [DCDate.datePicker addTarget:delegate action:action forControlEvents:UIControlEventValueChanged];
     
     return DCDate.datePicker;
 }
 
-//ピッカーに表示する時間取得
+// ピッカーに表示する時間取得
 + (NSDate *)date:(NSString *)dateText dateFormat:(NSString *)dateFormat
 {
     NSString *dateString = dateText;
@@ -44,7 +44,7 @@ static UIDatePicker *datePicker;
     return date;
 }
 
-//ピッカーで指定されている時間をテキストで取得
+// ピッカーで指定されている時間をテキストで取得
 + (NSString *)dateText:(NSString *)dateFormat
 {
     NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
@@ -52,7 +52,7 @@ static UIDatePicker *datePicker;
     return [dateFormatter stringFromDate:DCDate.datePicker.date];
 }
 
-//ピッカーで指定されている年取得
+// ピッカーで指定されている年取得
 + (NSInteger)pickerYear
 {
     NSDateFormatter *yearFormatter = [[NSDateFormatter alloc] init];
@@ -62,7 +62,7 @@ static UIDatePicker *datePicker;
     return [pickerYear intValue];
 }
 
-//ピッカーで指定されている月取得
+// ピッカーで指定されている月取得
 + (NSInteger)pickerMonth
 {
     NSDateFormatter *monthFormatter = [[NSDateFormatter alloc] init];
@@ -72,7 +72,7 @@ static UIDatePicker *datePicker;
     return [pickerMonth intValue];
 }
 
-//ピッカーで指定されている日付取得
+// ピッカーで指定されている日付取得
 + (NSInteger)pickerDay
 {
     NSDateFormatter *dayFormatter = [[NSDateFormatter alloc] init];
@@ -82,7 +82,7 @@ static UIDatePicker *datePicker;
     return [pickerDay intValue];
 }
 
-//ピッカーで指定されている時刻(時)取得
+// ピッカーで指定されている時刻(時)取得
 + (NSInteger)pickerHour
 {
     NSDateFormatter *hourFormatter = [[NSDateFormatter alloc] init];
@@ -92,7 +92,7 @@ static UIDatePicker *datePicker;
     return [pickerHour intValue];
 }
 
-//ピッカーで指定されている時刻(分)取得
+// ピッカーで指定されている時刻(分)取得
 + (NSInteger)pickerMinute
 {
     NSDateFormatter *minuteFormatter = [[NSDateFormatter alloc] init];
@@ -102,57 +102,57 @@ static UIDatePicker *datePicker;
     return [pickerMinute intValue];
 }
 
-#pragma mark util method
+#pragma mark - Utils
 
-//現在の月を取得
+// 現在の月を取得
 + (NSInteger)currentYear
 {
     NSDateComponents *currentTimeComponents = [DCDate currentDateComponents];
     return currentTimeComponents.year;
 }
 
-//現在の月を取得
+// 現在の月を取得
 + (NSInteger)currentMonth
 {
     NSDateComponents *currentTimeComponents = [DCDate currentDateComponents];
     return currentTimeComponents.month;
 }
 
-//現在の日付を取得
+// 現在の日付を取得
 + (NSInteger)currentDay
 {
     NSDateComponents *currentTimeComponents = [DCDate currentDateComponents];
     return currentTimeComponents.day;
 }
 
-//現在の時間を取得
+// 現在の時間を取得
 + (NSInteger)currentHour
 {
     NSDateComponents *currentTimeComponents = [DCDate currentDateComponents];
     return currentTimeComponents.hour;
 }
 
-//現在の分数を取得
+// 現在の分数を取得
 + (NSInteger)currentMinute
 {
     NSDateComponents *currentTimeComponents = [DCDate currentDateComponents];
     return currentTimeComponents.minute;
 }
 
-//現在の秒数を取得
+// 現在の秒数を取得
 + (NSInteger)currentSecond
 {
     NSDateComponents *currentTimeComponents = [DCDate currentDateComponents];
     return currentTimeComponents.second;
 }
 
-//現在時刻のコンポーネント取得
+// 現在時刻のコンポーネント取得
 + (NSDateComponents *)currentDateComponents
 {
-    //現在の時刻を取得
+    // 現在の時刻を取得
     NSDate *nowDate = [NSDate date];
     
-    //現在時刻のコンポーネント定義
+    // 現在時刻のコンポーネント定義
     NSDateComponents *nowComponents;
     nowComponents = [[NSCalendar currentCalendar] components:(NSYearCalendarUnit |
                                                               NSMonthCalendarUnit |
@@ -164,9 +164,9 @@ static UIDatePicker *datePicker;
     return nowComponents;
 }
 
-#pragma mark decision method
+#pragma mark - Decision
 
-//ピッカーで指定されている日付が現在と同じであるか
+// ピッカーで指定されている日付が現在と同じであるか
 + (BOOL)isCurrentDate
 {
     return ([DCDate currentYear] == [DCDate pickerYear] &&
@@ -174,14 +174,14 @@ static UIDatePicker *datePicker;
             [DCDate currentDay] == [DCDate pickerDay]);
 }
 
-//ピッカーで指定されている時刻が現在時刻であるか
+// ピッカーで指定されている時刻が現在時刻であるか
 + (BOOL)isCurrentTime
 {
     return ([DCDate currentHour] == [DCDate pickerHour] &&
             [DCDate currentMinute] == [DCDate pickerMinute]);
 }
 
-#pragma mark setter/getter method
+#pragma mark - setter/getter method
 
 + (void)setDatePicker:(UIDatePicker *)picker
 {

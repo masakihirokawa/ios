@@ -12,7 +12,7 @@
 
 @interface DCActivityIndicator : UIActivityIndicatorView
 
-#pragma mark method prototype
+#pragma mark - public method
 + (void)start:(id)view center:(CGPoint)center styleId:(NSInteger)styleId hidesWhenStopped:(BOOL)hidesWhenStopped showOverlay:(BOOL)showOverlay;
 + (void)stop;
 + (BOOL)isAnimating;

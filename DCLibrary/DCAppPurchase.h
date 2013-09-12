@@ -27,19 +27,19 @@
     UIView                    *indicatorOverlay_;
 }
 
-+ (DCAppPurchase *)sharedManager;
-
-#pragma mark property prototype
+#pragma mark - property
 @property (nonatomic, assign) id<DCAppPurchaseDelegate> dc_delegate;
 @property (nonatomic, assign) id delegate;
 
-#pragma mark method prototype
+#pragma mark - public method
++ (DCAppPurchase *)sharedManager;
 - (void)startPurchase:(NSString *)productId view:(id)view;
 - (void)restorePurchase;
 
 @end
 
-#pragma mark delegate prototype
+#pragma mark - delegate method
 @protocol DCAppPurchaseDelegate <NSObject>
+@optional
 - (void)DCAppPurchaseDidFinish;
 @end

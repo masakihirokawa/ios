@@ -13,19 +13,19 @@ static UIActivityIndicatorView *indicator_;
 static UIView                  *overlay_;
 static BOOL                    showOverlay_;
 
-typedef enum styles : NSInteger {
+typedef NS_ENUM(NSUInteger, styles) {
     GRAY        = 1,
     WHITE       = 2,
     WHITE_LARGE = 3
-} styles;
+};
 
-//アニメーション開始
+// アニメーション開始
 + (void)start:(id)view center:(CGPoint)center styleId:(NSInteger)styleId hidesWhenStopped:(BOOL)hidesWhenStopped showOverlay:(BOOL)showOverlay
 {
-    //インジケーター初期化
+    // インジケーター初期化
     DCActivityIndicator.indicator = [[UIActivityIndicatorView alloc] init];
     
-    //スタイルを設定
+    // スタイルを設定
     switch (styleId) {
         case GRAY:
             DCActivityIndicator.indicator.activityIndicatorViewStyle = UIActivityIndicatorViewStyleGray;
@@ -38,26 +38,26 @@ typedef enum styles : NSInteger {
             break;
     }
     
-    //スタイルに応じて寸法変更
+    // スタイルに応じて寸法変更
     if (DCActivityIndicator.indicator.activityIndicatorViewStyle == UIActivityIndicatorViewStyleWhiteLarge) {
         DCActivityIndicator.indicator.frame = CGRectMake(0, 0, INDICATOR_LARGE_SIZE, INDICATOR_LARGE_SIZE);
     } else {
         DCActivityIndicator.indicator.frame = CGRectMake(0, 0, INDICATOR_SMALL_SIZE, INDICATOR_SMALL_SIZE);
     }
     
-    //座標をセンターに指定
+    // 座標をセンターに指定
     DCActivityIndicator.indicator.center = center;
     
-    //停止した時に隠れるよう設定
+    // 停止した時に隠れるよう設定
     DCActivityIndicator.indicator.hidesWhenStopped = hidesWhenStopped;
     
-    //インジケーターアニメーション開始
+    // インジケーターアニメーション開始
     [DCActivityIndicator.indicator startAnimating];
     
-    //オーバーレイ表示フラグ保持
+    // オーバーレイ表示フラグ保持
     showOverlay_ = showOverlay;
     
-    //オーバーレイ表示
+    // オーバーレイ表示
     if (showOverlay_) {
         CGSize screenSize = [[UIScreen mainScreen] bounds].size;
         overlay_ = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 320, screenSize.width == 320 && screenSize.height == 568 ? 568 : 480)];
@@ -65,11 +65,11 @@ typedef enum styles : NSInteger {
         [view addSubview:overlay_];
     }
     
-    //画面に追加
+    // 画面に追加
     [view addSubview:DCActivityIndicator.indicator];
 }
 
-//アニメーション停止
+// アニメーション停止
 + (void)stop
 {
     if (showOverlay_) {
@@ -78,7 +78,7 @@ typedef enum styles : NSInteger {
     [DCActivityIndicator.indicator stopAnimating];
 }
 
-//アニメーション中であるか
+// アニメーション中であるか
 + (BOOL)isAnimating
 {
     return [DCActivityIndicator.indicator isAnimating];

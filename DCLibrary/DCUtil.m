@@ -9,17 +9,17 @@
 
 @implementation DCUtil
 
-#pragma mark set idle timer disabled
+#pragma mark - Idle Timer
 
-//スリープ禁止の切り替え
+// 自動スリープ禁止の切り替え
 + (void)setIdleTimerDisabled:(BOOL)isDisabled
 {
     [[UIApplication sharedApplication] setIdleTimerDisabled:isDisabled];
 }
 
-#pragma mark social share
+#pragma mark - Social Share
 
-//シェアする
+// シェアする
 + (void)socialShare:(id)delegate shareText:(NSString *)shareText shareImage:(UIImage *)shareImage
 {
     if([UIActivityViewController class]) {
@@ -32,30 +32,30 @@
     }
 }
 
-#pragma mark copy to paste board
+#pragma mark - Copy to Paste Board
 
-//ペーストボードにコピー
+// ペーストボードにコピー
 + (void)copyToPasteBoard:(NSString *)copyText completeAlertMessage:(NSString *)completeAlertMessage
 {
-    //ペーストボードにコピー
+    // ペーストボードにコピー
     UIPasteboard *board = [UIPasteboard generalPasteboard];
     [board setValue:copyText forPasteboardType:@"public.utf8-plain-text"];
     
-    //コピー完了アラート表示
+    // コピー完了アラート表示
     [DCUtil showAlert:nil message:completeAlertMessage cancelButtonTitle:nil otherButtonTitles:nil];
 }
 
-#pragma mark open url
+#pragma mark - Open Url
 
-//URLを開く
+// URLを開く
 + (void)openUrl:(NSString *)url
 {
     [[UIApplication sharedApplication] openURL:[NSURL URLWithString:url]];
 }
 
-#pragma mark show alert
+#pragma mark - Show Alert
 
-//アラート表示
+// アラート表示
 + (void)showAlert:(NSString *)title message:(NSString *)message cancelButtonTitle:(NSString *)cancelButtonTitle otherButtonTitles:(NSString *)otherButtonTitles
 {
     if (otherButtonTitles == nil) otherButtonTitles = @"OK";
@@ -67,9 +67,9 @@
     [alert show];
 }
 
-#pragma mark get str from plist
+#pragma mark - Get Str from info.plist
 
-//info.plistから文字列取得
+// info.plistから文字列取得
 + (NSString *)getStrFromPlist:(NSString *)key
 {
     NSString *path = [[NSBundle mainBundle] pathForResource:@"string" ofType:@"plist"];

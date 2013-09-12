@@ -23,12 +23,12 @@
     BOOL                        _isBound;
 }
 
-#pragma mark property prototype
+#pragma mark - property
 @property (nonatomic, strong) id<DCAnimationDelegate> dc_delegate;
 @property (nonatomic, retain) UIView *targetView;
 @property (nonatomic, assign) BOOL isBound;
 
-#pragma mark method prototype
+#pragma mark - public method
 - (void)fade:(UIView *)view duration:(float)duration isFadeIn:(BOOL)isFadeIn;
 - (void)slide:(UIView *)view duration:(float)duration aimRect:(CGRect)rect;
 - (void)rotate:(UIView *)view duration:(float)duration aimAngle:(float)angle;
@@ -39,7 +39,7 @@
 
 @end
 
+#pragma mark - delegate method
 @protocol DCAnimationDelegate <NSObject>
 @optional
-//- (void)animFinish:(NSString *)anim_id;
 @end

@@ -9,9 +9,9 @@
 
 @implementation DCRandomize
 
-#pragma mark shuffle array
+#pragma mark - Shuffle Array
 
-//配列をシャッフルして取得
+// 配列をシャッフルして取得
 + (NSMutableArray *)shuffleArray:(NSMutableArray *)array
 {
     NSMutableArray *resultList = array;
@@ -23,9 +23,9 @@
     return [NSMutableArray arrayWithArray:resultList];
 }
 
-#pragma mark shuffle
+#pragma mark - Shuffle
 
-//指定した範囲内の数値をシャッフルして配列取得
+// 指定した範囲内の数値をシャッフルして配列取得
 + (NSMutableArray *)shuffle:(NSInteger)min max:(NSInteger)max
 {
     NSMutableArray *tmpList = [NSMutableArray array];
@@ -36,9 +36,9 @@
     return [DCRandomize shuffleArray:tmpList];
 }
 
-#pragma mark exact
+#pragma mark - Exact
 
-//指定した数値と異なる乱数を取得
+// 指定した数値と異なる乱数を取得
 + (NSInteger)exact:(NSInteger)min max:(NSInteger)max exceptId:(NSInteger)exceptId
 {
     NSInteger tmpId;
@@ -48,9 +48,9 @@
     return tmpId;
 }
 
-#pragma mark range
+#pragma mark - Range
 
-//指定した範囲内の乱数を取得
+// 指定した範囲内の乱数を取得
 + (NSInteger)range:(NSInteger)min max:(NSInteger)max
 {
     return min + arc4random_uniform((max - min) + 1);

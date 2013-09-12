@@ -9,7 +9,7 @@
 
 @interface DCAnimationLite : UIView
 
-#pragma mark method prototype
+#pragma mark - public method
 + (void)fade:(UIView *)imageView duration:(float)duration isFadeIn:(BOOL)isFadeIn;
 + (void)slide:(UIView *)imageView duration:(float)duration aimRect:(CGRect)rect;
 + (void)rotate:(UIView *)imageView duration:(float)duration aimAngle:(float)angle;

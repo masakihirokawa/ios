@@ -15,7 +15,7 @@
 
 @interface DCDevice : NSString
 
-#pragma mark method prototype
+#pragma mark - public method
 + (NSString *)iOSDevice;
 + (BOOL)      isIphone5;
 + (BOOL)      isIphone4;
@@ -24,6 +24,7 @@
 + (BOOL)      isIpadRetina;
 + (BOOL)      is4inch;
 + (BOOL)      isIOS6;
++ (BOOL)      isIOS7;
 + (CGFloat)   iOSVersion;
 + (BOOL)      isJapaneseLanguage;
 

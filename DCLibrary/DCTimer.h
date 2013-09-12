@@ -9,7 +9,7 @@
 
 @interface DCTimer : NSTimer
 
-#pragma mark method prototype
+#pragma mark - public method
 + (void)setTimer:(CGFloat)timeInterval delegate:(id)delegate selector:(SEL)selector userInfo:(NSDictionary *)userInfo;
 + (void)clearTimer;
 + (void)setDelayTimer:(CGFloat)timeInterval delegate:(id)delegate selector:(SEL)selector userInfo:(NSDictionary *)userInfo;

@@ -11,11 +11,11 @@
 
 @synthesize ap_delegate;
 
-//初期化
+// 初期化
 - (id)initWithAudio:(NSString *)fileName ext:(NSString *)ext isUseDelegate:(BOOL)isUseDelegate
 {
     if (self = [super init]) {
-        //オーディオプレイヤー初期化
+        // オーディオプレイヤー初期化
         NSBundle *mainBundle = [NSBundle mainBundle];
         NSString *filePath = [mainBundle pathForResource:fileName
                                                   ofType:ext];
@@ -23,29 +23,29 @@
         NSError *error = nil;
         AVAudioPlayer *audioPlayer = [[AVAudioPlayer alloc] initWithContentsOfURL:fileUrl error:&error];
 
-        //バックグラウンド再生を許可
+        // バックグラウンド再生を許可
         AVAudioSession *audioSession = [AVAudioSession sharedInstance];
         [audioSession setCategory:AVAudioSessionCategoryPlayback error:nil];
         [audioSession setActive:YES error:nil];
         
-        //エラーであれば処理しない
+        // エラーであれば処理しない
         if (!error) {
-            //オーディオプレイヤー保持
+            // オーディオプレイヤー保持
             _audioPlayer = audioPlayer;
             
-            //デリゲート指定
+            // デリゲート指定
             if (isUseDelegate) {
                 [_audioPlayer setDelegate:self];
             }
             
-            //バッファを保持
+            // バッファを保持
             [_audioPlayer prepareToPlay];
         }
     }
     return self;
 }
 
-//再生
+// 再生
 - (void)play
 {
     if (_audioPlayer) {
@@ -56,7 +56,7 @@
     }
 }
 
-//一時停止
+// 一時停止
 - (void)pause
 {
     if (_audioPlayer) {
@@ -66,7 +66,7 @@
     }
 }
 
-//停止
+// 停止
 - (void)stop
 {
     if (_audioPlayer) {
@@ -78,7 +78,7 @@
     }
 }
 
-//ボリュームコントロールスライダー
+// ボリュームコントロールスライダー
 - (UISlider *)volumeControlSlider:(id)delegate point:(CGPoint)point defaultValue:(float)defaultValue selector:(SEL)selector
 {
     UISlider *audioVolumeSlider = [[UISlider alloc] initWithFrame:CGRectMake(point.x,
@@ -96,7 +96,7 @@
     return audioVolumeSlider;
 }
 
-//ボリューム指定
+// ボリューム指定
 - (void)setVolume:(float)volume
 {
     if (_audioPlayer) {
@@ -104,7 +104,7 @@
     }
 }
 
-//現在の再生フレーム指定
+// 現在の再生フレーム指定
 - (void)setCurrentTime:(NSTimeInterval)currentTime
 {
     if (_audioPlayer) {
@@ -112,7 +112,7 @@
     }
 }
 
-//ループ回数指定
+// ループ回数指定
 - (void)setNumberOfLoops:(NSInteger)numberOfLoops
 {
     if (_audioPlayer) {
@@ -120,17 +120,19 @@
     }
 }
 
-//再生状況の取得
+// 再生状況の取得
 - (BOOL)isPlaying
 {
     return _audioPlayer.playing;
 }
 
-#pragma mark AVAudioPlayerDelegate
+#pragma mark - AVAudioPlayerDelegate
 
 - (void)audioPlayerDidFinishPlaying:(AVAudioPlayer *)player successfully:(BOOL)successfully
 {
     if (successfully) {
+        // ここでデリゲートメソッドを指定する
+        
     }
 }
 

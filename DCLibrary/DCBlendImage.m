@@ -9,9 +9,9 @@
 
 @implementation DCBlendImage
 
-#pragma mark blend image
+#pragma mark - Blend Image
 
-//合成された UIImage取得
+// 合成された UIImage取得
 + (UIImage *)blendImage:(UIImage *)baseImage blendImage:(UIImage *)blendImage blendMode:(CGBlendMode)blendMode blendAlpha:(CGFloat)blendAlpha rect:(CGRect)rect
 {
     UIGraphicsBeginImageContext(rect.size);
@@ -25,9 +25,9 @@
     return compositeImage;
 }
 
-#pragma mark blend image view
+#pragma mark - Blend Image View
 
-//合成された UIImageView取得
+// 合成された UIImageView取得
 + (UIImageView *)blendImageView:(UIImage *)baseImage blendImage:(UIImage *)blendImage blendMode:(CGBlendMode)blendMode blendAlpha:(CGFloat)blendAlpha rect:(CGRect)rect
 {
     UIGraphicsBeginImageContext(rect.size);

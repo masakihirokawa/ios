@@ -12,7 +12,7 @@
 
 @interface DCClock : NSObject
 
-#pragma mark method prototype
+#pragma mark - public method
 + (NSString *)digitalClockTime:(NSInteger)seconds;
 + (NSInteger)hour:(NSInteger)seconds;
 + (NSInteger)min:(NSInteger)seconds;
