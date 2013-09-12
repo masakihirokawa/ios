@@ -9,24 +9,6 @@
 
 @implementation DCImage
 
-@synthesize backgroundImageX      = _backgroundImageX;
-@synthesize backgroundImageY      = _backgroundImageY;
-@synthesize backgroundImageWidth  = _backgroundImageWidth;
-@synthesize backgroundImageHeight = _backgroundImageHeight;
-@synthesize backgroundImageExt    = _backgroundImageExt;
-
-#pragma mark - Init
-
-- (id)init
-{
-    if (self = [super init]) {
-        [self setBackgroundImageRectangle];
-        [self setBackgroundImageType];
-        [self setBackgroundImageExt:BG_IMG_EXT];
-    }
-    return self;
-}
-
 #pragma mark - Image View
 
 // 画像の取得
@@ -42,96 +24,6 @@
         UIViewAutoresizingFlexibleTopMargin |
         UIViewAutoresizingFlexibleBottomMargin;
     return (imageView);
-}
-
-#pragma mark - Background Image
-
-// 背景画像のレクタングル定義
-- (void)setBackgroundImageRectangle
-{
-    _backgroundImageX      = 0;
-    _backgroundImageY      = 0;
-    _backgroundImageWidth  = [self backgroundImageWidth];
-    _backgroundImageHeight = [self backgroundImageHeight];
-}
-
-// 背景画像のファイル名接尾詞定義
-- (void)setBackgroundImageType
-{
-    _backgroundImageType = [NSArray arrayWithObjects:
-                            BG_IMG_TYPE_IPHONE5,
-                            BG_IMG_TYPE_IPHONE4,
-                            BG_IMG_TYPE_IPAD,
-                            BG_IMG_TYPE_IPAD_RETINA,
-                            nil];
-}
-
-// 背景画像の拡張子定義
-- (void)setBackgroundImageExt:(NSString *)ext
-{
-    _backgroundImageExt = ext;
-}
-
-// 背景画像のファイル名取得
-- (NSString *)backgroundImageFile:(NSString *)imageTitle
-{
-    return ([NSString stringWithFormat:@"%@%@%@",
-             imageTitle, [self backgroundImageType], _backgroundImageExt]);
-}
-
-// 背景画像の名前を取得 (拡張子を含まない)
-- (NSString *)backgroundImageName:(NSString *)imageTitle
-{
-    return ([NSString stringWithFormat:@"%@%@",
-             imageTitle, [self backgroundImageType]]);
-}
-
-// 背景画像のファイル名接尾詞取得
-- (NSString *)backgroundImageType
-{
-    if ([DCDevice isIphone5]) {
-        return ([_backgroundImageType objectAtIndex:0]);
-    } else if ([DCDevice isIphone4]) {
-        return ([_backgroundImageType objectAtIndex:1]);
-    }
-    else if ([DCDevice isIpad]) {
-        return ([_backgroundImageType objectAtIndex:2]);
-    } else if ([DCDevice isIpadRetina]) {
-        return ([_backgroundImageType objectAtIndex:3]);
-    }
-    return ([_backgroundImageType objectAtIndex:0]);
-}
-
-// 背景画像の横幅取得
-- (int)backgroundImageWidth
-{
-    if ([DCDevice isIphone5]) {
-        return (BG_IMG_WIDTH_IPHONE5);
-    } else if ([DCDevice isIphone4]) {
-        return (BG_IMG_WIDTH_IPHONE4);
-    }
-    else if ([DCDevice isIpad]) {
-        return (BG_IMG_WIDTH_IPAD);
-    } else if ([DCDevice isIpadRetina]) {
-        return (BG_IMG_WIDTH_IPAD_RETINA);
-    }
-    return (BG_IMG_WIDTH_IPHONE5);
-}
-
-// 背景画像の縦幅取得
-- (int)backgroundImageHeight
-{
-    if ([DCDevice isIphone5]) {
-        return (BG_IMG_HEIGHT_IPHONE5);
-    } else if ([DCDevice isIphone4]) {
-        return (BG_IMG_HEIGHT_IPHONE4);
-    }
-    else if ([DCDevice isIpad]) {
-        return (BG_IMG_HEIGHT_IPAD);
-    } else if ([DCDevice isIpadRetina]) {
-        return (BG_IMG_HEIGHT_IPAD_RETINA);
-    }
-    return (BG_IMG_HEIGHT_IPHONE5);
 }
 
 #pragma mark - Mask Image
