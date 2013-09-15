@@ -35,11 +35,6 @@ Objective-Cで指定した秒数から時・分・秒数を取得する「DCCloc
 [ユーティリティ機能をまとめた「DCUtil」クラス](/blog/2013/09/03/download-objc-classes-dc-util/ "ユーティリティ機能をまとめた「DCUtil」クラス")<br />
 Objective-Cのユーティリティ系機能をまとめた「DCUtil」クラスです。
 
-###DCAppPurchaseクラス
-
-[アプリ内課金をする「DCAppPurchase」クラス](/blog/2013/09/02/download-objc-classes-dc-app-purchase/ "アプリ内課金をする「DCAppPurchase」クラス")<br />
-iOSでアプリ内課金をするための「DCAppPurchase」クラスです。実際のパッケージで動作確認済みです。購入対象のプロダクトIDと、呼び出し側の Viewを渡して購入処理を開始します。
-
 ###DCAudioPlayerクラス
 
 [音楽ファイルの再生停止などの制御をする「DCAudioPlayer」クラス](/blog/2013/08/02/download-objc-classes-dc-audio-player/ "音楽ファイルの再生停止などの制御をする「DCAudioPlayer」クラス")<br />
