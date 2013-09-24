@@ -18,6 +18,9 @@ static UIDatePicker *datePicker;
 {
     // ピッカー初期化
     DCDate.datePicker = [[UIDatePicker alloc] initWithFrame:rect];
+
+    // 背景色指定
+    DCDate.datePicker.backgroundColor = [UIColor whiteColor];
     
     // 日付の表示モードを変更する
     DCDate.datePicker.datePickerMode = mode;

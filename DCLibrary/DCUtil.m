@@ -53,6 +53,20 @@
     [[UIApplication sharedApplication] openURL:[NSURL URLWithString:url]];
 }
 
+#pragma mark - Open Review URL
+
+// AppStoreのレビューURLを開く
++ (void)openReviewUrl:(NSString *)appStoreId
+{
+    NSString *reviewUrl;
+    if ([DCUtil isIOS7]) {
+        reviewUrl = [NSString stringWithFormat:@"itms-apps://itunes.apple.com/app/id%@", appStoreId];
+    } else {
+        reviewUrl = [NSString stringWithFormat:@"itms-apps://itunes.apple.com/WebObjects/MZStore.woa/wa/viewContentsUserReviews?id=%@&onlyLatestVersion=true&pageNumber=0&sortOrdering=1&type=Purple+Software", appStoreId];
+    }
+    [DCUtil openUrl:reviewUrl];
+}
+
 #pragma mark - Show Alert
 
 // アラート表示
@@ -76,6 +90,16 @@
     NSDictionary *plist = [NSDictionary dictionaryWithContentsOfFile:path];
     NSString *ret = [plist objectForKey:key];
     return [ret stringByReplacingOccurrencesOfString:@"\\n" withString:@"\n"];
+}
+
+#pragma mark - Utils
+
+// iOS7以降であるか
++ (BOOL)isIOS7
+{
+    NSString *osversion = [UIDevice currentDevice].systemVersion;
+    NSArray *a = [osversion componentsSeparatedByString:@"."];
+    return ([(NSString*)[a objectAtIndex:0] intValue] >= 7);
 }
 
 @end
