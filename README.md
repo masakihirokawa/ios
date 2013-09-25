@@ -42,7 +42,7 @@ Objective-Cのユーティリティ系機能をまとめた「DCUtil」クラス
 
 ###DCActivityIndicatorクラス
 
-[アクティビティインジケーターを制御する「DCActivityIndicator」クラス](/blog/2013/07/01/download-objc-classes-dc-activity-indicator/ "アクティビティインジケーターを制御する「DCActivityIndicator」クラス")<br />
+[アクティビティインジケーターを制御する「DCActivityIndicator」クラス](/blog/2013/09/02/download-objc-classes-dc-activity-indicator2/ "アクティビティインジケーターを制御する「DCActivityIndicator」クラス")<br />
 アクティビティインジケーターを制御する「DCActivityIndicator」クラスです。アクティビティインジケーターのアニメーション再生／停止／再生状況の取得を行えます。
 
 ###DCAnimationクラス
