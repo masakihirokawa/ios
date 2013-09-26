@@ -8,27 +8,27 @@ Objective-Cのクラスライブラリ「DCLibrary」です。お役に立つも
 ###DCDateクラス
 
 [日付時刻の情報や UIDatePickerを取得する「DCDate」クラス](http://lab.dolice.net/blog/2013/09/10/objc-classes-dc-date/ "日付時刻の情報や UIDatePickerを取得する「DCDate」クラス")<br />
-Objective-Cで UIDatePickerの取得や、年号日付時刻等の情報を取得／判別する「DCDate」クラスです。
+UIDatePickerの取得や、年号日付時刻等の情報を取得／判別する「DCDate」クラスです。
 
 ###DCSliderクラス
 
 [2種類のスライダーを取得する「DCSlider」クラス](http://lab.dolice.net/blog/2013/09/10/objc-classes-dc-slider/ "2種類のスライダーを取得する「DCSlider」クラス")<br />
-Objective-Cで通常のスライダーと画像スライダーを取得する「DCSlider」クラスです。
+通常のスライダーと画像スライダーを取得する「DCSlider」クラスです。
 
 ###DCBlendImageクラス
 
 [画像をブレンド加工する「DCBlendImage」クラス](http://lab.dolice.net/blog/2013/09/09/objc-classes-dc-blend-image/ "画像をブレンド加工する「DCBlendImage」クラス")<br />
-Objective-Cで Photoshopのように画像を合成して表示する「DCBlendImage」クラスです。ベース画像とブレンド画像、ブレンドモード、アルファ値、画像の寸法を指定して使用します。
+Photoshopのように画像を合成して表示する「DCBlendImage」クラスです。ベース画像とブレンド画像、ブレンドモード、アルファ値、画像の寸法を指定して使用します。
 
 ###DCRandomizeクラス
 
 [乱数の生成や配列のシャッフルを行う「DCRandomize」クラス](http://lab.dolice.net/blog/2013/09/09/download-objc-classes-dc-randomize/ "乱数の生成や配列のシャッフルを行う「DCRandomize」クラス")<br />
-Objective-Cで乱数の生成や配列のシャッフルを行う「DCRandomize」クラスです。
+乱数の生成や配列のシャッフルを行う「DCRandomize」クラスです。
 
 ###DCClockクラス
 
 [秒数から時間とデジタル時計を取得する「DCClock」クラス](http://lab.dolice.net/blog/2013/09/05/download-objc-classes-dc-clock/ "秒数から時間とデジタル時計を取得する「DCClock」クラス")<br />
-Objective-Cで指定した秒数から時・分・秒数を取得する「DCClock」クラスです。秒数からデジタル時計形式の文字列取得も行えます。1桁の数字の桁数を増やして文字列として取得する機能も付属しています。
+指定した秒数から「時・分・秒」数を取得する「DCClock」クラスです。秒数からデジタル時計形式の文字列取得も行えます。1桁の数字の桁数を増やして文字列として取得する機能も付属しています。
 
 ###DCUtilクラス
 
@@ -38,17 +38,17 @@ Objective-Cのユーティリティ系機能をまとめた「DCUtil」クラス
 ###DCAudioPlayerクラス
 
 [音楽ファイルの再生停止などの制御をする「DCAudioPlayer」クラス](http://lab.dolice.net/blog/2013/09/04/download-objc-classes-dc-audio-player2/ "音楽ファイルの再生停止などの制御をする「DCAudioPlayer」クラス")<br />
-音楽ファイルの再生停止などの制御をする「DCAudioPlayer」クラスです。オーディオの再生／停止／一時停止／再生状況の取得、ボリュームコントロールスライダーの生成などを行えます。
+オーディオの再生／停止／一時停止／再生状況の取得、ボリュームコントロールスライダーの生成などを行えます。
 
 ###DCActivityIndicatorクラス
 
 [アクティビティインジケーターを制御する「DCActivityIndicator」クラス](http://lab.dolice.net/blog/2013/09/02/download-objc-classes-dc-activity-indicator2/ "アクティビティインジケーターを制御する「DCActivityIndicator」クラス")<br />
-アクティビティインジケーターを制御する「DCActivityIndicator」クラスです。アクティビティインジケーターのアニメーション再生／停止／再生状況の取得を行えます。
+アクティビティインジケーターのアニメーション再生／停止／再生状況の取得を行えます。
 
 ###DCAnimationクラス
 
 [7種類のアニメーションを実行する「DCAnimation」クラス](http://lab.dolice.net/blog/2013/05/30/download-objc-classes-dc-animation2/ "7種類のアニメーションを実行する「DCAnimation」クラス")<br />
-7種類のアニメーションをシンプルな記述で実行する「DCAnimation」クラスです。アニメーション終了時のメソッドやデリゲートメソッドを指定できます。
+アニメーション終了時のメソッドやデリゲートメソッドを指定できます。
 
 ###DCAnimationクラス (ライト版)
 
@@ -58,7 +58,7 @@ Objective-Cのユーティリティ系機能をまとめた「DCUtil」クラス
 ###DCButtonクラス
 
 [2種類のボタンを生成する「DCButton」クラス](http://lab.dolice.net/blog/2013/06/04/download-objc-classes-dc-button/ "2種類のボタンを生成する「DCButton」クラス")<br />
-テキストボタンと画像ボタンをシンプルな記述で生成する「DCButton」クラスです。
+通常のボタンと画像ボタンをシンプルな記述で生成する「DCButton」クラスです。
 
 ###DCImageAnimationクラス
 
@@ -68,12 +68,12 @@ Objective-Cのユーティリティ系機能をまとめた「DCUtil」クラス
 ###DCTimerクラス
 
 [シンプルな記述でタイマーイベントを呼び出す「DCTimer」クラス](http://lab.dolice.net/blog/2013/06/06/download-objc-classes-dc-timer/ "シンプルな記述でタイマーイベントを呼び出す「DCTimer」クラス")<br />
-2種類のタイマーイベントをクラスメソッドで呼び出す「DCTimer」クラスです。パラメータを渡す事も可能です。
+2種類のタイマーイベントをクラスメソッドで呼び出す「DCTimer」クラスです。タイマーイベントにパラメータを渡す事も可能です。
 
 ###DCLabelクラス
 
 [2種類のラベルを生成する「DCLabel」クラス](http://lab.dolice.net/blog/2013/06/12/download-objc-classes-dc-label/ "2種類のラベルを生成する「DCLabel」クラス")<br />
-四角のラベルと角丸のラベルを生成する「DCLabel」クラスです。
+通常のラベルと角丸のラベルを生成する「DCLabel」クラスです。
 
 ###DCDeviceクラス
 
@@ -88,4 +88,4 @@ iPhone/iPadのデバイス情報を判別する「DCDevice」クラスです。�
 ###DCSocialクラス
 
 [Facebook/Twitter/LINEへ投稿する「DCSocial」クラス](http://lab.dolice.net/blog/2013/06/30/download-objc-classes-dc-social/ "Facebook/Twitter/LINEへ投稿する「DCSocial」クラス")<br />
-Facebook/Twitter/LINEへの画像/テキスト/URLの投稿をシンプルな記述で実行する「DCSocial」クラスです。
+Facebook、Twitter、LINEへの画像/テキスト/URLの投稿をシンプルな記述で実行する「DCSocial」クラスです。
