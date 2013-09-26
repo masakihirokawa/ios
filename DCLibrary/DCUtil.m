@@ -99,7 +99,7 @@
 {
     NSString *osversion = [UIDevice currentDevice].systemVersion;
     NSArray *a = [osversion componentsSeparatedByString:@"."];
-    return ([(NSString*)[a objectAtIndex:0] intValue] >= 7);
+    return ([(NSString *)[a objectAtIndex:0] intValue] >= 7);
 }
 
 @end

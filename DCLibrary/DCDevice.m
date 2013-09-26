@@ -71,7 +71,7 @@
 {
     NSString *osversion = [UIDevice currentDevice].systemVersion;
     NSArray *a = [osversion componentsSeparatedByString:@"."];
-    return ([(NSString*)[a objectAtIndex:0] intValue] >= 6);
+    return ([(NSString *)[a objectAtIndex:0] intValue] >= 6);
 }
 
 // iOS7以降であるか
@@ -79,7 +79,7 @@
 {
     NSString *osversion = [UIDevice currentDevice].systemVersion;
     NSArray *a = [osversion componentsSeparatedByString:@"."];
-    return ([(NSString*)[a objectAtIndex:0] intValue] >= 7);
+    return ([(NSString *)[a objectAtIndex:0] intValue] >= 7);
 }
 
 // 4インチ端末であるか
