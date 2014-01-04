@@ -1,9 +1,8 @@
 //
 //  DCWebView.m
-//  TheMystery
 //
-//  Created by Dolice on 2014/01/04.
-//  Copyright (c) 2014年 Dolice. All rights reserved.
+//  Created by Masaki Hirokawa on 2014/01/04.
+//  Copyright (c) 2014 Masaki Hirokawa. All rights reserved.
 //
 
 #import "DCWebView.h"
@@ -49,7 +48,7 @@
     NSURL *url = [NSURL URLWithString:targetUrl];
     NSURLRequest *request = [NSURLRequest requestWithURL:url];
     [self loadRequest:request];
-
+    
     // アクティビティインジケータ表示
     [self startActivityIndicatorAnimation:view];
 }
