@@ -30,12 +30,18 @@
 }
 
 // LINEへ投稿
-+ (void)postToLine:(NSString *)imageName
++ (void)postToLine:(NSString *)text
 {
-    UIPasteboard *pasteboard = [UIPasteboard pasteboardWithUniqueName];
-    [pasteboard setData:UIImagePNGRepresentation([UIImage imageNamed:imageName]) forPasteboardType:@"public.png"];
-    NSString *LineUrlString = [NSString stringWithFormat:@"line://msg/image/%@", pasteboard.name];
-    [[UIApplication sharedApplication] openURL:[NSURL URLWithString:LineUrlString]];
+    NSString *plainString = text;
+    NSString *contentKey = (__bridge NSString *)CFURLCreateStringByAddingPercentEscapes(NULL,
+                                                                                        (CFStringRef)plainString,
+                                                                                        NULL,
+                                                                                        (CFStringRef)@"!*'();:@&=+$,/?%#[]",
+                                                                                        kCFStringEncodingUTF8 );
+    NSString *contentType = @"text";
+    NSString *urlString = [NSString stringWithFormat: @"http://line.naver.jp/R/msg/%@/?%@", contentType, contentKey];
+    NSURL *url = [NSURL URLWithString:urlString];
+    [[UIApplication sharedApplication] openURL:url];
 }
 
 // シェアする

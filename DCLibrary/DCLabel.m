@@ -14,7 +14,16 @@
 {
     UILabel *label = [DCLabel label:rect
                                text:text font:font textColor:textColor textAlignment:textAlignment
-                    backgroundColor:backgroundColor];
+                      numberOfLines:0 backgroundColor:backgroundColor];
+    return (label);
+}
+
+// 1行のラベル取得
++ (UILabel *)oneLineLabel:(CGRect)rect text:(NSString *)text font:(UIFont *)font textColor:(UIColor *)textColor textAlignment:(NSTextAlignment)textAlignment backgroundColor:(UIColor *)backgroundColor
+{
+    UILabel *label = [DCLabel label:rect
+                               text:text font:font textColor:textColor textAlignment:textAlignment
+                      numberOfLines:1 backgroundColor:backgroundColor];
     return (label);
 }
 
@@ -23,14 +32,14 @@
 {
     UILabel *label = [DCLabel label:rect
                                text:text font:font textColor:textColor textAlignment:textAlignment
-                    backgroundColor:backgroundColor];
+                      numberOfLines:0 backgroundColor:backgroundColor];
     [[label layer] setCornerRadius:cornerRadius];
     [label setClipsToBounds:YES];
     return (label);
 }
 
 //ラベル取得
-+ (UILabel *)label:(CGRect)rect text:(NSString *)text font:(UIFont *)font textColor:(UIColor *)textColor textAlignment:(NSTextAlignment)textAlignment backgroundColor:(UIColor *)backgroundColor
++ (UILabel *)label:(CGRect)rect text:(NSString *)text font:(UIFont *)font textColor:(UIColor *)textColor textAlignment:(NSTextAlignment)textAlignment numberOfLines:(NSInteger)numberOfLines backgroundColor:(UIColor *)backgroundColor
 {
     UILabel *label = [[UILabel alloc] initWithFrame:rect];
     label.text = text;
