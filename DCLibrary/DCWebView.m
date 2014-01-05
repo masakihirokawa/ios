@@ -15,7 +15,7 @@
     if (self) {
         self.delegate = self;
         self.backgroundColor = [UIColor whiteColor];
-        self.scalesPageToFit = YES;
+        self.scalesPageToFit = NO;
         self.opaque = NO;
     }
     return self;
