@@ -5,6 +5,11 @@ Objective-Cのクラスライブラリ「DCLibrary」です。お役に立つも
 
 ##サンプル一覧
 
+###DCWebViewクラス
+
+[ウェブビューに必要な機能を搭載した「DCWebView」クラス](http://lab.dolice.net/blog/2014/01/05/objc-classes-dc-web-view/ "ウェブビューに必要な機能を搭載した「DCWebView」クラス")<br />
+UIWebViewを使用する際に必要な機能を搭載した「DCWebView」クラスです。
+
 ###DCDateクラス
 
 [日付時刻の情報や UIDatePickerを取得する「DCDate」クラス](http://lab.dolice.net/blog/2013/09/10/objc-classes-dc-date/ "日付時刻の情報や UIDatePickerを取得する「DCDate」クラス")<br />
