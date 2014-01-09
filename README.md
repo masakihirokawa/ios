@@ -37,7 +37,7 @@ Photoshopのように画像を合成して表示する「DCBlendImage」クラ�
 
 ###DCUtilクラス
 
-[ユーティリティ機能をまとめた「DCUtil」クラス](http://lab.dolice.net/blog/2013/09/03/download-objc-classes-dc-util/ "ユーティリティ機能をまとめた「DCUtil」クラス")<br />
+[ユーティリティ機能をまとめた「DCUtil」クラス](http://lab.dolice.net/blog/2014/01/09/download-objc-classes-dc-util3/ "ユーティリティ機能をまとめた「DCUtil」クラス")<br />
 Objective-Cのユーティリティ系機能をまとめた「DCUtil」クラスです。
 
 ###DCAudioPlayerクラス

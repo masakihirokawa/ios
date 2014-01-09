@@ -81,6 +81,48 @@
     [alert show];
 }
 
+#pragma mark - Trim Strings
+
+// 前後にある半角スペースのトリミング
++ (NSString *)trimWhitespaceCharacterSet:(NSString *)string
+{
+    return [string stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceCharacterSet]];
+}
+
+// 前後にある改行のトリミング
++ (NSString *)trimNewLineCharacterSet:(NSString *)string
+{
+    return [string stringByTrimmingCharactersInSet:[NSCharacterSet newlineCharacterSet]];
+}
+
+// 前後にある全角スペースと改行のトリミング
++ (NSString *)trimWhitespaceAndNewLineCharacterSet:(NSString *)string
+{
+    return [string stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
+}
+
+// 前後にあるアルファベット文字セットのトリミング
++ (NSString *)trimAlphanumericCharacterSet:(NSString *)string
+{
+    return [string stringByTrimmingCharactersInSet:[NSCharacterSet alphanumericCharacterSet]];
+}
+
+// 前後にある数字の文字セットのトリミング
++ (NSString *)trimDicimalDigitCharacterSet:(NSString *)string
+{
+    return [string stringByTrimmingCharactersInSet:[NSCharacterSet decimalDigitCharacterSet]];
+}
+
+// 先頭の指定した文字列をトリミング
++ (NSString *)trimFirstCharacterSet:(NSString *)string searchString:(NSString *)searchString
+{
+    if ([string hasPrefix:searchString]) {
+        NSString *newString = [string substringWithRange:NSMakeRange(searchString.length, string.length - searchString.length)];
+        return newString;
+    }
+    return string;
+}
+
 #pragma mark - Get Str from info.plist
 
 // info.plistから文字列取得
@@ -99,7 +141,7 @@
 {
     NSString *osversion = [UIDevice currentDevice].systemVersion;
     NSArray *a = [osversion componentsSeparatedByString:@"."];
-    return ([(NSString *)[a objectAtIndex:0] intValue] >= 7);
+    return ([(NSString*)[a objectAtIndex:0] intValue] >= 7);
 }
 
 @end
