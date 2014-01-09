@@ -92,5 +92,5 @@ iPhone/iPadのデバイス情報を判別する「DCDevice」クラスです。�
 
 ###DCSocialクラス
 
-[Facebook/Twitter/LINEへ投稿する「DCSocial」クラス](http://lab.dolice.net/blog/2014/01/04/download-objc-classes-dc-social2/ "Facebook/Twitter/LINEへ投稿する「DCSocial」クラス")<br />
+[Facebook/Twitter/LINEへ投稿する「DCSocial」クラス](http://lab.dolice.net/blog/2014/01/09/download-objc-classes-dc-social2/ "Facebook/Twitter/LINEへ投稿する「DCSocial」クラス")<br />
 Facebook、Twitter、LINEへの画像/テキスト/URLの投稿をシンプルな記述で実行する「DCSocial」クラスです。
