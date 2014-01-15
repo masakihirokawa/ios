@@ -12,7 +12,7 @@ UIWebViewを使用する際に必要な機能を搭載した「DCWebView」ク�
 
 ###DCDateクラス
 
-[日付時刻の情報や UIDatePickerを取得する「DCDate」クラス](http://lab.dolice.net/blog/2013/09/10/objc-classes-dc-date/ "日付時刻の情報や UIDatePickerを取得する「DCDate」クラス")<br />
+[日付時刻の情報や UIDatePickerを取得する「DCDate」クラス](http://lab.dolice.net/blog/2014/01/15/objc-classes-dc-date3/ "日付時刻の情報や UIDatePickerを取得する「DCDate」クラス")<br />
 UIDatePickerの取得や、年号日付時刻等の情報を取得／判別する「DCDate」クラスです。
 
 ###DCSliderクラス
