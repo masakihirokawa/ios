@@ -27,5 +27,6 @@
 + (NSDateComponents *)currentDateComponents;
 + (BOOL)isCurrentDate;
 + (BOOL)isCurrentTime;
++ (CGFloat)since:(NSString *)referenceDateString targetDateString:(NSString *)targetDateString dateFormat:(NSString *)dateFormat dateUnit:(NSUInteger)dateUnit;
 
 @end

@@ -184,6 +184,36 @@ static UIDatePicker *datePicker;
             [DCDate currentMinute] == [DCDate pickerMinute]);
 }
 
+#pragma mark - Since
+
+typedef NS_ENUM(NSUInteger, dateUnitId) {
+    SEC  = 0,
+    MIN  = 1,
+    HOUR = 2,
+    DAY  = 3
+};
+
+// 指定した日付からの経過時間を取得
++ (CGFloat)since:(NSString *)referenceDateString targetDateString:(NSString *)targetDateString dateFormat:(NSString *)dateFormat dateUnit:(NSUInteger)dateUnit
+{
+    NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
+    [dateFormatter setLocale:[NSLocale systemLocale]];
+    [dateFormatter setDateFormat:dateFormat];
+    NSDate *referenceDate = [dateFormatter dateFromString:referenceDateString];
+    NSDate *targetDate    = [dateFormatter dateFromString:targetDateString];
+    NSTimeInterval since  = [targetDate timeIntervalSinceDate:referenceDate];
+    if (dateUnit == SEC) {
+        return since;
+    } else if (dateUnit == MIN) {
+        return since / 60;
+    } else if (dateUnit == HOUR) {
+        return since / (60 * 60);
+    } else if (dateUnit == DAY) {
+        return since / (24 * 60 * 60);
+    }
+    return since;
+}
+
 #pragma mark - setter/getter method
 
 + (void)setDatePicker:(UIDatePicker *)picker
