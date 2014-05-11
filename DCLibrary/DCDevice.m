@@ -95,7 +95,7 @@
     return ([[[UIDevice currentDevice] systemVersion] floatValue]);
 }
 
-// 言語設定取得
+// 言語設定取得（日本語）
 + (BOOL)isJapaneseLanguage
 {
     static BOOL isJapanese;
@@ -106,6 +106,78 @@
         isJapanese = [currentLanguage compare:@"ja"] == NSOrderedSame;
     });
     return isJapanese;
+}
+
+// 言語設定取得（フランス語）
++ (BOOL)isFrenchLanguage
+{
+    static BOOL isFrench;
+    static dispatch_once_t onceToken;
+    dispatch_once(&onceToken, ^{
+        NSArray *languages = [NSLocale preferredLanguages];
+        NSString *currentLanguage = [languages objectAtIndex:0];
+        isFrench = [currentLanguage compare:@"fr"] == NSOrderedSame;
+    });
+    return isFrench;
+}
+
+// 言語設定取得（ロシア語）
++ (BOOL)isRussianLanguage
+{
+    static BOOL isRussian;
+    static dispatch_once_t onceToken;
+    dispatch_once(&onceToken, ^{
+        NSArray *languages = [NSLocale preferredLanguages];
+        NSString *currentLanguage = [languages objectAtIndex:0];
+        isRussian = [currentLanguage compare:@"ru"] == NSOrderedSame;
+    });
+    return isRussian;
+}
+
+// 言語設定取得（中国語）
++ (BOOL)isChineseLanguage
+{
+    static BOOL isChinese;
+    static dispatch_once_t onceToken;
+    dispatch_once(&onceToken, ^{
+        NSArray *languages = [NSLocale preferredLanguages];
+        NSString *currentLanguage = [languages objectAtIndex:0];
+        isChinese = [currentLanguage compare:@"zh-Hans"] == NSOrderedSame || [currentLanguage compare:@"zh-Hant"] == NSOrderedSame;
+    });
+    return isChinese;
+}
+
+// 言語設定取得（韓国語）
++ (BOOL)isKoreanLanguage
+{
+    static BOOL isKorean;
+    static dispatch_once_t onceToken;
+    dispatch_once(&onceToken, ^{
+        NSArray *languages = [NSLocale preferredLanguages];
+        NSString *currentLanguage = [languages objectAtIndex:0];
+        isKorean = [currentLanguage compare:@"ko"] == NSOrderedSame;
+    });
+    return isKorean;
+}
+
+// 言語設定取得（タイ語）
++ (BOOL)isThaiLanguage
+{
+    static BOOL isThai;
+    static dispatch_once_t onceToken;
+    dispatch_once(&onceToken, ^{
+        NSArray *languages = [NSLocale preferredLanguages];
+        NSString *currentLanguage = [languages objectAtIndex:0];
+        isThai = [currentLanguage compare:@"th"] == NSOrderedSame;
+    });
+    return isThai;
+}
+
+// 言語設定取得（マルチバイト言語か否か）
++ (BOOL)isMultiByteLanguage
+{
+    return [DCDevice isJapaneseLanguage] || [DCDevice isRussianLanguage] || [DCDevice isChineseLanguage] ||
+           [DCDevice isKoreanLanguage] || [DCDevice isThaiLanguage];
 }
 
 @end

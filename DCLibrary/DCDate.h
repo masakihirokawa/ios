@@ -25,6 +25,9 @@
 + (NSInteger)currentMinute;
 + (NSInteger)currentSecond;
 + (NSDateComponents *)currentDateComponents;
++ (NSDate *)today:(NSDate *)referenceDate;
++ (NSUInteger)hourConsideringTimeZone:(NSDate *)referenceDate;
++ (NSDateComponents *)dateComponents:(NSCalendar *)calender fromDate:(NSDate *)fromDate;
 + (BOOL)isCurrentDate;
 + (BOOL)isCurrentTime;
 + (CGFloat)since:(NSString *)referenceDateString targetDateString:(NSString *)targetDateString dateFormat:(NSString *)dateFormat dateUnit:(NSUInteger)dateUnit;

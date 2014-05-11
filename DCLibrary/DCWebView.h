@@ -10,7 +10,7 @@
 @interface DCWebView : UIWebView <UIWebViewDelegate>
 
 #pragma mark - property
-@property UIActivityIndicatorView *indicator;
+@property (nonatomic, retain) UIActivityIndicatorView *indicator;
 
 #pragma mark - public method
 - (void)loadUrl:(NSString *)targetUrl view:(UIView *)view;

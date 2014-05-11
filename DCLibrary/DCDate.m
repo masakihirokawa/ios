@@ -167,6 +167,46 @@ static UIDatePicker *datePicker;
     return nowComponents;
 }
 
+// 翌日の時刻に変換して取得
++ (NSDate *)today:(NSDate *)referenceDate
+{
+    NSDate *today = referenceDate;
+    NSDate *tommorow = [today initWithTimeInterval:1 * 24 * 60 * 60 sinceDate:today];
+    return tommorow;
+}
+
+// 時差を補正した時刻を取得
++ (NSUInteger)hourConsideringTimeZone:(NSDate *)referenceDate
+{
+    // 現在の日付を取得
+    NSDate *nowDate = [NSDate date];
+    
+    // 時差を取得
+    NSTimeZone *timeZone  = [NSTimeZone systemTimeZone];
+    NSInteger  timeDiffSeconds = [timeZone secondsFromGMTForDate:nowDate];
+    
+    // 時差を補正した日付を保持
+    NSDate *correctedDate = [referenceDate dateByAddingTimeInterval:timeDiffSeconds];
+    
+    // カレンダーをグレゴリオ暦で初期化
+    NSCalendar *calendar = [[NSCalendar alloc] initWithCalendarIdentifier:NSGregorianCalendar];
+    
+    // 時差を補正した日付からコンポーネント取得
+    NSDateComponents *correctedDateComponents = [DCDate dateComponents:calendar fromDate:correctedDate];
+    
+    return correctedDateComponents.hour;
+}
+
+// コンポーネント取得
++ (NSDateComponents *)dateComponents:(NSCalendar *)calender fromDate:(NSDate *)fromDate
+{
+    NSDateComponents *components = [calender components:(NSYearCalendarUnit | NSWeekCalendarUnit |
+                                                         NSHourCalendarUnit | NSMinuteCalendarUnit|
+                                                         NSSecondCalendarUnit | NSWeekdayCalendarUnit)
+                                               fromDate:fromDate];
+    return components;
+}
+
 #pragma mark - Decision
 
 // ピッカーで指定されている日付が現在と同じであるか

@@ -27,5 +27,11 @@
 + (BOOL)      isIOS7;
 + (CGFloat)   iOSVersion;
 + (BOOL)      isJapaneseLanguage;
++ (BOOL)      isFrenchLanguage;
++ (BOOL)      isRussianLanguage;
++ (BOOL)      isChineseLanguage;
++ (BOOL)      isKoreanLanguage;
++ (BOOL)      isThaiLanguage;
++ (BOOL)      isMultiByteLanguage;
 
 @end
