@@ -26,6 +26,8 @@
 + (BOOL)      isIOS6;
 + (BOOL)      isIOS7;
 + (CGFloat)   iOSVersion;
++ (CGFloat)   screenWidth;
++ (CGFloat)   screenHeight;
 + (BOOL)      isJapaneseLanguage;
 + (BOOL)      isFrenchLanguage;
 + (BOOL)      isRussianLanguage;
@@ -33,5 +35,6 @@
 + (BOOL)      isKoreanLanguage;
 + (BOOL)      isThaiLanguage;
 + (BOOL)      isMultiByteLanguage;
++ (BOOL)      isSameLanguage:(NSString *)languageCode;
 
 @end

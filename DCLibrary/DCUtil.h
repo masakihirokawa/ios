@@ -22,6 +22,8 @@
 + (NSString *)trimAlphanumericCharacterSet:(NSString *)string;
 + (NSString *)trimDicimalDigitCharacterSet:(NSString *)string;
 + (NSString *)trimFirstCharacterSet:(NSString *)string searchString:(NSString *)searchString;
++ (NSString *)omissionText:(NSString *)string maxBytes:(NSUInteger)maxBytes;
++ (NSString *)serverResponseStr:(NSString *)url httpMethod:(NSString *)httpMethod;
 + (NSString *)getStrFromPlist:(NSString *)key;
 
 @end

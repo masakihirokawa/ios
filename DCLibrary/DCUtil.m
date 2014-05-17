@@ -123,6 +123,45 @@
     return string;
 }
 
+#pragma mark - Omission text
+
+// テキストを指定したバイト数に省略し省略記号を付与
++ (NSString *)omissionText:(NSString *)string maxBytes:(NSUInteger)maxBytes
+{
+    const NSUInteger ELLIPSIS_BYTES = 1;
+    NSString  *text = string;
+    NSInteger textBytes = [text length];
+    if (textBytes > maxBytes) {
+        text = [NSString stringWithFormat:@"%@%@", [text substringToIndex:maxBytes - ELLIPSIS_BYTES], @"..."];
+    }
+    return text;
+}
+
+#pragma mark - Server response
+
+// サーバのレスポンスを文字列で取得
++ (NSString *)serverResponseStr:(NSString *)url httpMethod:(NSString *)httpMethod
+{
+    NSMutableURLRequest *reqest = [NSMutableURLRequest requestWithURL:[NSURL URLWithString:url]];
+    [reqest setHTTPMethod:httpMethod];
+    
+    NSURLConnection *connection = [[NSURLConnection alloc] initWithRequest:reqest delegate:self];
+    NSString        *responseStr;
+    if (connection) {
+        NSURLResponse *response = nil;
+        NSError       *error    = nil;
+        NSData        *responseData = [NSURLConnection sendSynchronousRequest:reqest returningResponse:&response error:&error];
+        if (error) {
+            responseStr = NULL;
+        } else {
+            responseStr = [[NSString alloc] initWithData:responseData encoding:NSUTF8StringEncoding];
+        }
+    } else {
+        responseStr = NULL;
+    }
+    return responseStr;
+}
+
 #pragma mark - Get Str from info.plist
 
 // info.plistから文字列取得
