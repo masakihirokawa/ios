@@ -21,10 +21,10 @@ static CGFloat const SCR_HEIGHT_3_5INCH = 480.0;
             CGSize result = [[UIScreen mainScreen] bounds].size;
             CGFloat scale = [UIScreen mainScreen].scale;
             result = CGSizeMake(result.width * scale, result.height * scale);
-            if(result.height == 960){
+            if(result.height == SCR_HEIGHT_3_5INCH * 2){
                 return (IPHONE_4);
             }
-            if(result.height == 1136){
+            if(result.height == SCR_HEIGHT_4INCH * 2){
                 return (IPHONE_5);
             }
         } else {
@@ -74,7 +74,7 @@ static CGFloat const SCR_HEIGHT_3_5INCH = 480.0;
 + (BOOL)isIOS6
 {
     NSString *osversion = [UIDevice currentDevice].systemVersion;
-    NSArray *a = [osversion componentsSeparatedByString:@"."];
+    NSArray  *a = [osversion componentsSeparatedByString:@"."];
     return ([(NSString *)[a objectAtIndex:0] intValue] >= 6);
 }
 
@@ -82,7 +82,7 @@ static CGFloat const SCR_HEIGHT_3_5INCH = 480.0;
 + (BOOL)isIOS7
 {
     NSString *osversion = [UIDevice currentDevice].systemVersion;
-    NSArray *a = [osversion componentsSeparatedByString:@"."];
+    NSArray  *a = [osversion componentsSeparatedByString:@"."];
     return ([(NSString *)[a objectAtIndex:0] intValue] >= 7);
 }
 
@@ -90,7 +90,7 @@ static CGFloat const SCR_HEIGHT_3_5INCH = 480.0;
 + (BOOL)is4inch
 {
     CGSize screenSize = [[UIScreen mainScreen] bounds].size;
-    return (screenSize.width == 320.0 && screenSize.height == 568.0);
+    return (screenSize.width == SCR_WIDTH && screenSize.height == SCR_HEIGHT_4INCH);
 }
 
 // iOSのバージョン取得
@@ -108,7 +108,7 @@ static CGFloat const SCR_HEIGHT_3_5INCH = 480.0;
 // iOSのバージョンに応じたスクリーンの縦幅取得
 + (CGFloat)screenHeight
 {
-    return [DCDevice is4inch] ? SCR_HEIGHT_4INCH : SCR_HEIGHT_3_5INCH;
+    return [[UIScreen mainScreen] bounds].size.height;
 }
 
 // 言語設定取得（日本語）
