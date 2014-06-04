@@ -30,9 +30,9 @@ static NSTimer *timer;
 // 遅延実行タイマー定義
 + (void)setDelayTimer:(CGFloat)timeInterval delegate:(id)delegate selector:(SEL)selector userInfo:(NSDictionary *)userInfo
 {
-    [NSTimer scheduledTimerWithTimeInterval:timeInterval
-                                     target:delegate selector:selector userInfo:userInfo
-                                    repeats:NO];
+    timer = [NSTimer scheduledTimerWithTimeInterval:timeInterval
+                                             target:delegate selector:selector userInfo:userInfo
+                                            repeats:NO];
 }
 
 // タイマー取得
