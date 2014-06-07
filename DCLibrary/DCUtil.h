@@ -24,6 +24,8 @@
 + (NSString *)trimFirstCharacterSet:(NSString *)string searchString:(NSString *)searchString;
 + (NSString *)omissionText:(NSString *)string maxBytes:(NSUInteger)maxBytes;
 + (NSString *)serverResponseStr:(NSString *)url httpMethod:(NSString *)httpMethod;
++ (NSArray *)sortArray:(NSArray *)array ascending:(BOOL)ascending;
++ (NSArray *)arrayByRange:(int)min max:(int)max;
 + (NSString *)getStrFromPlist:(NSString *)key;
 
 @end

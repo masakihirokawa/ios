@@ -12,10 +12,10 @@
 #pragma mark - Shuffle Array
 
 // 配列をシャッフルして取得
-+ (NSMutableArray *)shuffleArray:(NSMutableArray *)array
++ (NSArray *)shuffleArray:(NSMutableArray *)array
 {
     NSMutableArray *resultList = array;
-    int i = [resultList count];
+    long i = [resultList count];
     while (--i) {
         int j = rand() % (i + 1);
         [resultList exchangeObjectAtIndex:i withObjectAtIndex:j];
@@ -26,12 +26,12 @@
 #pragma mark - Shuffle
 
 // 指定した範囲内の数値をシャッフルして配列取得
-+ (NSMutableArray *)shuffle:(NSInteger)min max:(NSInteger)max
++ (NSArray *)shuffle:(NSInteger)min max:(NSInteger)max
 {
     NSMutableArray *tmpList = [NSMutableArray array];
-    int num = (max - min) + 1;
+    long num = (max - min) + 1;
     for (int i = 0; i < num; i++) {
-        [tmpList insertObject:[NSNumber numberWithInt:i + min] atIndex:i];
+        [tmpList insertObject:[NSNumber numberWithInt:i + (int)min] atIndex:i];
     }
     return [DCRandomize shuffleArray:tmpList];
 }
@@ -53,7 +53,7 @@
 // 指定した範囲内の乱数を取得
 + (NSInteger)range:(NSInteger)min max:(NSInteger)max
 {
-    return min + arc4random_uniform((max - min) + 1);
+    return min + arc4random_uniform(((int)max - (int)min) + 1);
 }
 
 @end

@@ -12,6 +12,13 @@
 
 @interface DCActivityIndicator : UIActivityIndicatorView
 
+#pragma mark - enumerator
+typedef NS_ENUM(NSUInteger, styles) {
+    GRAY        = 1,
+    WHITE       = 2,
+    WHITE_LARGE = 3
+};
+
 #pragma mark - public method
 + (void)start:(id)view center:(CGPoint)center styleId:(NSInteger)styleId hidesWhenStopped:(BOOL)hidesWhenStopped showOverlay:(BOOL)showOverlay;
 + (void)stop;

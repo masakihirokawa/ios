@@ -13,12 +13,6 @@ static UIActivityIndicatorView *indicator_;
 static UIView                  *overlay_;
 static BOOL                    showOverlay_;
 
-typedef NS_ENUM(NSUInteger, styles) {
-    GRAY        = 1,
-    WHITE       = 2,
-    WHITE_LARGE = 3
-};
-
 // アニメーション開始
 + (void)start:(id)view center:(CGPoint)center styleId:(NSInteger)styleId hidesWhenStopped:(BOOL)hidesWhenStopped showOverlay:(BOOL)showOverlay
 {

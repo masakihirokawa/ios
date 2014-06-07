@@ -162,6 +162,27 @@
     return responseStr;
 }
 
+#pragma mark - Array
+
+// 配列のソート
++ (NSArray *)sortArray:(NSArray *)array ascending:(BOOL)ascending
+{
+    NSSortDescriptor *sortDescriptor = [[NSSortDescriptor alloc] initWithKey:nil ascending:ascending];
+    
+    return [array sortedArrayUsingDescriptors:@[sortDescriptor]];
+}
+
+// 最小値と最大値の範囲で配列生成
++ (NSArray *)arrayByRange:(int)min max:(int)max
+{
+    NSMutableArray *array = [[NSMutableArray alloc] init];
+    for (int i = min; i <= max; i++) {
+        [array addObject:@(i)];
+    }
+    
+    return array;
+}
+
 #pragma mark - Get Str from info.plist
 
 // info.plistから文字列取得
