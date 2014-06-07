@@ -114,37 +114,81 @@ static CGFloat const SCR_HEIGHT_3_5INCH = 480.0;
 // 言語設定取得（日本語）
 + (BOOL)isJapaneseLanguage
 {
-    return [DCDevice isSameLanguage:@"ja"];
+    static BOOL isJapanese;
+    static dispatch_once_t onceToken;
+    dispatch_once(&onceToken, ^{
+        NSArray *languages = [NSLocale preferredLanguages];
+        NSString *currentLanguage = [languages objectAtIndex:0];
+        isJapanese = [currentLanguage compare:@"ja"] == NSOrderedSame;
+    });
+    return isJapanese;
 }
 
 // 言語設定取得（フランス語）
 + (BOOL)isFrenchLanguage
 {
-    return [DCDevice isSameLanguage:@"fr"];
+    static BOOL isFrench;
+    static dispatch_once_t onceToken;
+    dispatch_once(&onceToken, ^{
+        NSArray *languages = [NSLocale preferredLanguages];
+        NSString *currentLanguage = [languages objectAtIndex:0];
+        isFrench = [currentLanguage compare:@"fr"] == NSOrderedSame;
+    });
+    return isFrench;
 }
 
 // 言語設定取得（ロシア語）
 + (BOOL)isRussianLanguage
 {
-    return [DCDevice isSameLanguage:@"ru"];
+    static BOOL isRussian;
+    static dispatch_once_t onceToken;
+    dispatch_once(&onceToken, ^{
+        NSArray *languages = [NSLocale preferredLanguages];
+        NSString *currentLanguage = [languages objectAtIndex:0];
+        isRussian = [currentLanguage compare:@"ru"] == NSOrderedSame;
+    });
+    return isRussian;
 }
 
 // 言語設定取得（中国語）
 + (BOOL)isChineseLanguage
 {
-    return [DCDevice isSameLanguage:@"zh-Hans"] || [DCDevice isSameLanguage:@"zh-Hant"];;
+    static BOOL isChinese;
+    static dispatch_once_t onceToken;
+    dispatch_once(&onceToken, ^{
+        NSArray *languages = [NSLocale preferredLanguages];
+        NSString *currentLanguage = [languages objectAtIndex:0];
+        isChinese =
+            [currentLanguage compare:@"zh-Hans"] == NSOrderedSame ||
+            [currentLanguage compare:@"zh-Hant"] == NSOrderedSame;
+    });
+    return isChinese;
 }
 
 // 言語設定取得（韓国語）
 + (BOOL)isKoreanLanguage
 {
-    return [DCDevice isSameLanguage:@"ko"];
+    static BOOL isKorean;
+    static dispatch_once_t onceToken;
+    dispatch_once(&onceToken, ^{
+        NSArray *languages = [NSLocale preferredLanguages];
+        NSString *currentLanguage = [languages objectAtIndex:0];
+        isKorean = [currentLanguage compare:@"ko"] == NSOrderedSame;
+    });
+    return isKorean;
 }
 
 // 言語設定取得（タイ語）
 + (BOOL)isThaiLanguage
 {
-    return [DCDevice isSameLanguage:@"th"];
+    static BOOL isThai;
+    static dispatch_once_t onceToken;
+    dispatch_once(&onceToken, ^{
+        NSArray *languages = [NSLocale preferredLanguages];
+        NSString *currentLanguage = [languages objectAtIndex:0];
+        isThai = [currentLanguage compare:@"th"] == NSOrderedSame;
+    });
+    return isThai;
 }
 
 // 言語設定取得（マルチバイト言語か否か）
@@ -152,19 +196,6 @@ static CGFloat const SCR_HEIGHT_3_5INCH = 480.0;
 {
     return [DCDevice isJapaneseLanguage] || [DCDevice isRussianLanguage] || [DCDevice isChineseLanguage] ||
            [DCDevice isKoreanLanguage] || [DCDevice isThaiLanguage];
-}
-
-// 指定した言語と同じであるか取得
-+ (BOOL)isSameLanguage:(NSString *)languageCode
-{
-    static BOOL isSame;
-    static dispatch_once_t onceToken;
-    dispatch_once(&onceToken, ^{
-        NSArray *languages = [NSLocale preferredLanguages];
-        NSString *currentLanguage = [languages objectAtIndex:0];
-        isSame = [currentLanguage compare:languageCode] == NSOrderedSame;
-    });
-    return isSame;
 }
 
 @end

@@ -35,6 +35,5 @@
 + (BOOL)      isKoreanLanguage;
 + (BOOL)      isThaiLanguage;
 + (BOOL)      isMultiByteLanguage;
-+ (BOOL)      isSameLanguage:(NSString *)languageCode;
 
 @end
