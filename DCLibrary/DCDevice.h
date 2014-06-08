@@ -22,6 +22,7 @@
 + (BOOL)      isIphone3;
 + (BOOL)      isIpad;
 + (BOOL)      isIpadRetina;
++ (BOOL)      isLegacy;
 + (BOOL)      is4inch;
 + (BOOL)      isIOS6;
 + (BOOL)      isIOS7;

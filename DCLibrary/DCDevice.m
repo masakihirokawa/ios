@@ -70,6 +70,12 @@ static CGFloat const SCR_HEIGHT_3_5INCH = 480.0;
     return ([[DCDevice iOSDevice] isEqualToString:IPAD_RETINA]);
 }
 
+// 旧い端末であるか
++ (BOOL)isLegacy
+{
+    return [DCDevice isIphone3] || [DCDevice isIphone4] || [DCDevice isIpad];
+}
+
 // iOS6以降であるか
 + (BOOL)isIOS6
 {
