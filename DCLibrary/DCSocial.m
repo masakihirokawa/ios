@@ -73,8 +73,8 @@ typedef NS_ENUM(NSUInteger, imageExtId) {
         LINEActivity        *line       = [[LINEActivity alloc] init];
         VUPinboardActivity  *pinboard   = [[VUPinboardActivity alloc] init];
         
-        NSArray *activities   = @[instagram, line, pinboard];
-        NSArray *itemsToShare = @[textToShare, imageToShare];
+        NSArray *activities   = [[NSArray alloc] initWithObjects:instagram, line, pinboard, nil];
+        NSArray *itemsToShare = [[NSArray alloc] initWithObjects:textToShare, imageToShare, nil];
         
         UIActivityViewController *activityVC = [[UIActivityViewController alloc] initWithActivityItems:itemsToShare
                                                                                  applicationActivities:activities];
