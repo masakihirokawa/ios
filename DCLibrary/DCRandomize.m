@@ -12,15 +12,16 @@
 #pragma mark - Shuffle Array
 
 // 配列をシャッフルして取得
-+ (NSArray *)shuffleArray:(NSMutableArray *)array
++ (NSArray *)shuffleArray:(NSArray *)array
 {
-    NSMutableArray *resultList = array;
-    long i = [resultList count];
+    NSMutableArray *shuffledList = [[NSMutableArray alloc] initWithArray:array];
+    long i = [shuffledList count];
     while (--i) {
         int j = rand() % (i + 1);
-        [resultList exchangeObjectAtIndex:i withObjectAtIndex:j];
+        [shuffledList exchangeObjectAtIndex:i withObjectAtIndex:j];
     }
-    return [NSMutableArray arrayWithArray:resultList];
+    
+    return shuffledList;
 }
 
 #pragma mark - Shuffle
@@ -33,6 +34,7 @@
     for (int i = 0; i < num; i++) {
         [tmpList insertObject:[NSNumber numberWithInt:i + (int)min] atIndex:i];
     }
+    
     return [DCRandomize shuffleArray:tmpList];
 }
 
@@ -45,6 +47,7 @@
     do {
         tmpId = [DCRandomize range:min max:max];
     } while (tmpId == exceptId);
+    
     return tmpId;
 }
 

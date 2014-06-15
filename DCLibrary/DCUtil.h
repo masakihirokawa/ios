@@ -25,6 +25,8 @@
 + (NSString *)omissionText:(NSString *)string maxBytes:(NSUInteger)maxBytes;
 + (NSString *)serverResponseStr:(NSString *)url httpMethod:(NSString *)httpMethod;
 + (NSArray *)sortArray:(NSArray *)array ascending:(BOOL)ascending;
++ (NSArray *)sortArrayForNumber:(NSArray *)array ascending:(BOOL)ascending;
++ (NSArray *)distinctArray:(NSArray *)array;
 + (NSArray *)arrayByRange:(int)min max:(int)max;
 + (NSString *)getStrFromPlist:(NSString *)key;
 

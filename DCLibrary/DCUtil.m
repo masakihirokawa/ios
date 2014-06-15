@@ -164,7 +164,7 @@
 
 #pragma mark - Array
 
-// 配列のソート
+// 配列をソートして取得
 + (NSArray *)sortArray:(NSArray *)array ascending:(BOOL)ascending
 {
     NSSortDescriptor *sortDescriptor = [[NSSortDescriptor alloc] initWithKey:nil ascending:ascending];
@@ -172,7 +172,30 @@
     return [array sortedArrayUsingDescriptors:@[sortDescriptor]];
 }
 
-// 最小値と最大値の範囲で配列生成
+// 配列（Number型）をソートして取得
++ (NSArray *)sortArrayForNumber:(NSArray *)array ascending:(BOOL)ascending
+{
+    NSSortDescriptor *descDescriptor = [NSSortDescriptor sortDescriptorWithKey:@"self" ascending:ascending];
+    if (ascending) {
+        // 昇順ソート
+        NSArray *asecNumbers = [array sortedArrayUsingSelector:@selector(compare:)];
+        
+        return asecNumbers;
+    } else {
+        // 降順ソート
+        NSArray *descNumbers = [array sortedArrayUsingDescriptors:@[descDescriptor]];
+        
+        return descNumbers;
+    }
+}
+
+// 配列の重複データを削除して取得
++ (NSArray *)distinctArray:(NSArray *)array
+{
+    return [array valueForKeyPath:@"@distinctUnionOfObjects.self"];
+}
+
+// 最小値と最大値の範囲で配列を生成し取得
 + (NSArray *)arrayByRange:(int)min max:(int)max
 {
     NSMutableArray *array = [[NSMutableArray alloc] init];
