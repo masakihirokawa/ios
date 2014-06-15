@@ -175,18 +175,36 @@
 // 配列（Number型）をソートして取得
 + (NSArray *)sortArrayForNumber:(NSArray *)array ascending:(BOOL)ascending
 {
-    NSSortDescriptor *descDescriptor = [NSSortDescriptor sortDescriptorWithKey:@"self" ascending:ascending];
+    NSArray *sortedNumberList = @[];
     if (ascending) {
-        // 昇順ソート
-        NSArray *asecNumbers = [array sortedArrayUsingSelector:@selector(compare:)];
-        
-        return asecNumbers;
+        sortedNumberList = [array sortedArrayUsingComparator:^(id value1, id value2) {
+            int intValueA = [(NSNumber *)value1 intValue];
+            int intValueB = [(NSNumber *)value2 intValue];
+            
+            if (intValueA > intValueB) {
+                return NSOrderedDescending;
+            } else if(intValueA < intValueB) {
+                return NSOrderedAscending;
+            } else {
+                return NSOrderedSame;
+            }
+        }];
     } else {
-        // 降順ソート
-        NSArray *descNumbers = [array sortedArrayUsingDescriptors:@[descDescriptor]];
-        
-        return descNumbers;
+        sortedNumberList = [array sortedArrayUsingComparator:^(id value1, id value2) {
+            int intValueA = [(NSNumber *)value2 intValue];
+            int intValueB = [(NSNumber *)value1 intValue];
+            
+            if (intValueA > intValueB) {
+                return NSOrderedDescending;
+            } else if(intValueA < intValueB) {
+                return NSOrderedAscending;
+            } else {
+                return NSOrderedSame;
+            }
+        }];
     }
+    
+    return sortedNumberList;
 }
 
 // 配列の重複データを削除して取得
