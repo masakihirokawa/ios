@@ -12,6 +12,13 @@
     NSMutableData             *data;
 }
 
+#pragma mark - enumerator
+typedef NS_ENUM(NSUInteger, indicatorType) {
+    AI_GRAY        = 1,
+    AI_WHITE_SMALL = 2,
+    AI_WHITE_LARGE = 3
+};
+
 #pragma mark - property
 @property (nonatomic, retain) UIActivityIndicatorView *indicator;
 

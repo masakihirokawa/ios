@@ -12,12 +12,6 @@
 CGFloat const AI_SMALL_SIZE = 20;
 CGFloat const AI_LARGE_SIZE = 50;
 
-typedef NS_ENUM(NSUInteger, indicatorType) {
-    AI_GRAY        = 1,
-    AI_WHITE_SMALL = 2,
-    AI_WHITE_LARGE = 3
-};
-
 #pragma mark -
 
 // サーバから画像を読み込み
