@@ -7,16 +7,13 @@
 
 #import <UIKit/UIKit.h>
 
-#define INDICATOR_LARGE_SIZE 50
-#define INDICATOR_SMALL_SIZE 20
-
 @interface DCActivityIndicator : UIActivityIndicatorView
 
 #pragma mark - enumerator
 typedef NS_ENUM(NSUInteger, styles) {
-    GRAY        = 1,
-    WHITE       = 2,
-    WHITE_LARGE = 3
+    AI_GRAY        = 1,
+    AI_WHITE       = 2,
+    AI_WHITE_LARGE = 3
 };
 
 #pragma mark - public method

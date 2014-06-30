@@ -13,6 +13,9 @@ static UIActivityIndicatorView *indicator_;
 static UIView                  *overlay_;
 static BOOL                    showOverlay_;
 
+CGFloat const AI_LARGE_SIZE = 50;
+CGFloat const AI_SMALL_SIZE = 20;
+
 // アニメーション開始
 + (void)start:(id)view center:(CGPoint)center styleId:(NSInteger)styleId hidesWhenStopped:(BOOL)hidesWhenStopped showOverlay:(BOOL)showOverlay
 {
@@ -21,22 +24,22 @@ static BOOL                    showOverlay_;
     
     // スタイルを設定
     switch (styleId) {
-        case GRAY:
+        case AI_GRAY:
             DCActivityIndicator.indicator.activityIndicatorViewStyle = UIActivityIndicatorViewStyleGray;
             break;
-        case WHITE:
+        case AI_WHITE:
             DCActivityIndicator.indicator.activityIndicatorViewStyle = UIActivityIndicatorViewStyleWhite;
             break;
-        case WHITE_LARGE:
+        case AI_WHITE_LARGE:
             DCActivityIndicator.indicator.activityIndicatorViewStyle = UIActivityIndicatorViewStyleWhiteLarge;
             break;
     }
     
     // スタイルに応じて寸法変更
     if (DCActivityIndicator.indicator.activityIndicatorViewStyle == UIActivityIndicatorViewStyleWhiteLarge) {
-        DCActivityIndicator.indicator.frame = CGRectMake(0, 0, INDICATOR_LARGE_SIZE, INDICATOR_LARGE_SIZE);
+        DCActivityIndicator.indicator.frame = CGRectMake(0, 0, AI_LARGE_SIZE, AI_LARGE_SIZE);
     } else {
-        DCActivityIndicator.indicator.frame = CGRectMake(0, 0, INDICATOR_SMALL_SIZE, INDICATOR_SMALL_SIZE);
+        DCActivityIndicator.indicator.frame = CGRectMake(0, 0, AI_SMALL_SIZE, AI_SMALL_SIZE);
     }
     
     // 座標をセンターに指定
