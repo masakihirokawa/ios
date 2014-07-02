@@ -9,17 +9,16 @@
 
 @implementation DCSocial
 
-typedef NS_ENUM(NSUInteger, imageExtId) {
-    JPEG = 0,
-    PNG  = 1
-};
-
 // Facebookへ投稿
 + (void)postToFacebook:(id)delegate text:(NSString *)text imageName:(NSString *)imageName url:(NSString *)url
 {
     SLComposeViewController *slc = [SLComposeViewController composeViewControllerForServiceType:SLServiceTypeFacebook];
     [slc setInitialText:text];
-    [slc addImage:[UIImage imageNamed:imageName]];
+    
+    if (imageName != nil) {
+        [slc addImage:[UIImage imageNamed:imageName]];
+    }
+    
     [slc addURL:[NSURL URLWithString:url]];
     [delegate presentViewController:slc animated:YES completion:nil];
 }
@@ -29,7 +28,11 @@ typedef NS_ENUM(NSUInteger, imageExtId) {
 {
     SLComposeViewController *slc = [SLComposeViewController composeViewControllerForServiceType:SLServiceTypeTwitter];
     [slc setInitialText:text];
-    [slc addImage:[UIImage imageNamed:imageName]];
+    
+    if (imageName != nil) {
+        [slc addImage:[UIImage imageNamed:imageName]];
+    }
+    
     [slc addURL:[NSURL URLWithString:url]];
     [delegate presentViewController:slc animated:YES completion:nil];
 }
@@ -38,11 +41,13 @@ typedef NS_ENUM(NSUInteger, imageExtId) {
 + (void)postImageToLine:(NSString *)imageName imageType:(NSUInteger)imageType
 {
     UIPasteboard *pasteboard = [UIPasteboard generalPasteboard];
-    if (imageType == JPEG) {
+    
+    if (imageType == IMG_EXT_JPEG) {
         [pasteboard setData:UIImageJPEGRepresentation([UIImage imageNamed:imageName], 1) forPasteboardType:@"public.jpeg"];
-    } else if (imageType == PNG) {
+    } else if (imageType == IMG_EXT_PNG) {
         [pasteboard setData:UIImagePNGRepresentation([UIImage imageNamed:imageName]) forPasteboardType:@"public.png"];
     }
+    
     NSString *LineUrlString = [NSString stringWithFormat:@"line://msg/image/%@", pasteboard.name];
     [[UIApplication sharedApplication] openURL:[NSURL URLWithString:LineUrlString]];
 }
