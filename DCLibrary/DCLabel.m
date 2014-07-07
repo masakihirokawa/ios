@@ -13,33 +13,42 @@
 + (UILabel *)planeLabel:(CGRect)rect text:(NSString *)text font:(UIFont *)font textColor:(UIColor *)textColor textAlignment:(NSTextAlignment)textAlignment backgroundColor:(UIColor *)backgroundColor
 {
     UILabel *label = [DCLabel label:rect
-                               text:text font:font textColor:textColor textAlignment:textAlignment
+                               text:text font:font lineHeight:0 textColor:textColor textAlignment:textAlignment
                       numberOfLines:0 backgroundColor:backgroundColor];
-    return (label);
+    return label;
 }
 
 // 1行のラベル取得
 + (UILabel *)oneLineLabel:(CGRect)rect text:(NSString *)text font:(UIFont *)font textColor:(UIColor *)textColor textAlignment:(NSTextAlignment)textAlignment backgroundColor:(UIColor *)backgroundColor
 {
     UILabel *label = [DCLabel label:rect
-                               text:text font:font textColor:textColor textAlignment:textAlignment
+                               text:text font:font lineHeight:0 textColor:textColor textAlignment:textAlignment
                       numberOfLines:1 backgroundColor:backgroundColor];
-    return (label);
+    return label;
+}
+
+// 複数行のラベル取得
++ (UILabel *)multiLineLabel:(CGRect)rect text:(NSString *)text font:(UIFont *)font lineHeight:(CGFloat)lineHeight textColor:(UIColor *)textColor textAlignment:(NSTextAlignment)textAlignment backgroundColor:(UIColor *)backgroundColor
+{
+    UILabel *label = [DCLabel label:rect
+                               text:text font:font lineHeight:lineHeight textColor:textColor textAlignment:textAlignment
+                      numberOfLines:1 backgroundColor:backgroundColor];
+    return label;
 }
 
 // 角丸のラベル取得
 + (UILabel *)roundRectLabel:(CGRect)rect text:(NSString *)text font:(UIFont *)font textColor:(UIColor *)textColor textAlignment:(NSTextAlignment)textAlignment backgroundColor:(UIColor *)backgroundColor cornerRadious:(CGFloat)cornerRadius
 {
     UILabel *label = [DCLabel label:rect
-                               text:text font:font textColor:textColor textAlignment:textAlignment
+                               text:text font:font lineHeight:0 textColor:textColor textAlignment:textAlignment
                       numberOfLines:0 backgroundColor:backgroundColor];
     [[label layer] setCornerRadius:cornerRadius];
     [label setClipsToBounds:YES];
-    return (label);
+    return label;
 }
 
-//ラベル取得
-+ (UILabel *)label:(CGRect)rect text:(NSString *)text font:(UIFont *)font textColor:(UIColor *)textColor textAlignment:(NSTextAlignment)textAlignment numberOfLines:(NSInteger)numberOfLines backgroundColor:(UIColor *)backgroundColor
+// ラベル取得
++ (UILabel *)label:(CGRect)rect text:(NSString *)text font:(UIFont *)font lineHeight:(CGFloat)lineHeight textColor:(UIColor *)textColor textAlignment:(NSTextAlignment)textAlignment numberOfLines:(NSInteger)numberOfLines backgroundColor:(UIColor *)backgroundColor
 {
     UILabel *label = [[UILabel alloc] initWithFrame:rect];
     label.text = text;
@@ -48,7 +57,23 @@
     label.textAlignment = textAlignment;
     label.numberOfLines = 0;
     label.backgroundColor = backgroundColor;
-    return (label);
+    
+    // 行間が指定されていた場合
+    if (lineHeight) {
+        // パラグラフスタイルに行間をセット
+        NSMutableParagraphStyle *paragrahStyle = [[NSMutableParagraphStyle alloc] init];
+        paragrahStyle.minimumLineHeight = lineHeight;
+        paragrahStyle.maximumLineHeight = lineHeight;
+        
+        // パラグラフスタイルをセット
+        NSMutableAttributedString *attributedText = [[NSMutableAttributedString alloc] initWithString:text];
+        [attributedText addAttribute:NSParagraphStyleAttributeName
+                               value:paragrahStyle
+                               range:NSMakeRange(0, attributedText.length)];
+        
+        label.attributedText = attributedText;
+    }
+    return label;
 }
 
 @end

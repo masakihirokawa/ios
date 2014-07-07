@@ -16,24 +16,26 @@
 #pragma mark - Animations
 
 // フェードアニメーション
-- (void)fade:(UIView *)view duration:(float)duration isFadeIn:(BOOL)isFadeIn
+- (void)fade:(UIView *)view duration:(float)duration delay:(NSTimeInterval)delay isFadeIn:(BOOL)isFadeIn
 {
     _targetView = view;
     [UIView beginAnimations:ANIM_ID_FADE context:NULL];
     [UIView setAnimationDelegate:self];
     [UIView setAnimationDuration:duration];
+    [UIView setAnimationDelay:delay];
     _targetView.alpha = isFadeIn ? 0 : 1.0f;
     _targetView.alpha = isFadeIn ? 1.0f : 0;
     [UIView commitAnimations];
 }
 
 // スライドアニメーション
-- (void)slide:(UIView *)view duration:(float)duration aimRect:(CGRect)rect
+- (void)slide:(UIView *)view duration:(float)duration delay:(NSTimeInterval)delay aimRect:(CGRect)rect
 {
     _targetView = view;
     [UIView beginAnimations:ANIM_ID_SLIDE context:NULL];
     [UIView setAnimationDelegate:self];
     [UIView setAnimationDuration:duration];
+    [UIView setAnimationDelay:delay];
     [_targetView setFrame:rect];
     [UIView commitAnimations];
 }
@@ -63,7 +65,7 @@
 }
 
 // 拡大アニメーション
-- (void)scaleUp:(UIView *)view duration:(float)duration isBound:(BOOL)isBound
+- (void)scaleUp:(UIView *)view duration:(float)duration delay:(NSTimeInterval)delay isBound:(BOOL)isBound boundScale:(CGFloat)boundScale
 {
     _targetView = view;
     _targetView.transform = CGAffineTransformMakeScale(0.1, 0.1);
@@ -71,8 +73,9 @@
     [UIView beginAnimations:ANIM_ID_SCALE_UP context:nil];
     [UIView setAnimationDelegate:self];
     [UIView setAnimationDuration:duration];
+    [UIView setAnimationDelay:delay];
     _isBound = isBound;
-    _targetView.transform = CGAffineTransformMakeScale(_isBound ? 1.05f : 1.0f, _isBound ? 1.05f : 1.0f);
+    _targetView.transform = CGAffineTransformMakeScale(_isBound ? boundScale : 1.0f, _isBound ? boundScale : 1.0f);
     _targetView.alpha = 1;
     [UIView commitAnimations];
 }
