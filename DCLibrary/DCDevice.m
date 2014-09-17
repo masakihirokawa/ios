@@ -10,11 +10,15 @@
 @implementation DCDevice
 
 static CGFloat const SCR_WIDTH          = 320.0;
-static CGFloat const SCR_HEIGHT_4INCH   = 568.0;
+static CGFloat const SCR_WIDTH_4_7INCH  = 375.0;
+static CGFloat const SCR_WIDTH_5_5INCH  = 414.0;
 static CGFloat const SCR_HEIGHT_3_5INCH = 480.0;
+static CGFloat const SCR_HEIGHT_4INCH   = 568.0;
+static CGFloat const SCR_HEIGHT_4_7INCH = 667.0;
+static CGFloat const SCR_HEIGHT_5_5INCH = 736.0;
 
 // iOSデバイス名の取得
-+ (NSString *)iOSDevice
++ (NSUInteger)deviceId
 {
     if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPhone) {
         if ([[UIScreen mainScreen] respondsToSelector:@selector(scale)]) {
@@ -22,52 +26,74 @@ static CGFloat const SCR_HEIGHT_3_5INCH = 480.0;
             CGFloat scale = [UIScreen mainScreen].scale;
             result = CGSizeMake(result.width * scale, result.height * scale);
             if(result.height == SCR_HEIGHT_3_5INCH * 2){
-                return (IPHONE_4);
+                return IPHONE4;
             }
+            
             if(result.height == SCR_HEIGHT_4INCH * 2){
-                return (IPHONE_5);
+                return IPHONE5;
+            }
+            
+            if(result.height == SCR_HEIGHT_4_7INCH * 2){
+                return IPHONE6;
+            }
+            
+            if(result.height == SCR_HEIGHT_5_5INCH * 2){
+                return IPHONE6_PLUS;
             }
         } else {
-            return (IPHONE_3);
+            return (IPHONE3);
         }
     } else {
         if ([[UIScreen mainScreen] respondsToSelector:@selector(scale)]) {
-            return (IPAD_RETINA);
+            return IPAD_RETINA;
         } else {
-            return (IPAD);
+            return IPAD;
         }
     }
-    return (@"unknown");
-}
-
-// iPhone 5端末であるか
-+ (BOOL)isIphone5
-{
-    return ([[DCDevice iOSDevice] isEqualToString:IPHONE_5]);
-}
-
-// iPhone 4/4S端末であるか
-+ (BOOL)isIphone4
-{
-    return ([[DCDevice iOSDevice] isEqualToString:IPHONE_4]);
+    
+    return UNKNOWN;
 }
 
 // iPhone 3G/3GSであるか
 + (BOOL)isIphone3
 {
-    return ([[DCDevice iOSDevice] isEqualToString:IPHONE_3]);
+    return [DCDevice deviceId] == IPHONE3;
 }
 
-// iPad端末であるか
+// iPhone 4/4sであるか
++ (BOOL)isIphone4
+{
+    return [DCDevice deviceId] == IPHONE4;
+}
+
+// iPhone 5s/5c/5であるか
++ (BOOL)isIphone5
+{
+    return [DCDevice deviceId] == IPHONE5;
+}
+
+// iPhone 6であるか
++ (BOOL)isIphone6
+{
+    return [DCDevice deviceId] == IPHONE6;
+}
+
+// iPhone 6 Plusであるか
++ (BOOL)isIphone6Plus
+{
+    return [DCDevice deviceId] == IPHONE6_PLUS;
+}
+
+// iPadであるか
 + (BOOL)isIpad
 {
-    return ([[DCDevice iOSDevice] isEqualToString:IPAD]);
+    return [DCDevice deviceId] == IPAD;
 }
 
-// iPad Retina端末であるか
+// iPad Retinaであるか
 + (BOOL)isIpadRetina
 {
-    return ([[DCDevice iOSDevice] isEqualToString:IPAD_RETINA]);
+    return [DCDevice deviceId] == IPAD_RETINA;
 }
 
 // 旧い端末であるか
@@ -92,11 +118,33 @@ static CGFloat const SCR_HEIGHT_3_5INCH = 480.0;
     return ([(NSString *)[a objectAtIndex:0] intValue] >= 7);
 }
 
+// iOS8以降であるか
++ (BOOL)isIOS8
+{
+    NSString *osversion = [UIDevice currentDevice].systemVersion;
+    NSArray  *a = [osversion componentsSeparatedByString:@"."];
+    return ([(NSString *)[a objectAtIndex:0] intValue] >= 8);
+}
+
 // 4インチ端末であるか
 + (BOOL)is4inch
 {
     CGSize screenSize = [[UIScreen mainScreen] bounds].size;
     return (screenSize.width == SCR_WIDTH && screenSize.height == SCR_HEIGHT_4INCH);
+}
+
+// 4.7インチ端末であるか
++ (BOOL)is4_7inch
+{
+    CGSize screenSize = [[UIScreen mainScreen] bounds].size;
+    return (screenSize.width == SCR_WIDTH_4_7INCH && screenSize.height == SCR_HEIGHT_4_7INCH);
+}
+
+// 5.5インチ端末であるか
++ (BOOL)is5_5inch
+{
+    CGSize screenSize = [[UIScreen mainScreen] bounds].size;
+    return (screenSize.width == SCR_WIDTH_5_5INCH && screenSize.height == SCR_HEIGHT_5_5INCH);
 }
 
 // iOSのバージョン取得
@@ -108,7 +156,7 @@ static CGFloat const SCR_HEIGHT_3_5INCH = 480.0;
 // iOSのスクリーンの横幅を取得
 + (CGFloat)screenWidth
 {
-    return SCR_WIDTH;
+    return [[UIScreen mainScreen] bounds].size.width;
 }
 
 // iOSのバージョンに応じたスクリーンの縦幅取得
@@ -127,6 +175,7 @@ static CGFloat const SCR_HEIGHT_3_5INCH = 480.0;
         NSString *currentLanguage = [languages objectAtIndex:0];
         isJapanese = [currentLanguage compare:@"ja"] == NSOrderedSame;
     });
+    
     return isJapanese;
 }
 
@@ -140,6 +189,7 @@ static CGFloat const SCR_HEIGHT_3_5INCH = 480.0;
         NSString *currentLanguage = [languages objectAtIndex:0];
         isFrench = [currentLanguage compare:@"fr"] == NSOrderedSame;
     });
+    
     return isFrench;
 }
 
@@ -153,6 +203,7 @@ static CGFloat const SCR_HEIGHT_3_5INCH = 480.0;
         NSString *currentLanguage = [languages objectAtIndex:0];
         isRussian = [currentLanguage compare:@"ru"] == NSOrderedSame;
     });
+    
     return isRussian;
 }
 
@@ -168,6 +219,7 @@ static CGFloat const SCR_HEIGHT_3_5INCH = 480.0;
             [currentLanguage compare:@"zh-Hans"] == NSOrderedSame ||
             [currentLanguage compare:@"zh-Hant"] == NSOrderedSame;
     });
+    
     return isChinese;
 }
 
@@ -181,6 +233,7 @@ static CGFloat const SCR_HEIGHT_3_5INCH = 480.0;
         NSString *currentLanguage = [languages objectAtIndex:0];
         isKorean = [currentLanguage compare:@"ko"] == NSOrderedSame;
     });
+    
     return isKorean;
 }
 
@@ -194,6 +247,7 @@ static CGFloat const SCR_HEIGHT_3_5INCH = 480.0;
         NSString *currentLanguage = [languages objectAtIndex:0];
         isThai = [currentLanguage compare:@"th"] == NSOrderedSame;
     });
+    
     return isThai;
 }
 
