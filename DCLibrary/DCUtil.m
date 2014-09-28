@@ -35,14 +35,18 @@
 #pragma mark - Copy to Paste Board
 
 // ペーストボードにコピー
-+ (void)copyToPasteBoard:(NSString *)copyText completeAlertMessage:(NSString *)completeAlertMessage
++ (void)copyToPasteBoard:(NSString *)copyText alertTitle:(NSString *)alertTitle alertMessage:(NSString *)alertMessage delegate:(id)delegate
 {
     // ペーストボードにコピー
     UIPasteboard *board = [UIPasteboard generalPasteboard];
     [board setValue:copyText forPasteboardType:@"public.utf8-plain-text"];
     
     // コピー完了アラート表示
-    [DCUtil showAlert:nil message:completeAlertMessage cancelButtonTitle:nil otherButtonTitles:nil];
+    if ([self isIOS8]) {
+        [DCUtil showAlertController:alertTitle message:alertMessage cancelButtonTitle:nil otherButtonTitles:nil delegate:delegate];
+    } else {
+        [DCUtil showAlert:alertTitle message:alertMessage cancelButtonTitle:nil otherButtonTitles:nil];
+    }
 }
 
 #pragma mark - Open Url
@@ -59,11 +63,12 @@
 + (void)openReviewUrl:(NSString *)appStoreId
 {
     NSString *reviewUrl;
-    if ([DCUtil isIOS7]) {
+    if ([DCUtil isIOS7] || [DCUtil isIOS8]) {
         reviewUrl = [NSString stringWithFormat:@"itms-apps://itunes.apple.com/app/id%@", appStoreId];
     } else {
         reviewUrl = [NSString stringWithFormat:@"itms-apps://itunes.apple.com/WebObjects/MZStore.woa/wa/viewContentsUserReviews?id=%@&onlyLatestVersion=true&pageNumber=0&sortOrdering=1&type=Purple+Software", appStoreId];
     }
+    
     [DCUtil openUrl:reviewUrl];
 }
 
@@ -79,6 +84,20 @@
                                           cancelButtonTitle:cancelButtonTitle
                                           otherButtonTitles:otherButtonTitles, nil];
     [alert show];
+}
+
+// アラート表示（iOS 8）
++ (void)showAlertController:(NSString *)title message:(NSString *)message cancelButtonTitle:(NSString *)cancelButtonTitle otherButtonTitles:(NSString *)otherButtonTitles delegate:(id)delegate
+{
+    UIAlertController *alertController = [UIAlertController alertControllerWithTitle:title
+                                                                             message:message
+                                                                      preferredStyle:UIAlertControllerStyleAlert];
+    
+    if (otherButtonTitles == nil) otherButtonTitles = @"OK";
+    [alertController addAction:[UIAlertAction actionWithTitle:otherButtonTitles
+                                                        style:UIAlertActionStyleDefault handler:nil]];
+    
+    [delegate presentViewController:alertController animated:YES completion:nil];
 }
 
 #pragma mark - Trim Strings
@@ -235,14 +254,22 @@
     return [ret stringByReplacingOccurrencesOfString:@"\\n" withString:@"\n"];
 }
 
-#pragma mark - Utils
+#pragma mark - private method
 
 // iOS7以降であるか
 + (BOOL)isIOS7
 {
     NSString *osversion = [UIDevice currentDevice].systemVersion;
-    NSArray *a = [osversion componentsSeparatedByString:@"."];
-    return ([(NSString*)[a objectAtIndex:0] intValue] >= 7);
+    NSArray  *a = [osversion componentsSeparatedByString:@"."];
+    return ([(NSString *)[a objectAtIndex:0] intValue] >= 7);
+}
+
+// iOS8以降であるか
++ (BOOL)isIOS8
+{
+    NSString *osversion = [UIDevice currentDevice].systemVersion;
+    NSArray  *a = [osversion componentsSeparatedByString:@"."];
+    return ([(NSString *)[a objectAtIndex:0] intValue] >= 8);
 }
 
 @end

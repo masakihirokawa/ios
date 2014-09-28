@@ -8,8 +8,6 @@
 #import <Foundation/Foundation.h>
 #import "GADBannerView.h"
 
-#define GAD_UNIT_ID @"ca-app-pub-0667784050147760/1289674227"
-
 @interface DCAdMobBanner : NSObject
 
 #pragma mark - property

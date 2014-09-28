@@ -12,10 +12,11 @@
 #pragma mark - public method
 + (void)setIdleTimerDisabled:(BOOL)isDisabled;
 + (void)socialShare:(id)delegate shareText:(NSString *)shareText shareImage:(UIImage *)shareImage;
-+ (void)copyToPasteBoard:(NSString *)copyText completeAlertMessage:(NSString *)completeAlertMessage;
++ (void)copyToPasteBoard:(NSString *)copyText alertTitle:(NSString *)alertTitle alertMessage:(NSString *)alertMessage delegate:(id)delegate;
 + (void)openUrl:(NSString *)url;
 + (void)openReviewUrl:(NSString *)appStoreId;
 + (void)showAlert:(NSString *)title message:(NSString *)message cancelButtonTitle:(NSString *)cancelButtonTitle otherButtonTitles:(NSString *)otherButtonTitles;
++ (void)showAlertController:(NSString *)title message:(NSString *)message cancelButtonTitle:(NSString *)cancelButtonTitle otherButtonTitles:(NSString *)otherButtonTitles delegate:(id)delegate;
 + (NSString *)trimWhitespaceCharacterSet:(NSString *)string;
 + (NSString *)trimNewLineCharacterSet:(NSString *)string;
 + (NSString *)trimWhitespaceAndNewLineCharacterSet:(NSString *)string;

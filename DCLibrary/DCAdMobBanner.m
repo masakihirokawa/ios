@@ -23,6 +23,7 @@ static id sharedInstance = nil;
             sharedInstance = [[self alloc] init];
         }
     }
+    
 	return sharedInstance;
 }
 
@@ -48,10 +49,11 @@ static id sharedInstance = nil;
 - (void)showGADBanner:(UIView *)targetView yPos:(CGFloat)yPos
 {
     if (!self.gadView) {
-        self.gadView = [[GADBannerView alloc] initWithAdSize:kGADAdSizeBanner];
+        self.gadView = [[GADBannerView alloc] initWithAdSize:GADAdSizeFullWidthPortraitWithHeight(GAD_SIZE_320x50.height)];
         self.gadView.adUnitID = GAD_UNIT_ID;
         [self loadGADBanner:targetView yPos:yPos];
     }
+    
     if (![self.gadView.superview isEqual:targetView]) {
         [self.gadView removeFromSuperview];
         [self loadGADBanner:targetView yPos:yPos];

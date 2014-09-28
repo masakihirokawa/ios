@@ -153,16 +153,22 @@ static CGFloat const SCR_HEIGHT_5_5INCH = 736.0;
     return ([[[UIDevice currentDevice] systemVersion] floatValue]);
 }
 
-// iOSのスクリーンの横幅を取得
+// スクリーンの横幅を取得
 + (CGFloat)screenWidth
 {
     return [[UIScreen mainScreen] bounds].size.width;
 }
 
-// iOSのバージョンに応じたスクリーンの縦幅取得
+// スクリーンの縦幅を取得
 + (CGFloat)screenHeight
 {
     return [[UIScreen mainScreen] bounds].size.height;
+}
+
+// スクリーンのサイズを取得
++ (CGRect)screenRect
+{
+    return CGRectMake(0, 0, [DCDevice screenWidth], [DCDevice screenHeight]);
 }
 
 // 言語設定取得（日本語）

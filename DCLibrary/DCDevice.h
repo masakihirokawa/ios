@@ -40,6 +40,7 @@ typedef NS_ENUM(NSUInteger, deviceId) {
 + (CGFloat)   iOSVersion;
 + (CGFloat)   screenWidth;
 + (CGFloat)   screenHeight;
++ (CGRect)    screenRect;
 + (BOOL)      isJapaneseLanguage;
 + (BOOL)      isFrenchLanguage;
 + (BOOL)      isRussianLanguage;
