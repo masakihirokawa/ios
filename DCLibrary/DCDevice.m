@@ -96,6 +96,12 @@ static CGFloat const SCR_HEIGHT_5_5INCH = 736.0;
     return [DCDevice deviceId] == IPAD_RETINA;
 }
 
+// Retinaディスプレイであるか
++ (BOOL)isRetina
+{
+    return [DCDevice isIphone4] || [DCDevice isIphone5] || [DCDevice isIphone6] || [DCDevice isIphone6Plus] || [DCDevice isIpadRetina];
+}
+
 // 旧い端末であるか
 + (BOOL)isLegacy
 {
@@ -126,6 +132,13 @@ static CGFloat const SCR_HEIGHT_5_5INCH = 736.0;
     return ([(NSString *)[a objectAtIndex:0] intValue] >= 8);
 }
 
+// 3.5インチ端末であるか
++ (BOOL)is3_5inch
+{
+    CGSize screenSize = [[UIScreen mainScreen] bounds].size;
+    return (screenSize.width == SCR_WIDTH && screenSize.height == SCR_HEIGHT_3_5INCH);
+}
+
 // 4インチ端末であるか
 + (BOOL)is4inch
 {
@@ -145,6 +158,12 @@ static CGFloat const SCR_HEIGHT_5_5INCH = 736.0;
 {
     CGSize screenSize = [[UIScreen mainScreen] bounds].size;
     return (screenSize.width == SCR_WIDTH_5_5INCH && screenSize.height == SCR_HEIGHT_5_5INCH);
+}
+
+// 4インチ以上の端末であるか
++ (BOOL)over4inch
+{
+    return [DCDevice is4inch] || [DCDevice is4_7inch] || [DCDevice is5_5inch];
 }
 
 // iOSのバージョン取得

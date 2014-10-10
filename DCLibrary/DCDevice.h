@@ -30,10 +30,13 @@ typedef NS_ENUM(NSUInteger, deviceId) {
 + (BOOL)      isIphone6Plus;
 + (BOOL)      isIpad;
 + (BOOL)      isIpadRetina;
++ (BOOL)      isRetina;
 + (BOOL)      isLegacy;
++ (BOOL)      is3_5inch;
 + (BOOL)      is4inch;
 + (BOOL)      is4_7inch;
 + (BOOL)      is5_5inch;
++ (BOOL)      over4inch;
 + (BOOL)      isIOS6;
 + (BOOL)      isIOS7;
 + (BOOL)      isIOS8;

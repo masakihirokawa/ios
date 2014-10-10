@@ -18,5 +18,7 @@
 + (id)sharedManager;
 - (void)showAdBanner:(UIViewController *)viewController yPos:(CGFloat)yPos;
 - (void)removeAdBanner;
+- (void)hideAdBanner:(BOOL)hidden;
+- (void)insertAdBanner;
 
 @end

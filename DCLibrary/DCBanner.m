@@ -69,6 +69,32 @@ static id sharedInstance = nil;
     }
 }
 
+// バナー非表示
+- (void)hideAdBanner:(BOOL)hidden
+{
+    if (self.iAdView.superview) {
+        self.iAdView.hidden = hidden;
+    }
+    
+    if (self.gadView.superview) {
+        self.gadView.hidden = hidden;
+    }
+}
+
+// バナーを最前面に配置
+- (void)insertAdBanner
+{
+    if (self.iAdView.superview) {
+        NSUInteger subviewsCount = [[self.currentRootViewController.view subviews] count];
+        [self.currentRootViewController.view insertSubview:self.iAdView atIndex:subviewsCount + 1];
+    }
+    
+    if (self.gadView.superview) {
+        NSUInteger subviewsCount = [[self.currentRootViewController.view subviews] count];
+        [self.currentRootViewController.view insertSubview:self.gadView atIndex:subviewsCount + 1];
+    }
+}
+
 #pragma mark - GAD Banner
 
 - (void)showGADBanner:(UIView *)targetView yPos:(CGFloat)yPos
