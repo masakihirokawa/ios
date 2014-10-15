@@ -9,7 +9,7 @@
 
 @implementation DCRandomize
 
-#pragma mark - Shuffle Array
+#pragma mark - Shuffle
 
 // 配列をシャッフルして取得
 + (NSArray *)shuffleArray:(NSArray *)array
@@ -24,24 +24,36 @@
     return shuffledList;
 }
 
-#pragma mark - Shuffle
-
 // 指定した範囲内の数値をシャッフルして配列取得
-+ (NSArray *)shuffle:(NSInteger)min max:(NSInteger)max
++ (NSArray *)shuffle:(int)min max:(int)max
 {
     NSMutableArray *tmpList = [NSMutableArray array];
     long num = (max - min) + 1;
     for (int i = 0; i < num; i++) {
-        [tmpList insertObject:[NSNumber numberWithInt:i + (int)min] atIndex:i];
+        [tmpList insertObject:[NSNumber numberWithInt:i + min] atIndex:i];
     }
     
     return [DCRandomize shuffleArray:tmpList];
 }
 
-#pragma mark - Exact
+#pragma mark - Probability
+
+// 0から指定した範囲の数値が返る
++ (NSInteger)probability:(int)specify
+{
+    return [DCRandomize range:0 max:specify];
+}
+
+#pragma mark - Range
+
+// 指定した範囲内の乱数を取得
++ (NSInteger)range:(int)min max:(int)max
+{
+    return min + arc4random_uniform((max - min) + 1);
+}
 
 // 指定した数値と異なる乱数を取得
-+ (NSInteger)exact:(NSInteger)min max:(NSInteger)max exceptId:(NSInteger)exceptId
++ (NSInteger)exact:(int)min max:(int)max exceptId:(int)exceptId
 {
     NSInteger tmpId;
     do {
@@ -49,14 +61,6 @@
     } while (tmpId == exceptId);
     
     return tmpId;
-}
-
-#pragma mark - Range
-
-// 指定した範囲内の乱数を取得
-+ (NSInteger)range:(NSInteger)min max:(NSInteger)max
-{
-    return min + arc4random_uniform(((int)max - (int)min) + 1);
 }
 
 @end

@@ -11,8 +11,9 @@
 
 #pragma mark - public method
 + (NSArray *)shuffleArray:(NSArray *)array;
-+ (NSArray *)shuffle:(NSInteger)min max:(NSInteger)max;
-+ (NSInteger)exact:(NSInteger)min max:(NSInteger)max exceptId:(NSInteger)exceptId;
-+ (NSInteger)range:(NSInteger)min max:(NSInteger)max;
++ (NSArray *)shuffle:(int)min max:(int)max;
++ (NSInteger)probability:(int)specify;
++ (NSInteger)range:(int)min max:(int)max;
++ (NSInteger)exact:(int)min max:(int)max exceptId:(int)exceptId;
 
 @end
