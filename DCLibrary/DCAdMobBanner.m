@@ -11,6 +11,7 @@
 
 @synthesize gadView                   = _gadView;
 @synthesize currentRootViewController = _currentRootViewController;
+@synthesize loaded                    = _loaded;
 
 #pragma mark - Shared Manager
 
@@ -24,7 +25,7 @@ static id sharedInstance = nil;
         }
     }
     
-	return sharedInstance;
+    return sharedInstance;
 }
 
 #pragma mark - public method
@@ -61,13 +62,14 @@ static id sharedInstance = nil;
     }
 }
 
-#pragma mark - GAD Banner
+#pragma mark - AdMob Banner
 
 - (void)showGADBanner:(UIView *)targetView yPos:(CGFloat)yPos
 {
     if (!self.gadView) {
         self.gadView = [[GADBannerView alloc] initWithAdSize:GADAdSizeFullWidthPortraitWithHeight(GAD_SIZE_320x50.height)];
         self.gadView.adUnitID = GAD_UNIT_ID;
+        self.gadView.delegate = self;
         [self loadGADBanner:targetView yPos:yPos];
     }
     
@@ -87,6 +89,33 @@ static id sharedInstance = nil;
     
     [view addSubview:self.gadView];
     [self.gadView loadRequest:[GADRequest request]];
+}
+
+#pragma mark - delegate method
+
+- (void)adViewDidReceiveAd:(GADBannerView *)bannerView
+{
+    _loaded = YES;
+}
+- (void)adView:(GADBannerView *)bannerView didFailToReceiveAdWithError:(GADRequestError *)error
+{
+    _loaded = NO;
+}
+
+- (void)adViewWillPresentScreen:(GADBannerView *)bannerView
+{
+}
+
+- (void)adViewDidDismissScreen:(GADBannerView *)bannerView
+{
+}
+
+- (void)adViewWillDismissScreen:(GADBannerView *)bannerView
+{
+}
+
+- (void)adViewWillLeaveApplication:(GADBannerView *)bannerView
+{
 }
 
 @end

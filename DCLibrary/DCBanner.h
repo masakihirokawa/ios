@@ -9,14 +9,16 @@
 #import "GADBannerView.h"
 #import <iAd/iAd.h>
 
-@interface DCBanner : NSObject <ADBannerViewDelegate> {
+@interface DCBanner : NSObject <ADBannerViewDelegate, GADBannerViewDelegate> {
     BOOL isiAdFailed;
+    BOOL isAdMobFailed;
 }
 
 #pragma mark - property
 @property (nonatomic, strong) ADBannerView     *iAdView;
 @property (nonatomic, strong) GADBannerView    *gadView;
 @property (nonatomic, strong) UIViewController *currentRootViewController;
+@property (nonatomic, assign) BOOL             loaded;
 
 #pragma mark - public method
 + (id)sharedManager;

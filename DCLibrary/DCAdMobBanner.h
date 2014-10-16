@@ -8,11 +8,12 @@
 #import <Foundation/Foundation.h>
 #import "GADBannerView.h"
 
-@interface DCAdMobBanner : NSObject
+@interface DCAdMobBanner : NSObject <GADBannerViewDelegate>
 
 #pragma mark - property
 @property (nonatomic, strong) GADBannerView    *gadView;
 @property (nonatomic, strong) UIViewController *currentRootViewController;
+@property (nonatomic, assign) BOOL             loaded;
 
 #pragma mark - public method
 + (id)sharedManager;

@@ -12,6 +12,7 @@
 @synthesize iAdView                   = _iAdView;
 @synthesize gadView                   = _gadView;
 @synthesize currentRootViewController = _currentRootViewController;
+@synthesize loaded                    = _loaded;
 
 #pragma mark - Shared Manager
 
@@ -22,20 +23,20 @@ static id sharedInstance = nil;
     @synchronized(self) {
         if (!sharedInstance) {
             sharedInstance = [[self alloc] init];
-			[sharedInstance initAdView];
+            [sharedInstance initAdView];
         }
     }
     
-	return sharedInstance;
+    return sharedInstance;
 }
 
-#pragma mark Init Ad View
+#pragma mark Initialize
 
 - (void)initAdView
 {
     self.iAdView = [[ADBannerView alloc] initWithFrame:CGRectMake(0, 0, 320, 50)];
     self.iAdView.backgroundColor = [UIColor clearColor];
-	self.iAdView.delegate = self;
+    self.iAdView.delegate = self;
 }
 
 #pragma mark - public method
@@ -44,15 +45,24 @@ static id sharedInstance = nil;
 {
     if (![viewController isEqual:self.currentRootViewController]) {
         self.currentRootViewController = viewController;
-        if (isiAdFailed) {
+        if (isAdMobFailed) {
+            // iAd
+            [self showIADBanner:viewController.view yPos:yPos];
+        } else if (isiAdFailed) {
             // AdMob
             [self showGADBanner:viewController.view yPos:yPos];
         } else {
-            // iAd
-            [self showIADBanner:viewController.view yPos:yPos];
+            // AdMob
+            [self showGADBanner:viewController.view yPos:yPos];
         }
+    } else if (isAdMobFailed) {
+        // AdMobの取得に失敗した場合は iAdに切り替える
+        [self showIADBanner:viewController.view yPos:yPos];
     } else if (isiAdFailed) {
         // iAdの取得に失敗した場合は AdMobに切り替える
+        [self showGADBanner:viewController.view yPos:yPos];
+    } else {
+        // AdMob
         [self showGADBanner:viewController.view yPos:yPos];
     }
 }
@@ -95,13 +105,14 @@ static id sharedInstance = nil;
     }
 }
 
-#pragma mark - GAD Banner
+#pragma mark - AdMob Banner
 
 - (void)showGADBanner:(UIView *)targetView yPos:(CGFloat)yPos
 {
     if (!self.gadView) {
         self.gadView = [[GADBannerView alloc] initWithAdSize:GADAdSizeFullWidthPortraitWithHeight(GAD_SIZE_320x50.height)];
         self.gadView.adUnitID = GAD_UNIT_ID;
+        self.gadView.delegate = self;
         [self loadGADBanner:targetView yPos:yPos];
     }
     
@@ -140,7 +151,41 @@ static id sharedInstance = nil;
     [view addSubview:self.iAdView];
 }
 
-#pragma mark - delegate method
+#pragma mark - AdMob delegate method
+
+- (void)adViewDidReceiveAd:(GADBannerView *)bannerView
+{
+    _loaded = YES;
+    
+    isAdMobFailed = !_loaded;
+}
+- (void)adView:(GADBannerView *)bannerView didFailToReceiveAdWithError:(GADRequestError *)error
+{
+    _loaded = NO;
+    
+    isAdMobFailed = !_loaded;
+}
+
+- (void)adViewWillPresentScreen:(GADBannerView *)bannerView
+{
+}
+
+- (void)adViewDidDismissScreen:(GADBannerView *)bannerView
+{
+    
+}
+
+- (void)adViewWillDismissScreen:(GADBannerView *)bannerView
+{
+    
+}
+
+- (void)adViewWillLeaveApplication:(GADBannerView *)bannerView
+{
+    
+}
+
+#pragma mark - iAd delegate method
 
 - (void)bannerViewWillLoadAd:(ADBannerView *)banner
 {
@@ -148,11 +193,15 @@ static id sharedInstance = nil;
 
 - (void)bannerViewDidLoadAd:(ADBannerView *)banner
 {
+    _loaded = YES;
+    
     isiAdFailed = NO;
 }
 
 - (void)bannerView:(ADBannerView *)banner didFailToReceiveAdWithError:(NSError *)error
 {
+    _loaded = NO;
+    
     isiAdFailed = YES;
     
     // AdMobを表示
