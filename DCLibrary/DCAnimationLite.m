@@ -49,34 +49,39 @@
 }
 
 // 拡大アニメーション
-+ (void)scaleUp:(UIView *)view duration:(float)duration isBound:(BOOL)isBound boundScale:(CGFloat)boundScale
++ (void)scaleUp:(UIView *)view duration:(float)duration delay:(NSTimeInterval)delay isBound:(BOOL)isBound boundScale:(CGFloat)boundScale
 {
     view.transform = CGAffineTransformMakeScale(0.1, 0.1);
     view.alpha = 0.0;
-    [UIView beginAnimations:nil context:nil];
     
+    [UIView beginAnimations:nil context:nil];
     [UIView setAnimationDuration:duration];
+    [UIView setAnimationDelay:delay];
     view.transform = CGAffineTransformMakeScale(isBound ? boundScale : 1.0, isBound ? boundScale : 1.0);
     view.alpha = 1.0;
+    [UIView commitAnimations];
     
-    [UIView setAnimationDelay:duration];
+    [UIView beginAnimations:nil context:nil];
+    [UIView setAnimationDuration:duration];
+    [UIView setAnimationDelay:delay + duration];
     view.transform = CGAffineTransformMakeScale(1.0, 1.0);
-    
     [UIView commitAnimations];
 }
 
 // 縮小アニメーション
-+ (void)scaleDown:(UIView *)view duration:(float)duration
++ (void)scaleDown:(UIView *)view duration:(float)duration delay:(NSTimeInterval)delay
 {
     [UIView beginAnimations:nil context:nil];
-    
     [UIView setAnimationDuration:duration];
+    [UIView setAnimationDelay:delay];
     view.transform = CGAffineTransformMakeScale(0.1f, 0.1f);
     view.alpha = 0.0;
+    [UIView commitAnimations];
     
-    [UIView setAnimationDelay:duration];
+    [UIView beginAnimations:nil context:nil];
+    [UIView setAnimationDuration:duration];
+    [UIView setAnimationDelay:delay + duration];
     view.transform = CGAffineTransformMakeScale(1.0, 1.0);
-    
     [UIView commitAnimations];
 }
 
