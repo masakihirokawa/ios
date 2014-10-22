@@ -10,39 +10,43 @@
 @implementation DCAnimationLite
 
 // フェードアニメーション
-+ (void)fade:(UIView *)imageView duration:(float)duration isFadeIn:(BOOL)isFadeIn
++ (void)fade:(UIView *)imageView duration:(float)duration delay:(NSTimeInterval)delay isFadeIn:(BOOL)isFadeIn
 {
     [UIView beginAnimations:nil context:NULL];
     [UIView setAnimationDuration:duration];
-    imageView.alpha = isFadeIn ? 0 : 1.0f;
-    imageView.alpha = isFadeIn ? 1.0f : 0;
+    [UIView setAnimationDelay:delay];
+    imageView.alpha = isFadeIn ? 0.0 : 1.0;
+    imageView.alpha = isFadeIn ? 1.0 : 0.0;
     [UIView commitAnimations];
 }
 
 // スライドアニメーション
-+ (void)slide:(UIView *)imageView duration:(float)duration aimRect:(CGRect)rect
++ (void)slide:(UIView *)imageView duration:(float)duration delay:(NSTimeInterval)delay aimRect:(CGRect)rect
 {
     [UIView beginAnimations:nil context:NULL];
     [UIView setAnimationDuration:duration];
+    [UIView setAnimationDelay:delay];
     [imageView setFrame:rect];
     [UIView commitAnimations];
 }
 
 // 回転アニメーション
-+ (void)rotate:(UIView *)imageView duration:(float)duration aimAngle:(float)angle
++ (void)rotate:(UIView *)imageView duration:(float)duration delay:(NSTimeInterval)delay aimAngle:(float)angle
 {
     [UIView beginAnimations:nil context:NULL];
     [UIView setAnimationDuration:duration];
-    CGAffineTransform rotate = CGAffineTransformMakeRotation(angle * (M_PI / 180.0f));
+    [UIView setAnimationDelay:delay];
+    CGAffineTransform rotate = CGAffineTransformMakeRotation(angle * (M_PI / 180.0));
     [imageView setTransform:rotate];
     [UIView commitAnimations];
 }
 
 // 拡縮アニメーション
-+ (void)scale:(UIView *)imageView duration:(float)duration aimScale:(float)scale
++ (void)scale:(UIView *)imageView duration:(float)duration delay:(NSTimeInterval)delay aimScale:(float)scale
 {
     [UIView beginAnimations:nil context:NULL];
     [UIView setAnimationDuration:duration];
+    [UIView setAnimationDelay:delay];
     CGAffineTransform aimScale = CGAffineTransformMakeScale(scale, scale);
     [imageView setTransform:aimScale];
     [UIView commitAnimations];
@@ -51,7 +55,7 @@
 // 拡大アニメーション
 + (void)scaleUp:(UIView *)view duration:(float)duration delay:(NSTimeInterval)delay isBound:(BOOL)isBound boundScale:(CGFloat)boundScale
 {
-    view.transform = CGAffineTransformMakeScale(0.1, 0.1);
+    view.transform = CGAffineTransformMakeScale(0.1f, 0.1f);
     view.alpha = 0.0;
     
     [UIView beginAnimations:nil context:nil];
@@ -86,7 +90,7 @@
 }
 
 // XY方向に平行移動
-+ (void)translate:(UIView *)imageView duration:(float)duration movePosition:(float)position
++ (void)translate:(UIView *)imageView duration:(float)duration delay:(NSTimeInterval)delay movePosition:(float)position
 {
     [UIView beginAnimations:nil context:NULL];
     [UIView setAnimationDuration:duration];
