@@ -164,6 +164,9 @@ static id sharedInstance = nil;
     _loaded = NO;
     
     isAdMobFailed = !_loaded;
+    
+    // バナー再読み込み
+    [self showAdBanner:self.currentRootViewController yPos:self.gadView.frame.origin.y];
 }
 
 - (void)adViewWillPresentScreen:(GADBannerView *)bannerView
@@ -195,16 +198,16 @@ static id sharedInstance = nil;
 {
     _loaded = YES;
     
-    isiAdFailed = NO;
+    isiAdFailed = !_loaded;
 }
 
 - (void)bannerView:(ADBannerView *)banner didFailToReceiveAdWithError:(NSError *)error
 {
     _loaded = NO;
     
-    isiAdFailed = YES;
+    isiAdFailed = _loaded;
     
-    // AdMobを表示
+    // バナー再読み込み
     [self showAdBanner:self.currentRootViewController yPos:self.iAdView.frame.origin.y];
 }
 
