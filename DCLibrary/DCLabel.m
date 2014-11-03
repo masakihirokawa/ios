@@ -44,6 +44,21 @@
                       numberOfLines:0 backgroundColor:backgroundColor];
     [[label layer] setCornerRadius:cornerRadius];
     [label setClipsToBounds:YES];
+    
+    return label;
+}
+
+// 角丸のボーダー付きラベル取得
++ (UILabel *)roundRectLabelWithBorder:(CGRect)rect text:(NSString *)text font:(UIFont *)font textColor:(UIColor *)textColor textAlignment:(NSTextAlignment)textAlignment backgroundColor:(UIColor *)backgroundColor borderColor:(UIColor *)borderColor borderWidth:(CGFloat)borderWidth cornerRadious:(CGFloat)cornerRadius
+{
+    UILabel *label = [DCLabel label:rect
+                               text:text font:font lineHeight:0 textColor:textColor textAlignment:textAlignment
+                      numberOfLines:0 backgroundColor:backgroundColor];
+    [[label layer] setCornerRadius:cornerRadius];
+    [[label layer] setBorderColor:borderColor.CGColor];
+    [[label layer] setBorderWidth:borderWidth];
+    [label setClipsToBounds:YES];
+    
     return label;
 }
 
