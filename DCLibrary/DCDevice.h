@@ -39,6 +39,7 @@ typedef NS_ENUM(NSUInteger, deviceId) {
 + (BOOL)      over4inch;
 + (BOOL)      isIOS6;
 + (BOOL)      isIOS7;
++ (BOOL)      overIOS7;
 + (BOOL)      isIOS8;
 + (CGFloat)   iOSVersion;
 + (CGFloat)   screenWidth;

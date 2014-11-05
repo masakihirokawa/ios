@@ -89,6 +89,22 @@
     [UIView commitAnimations];
 }
 
+// バウンドアニメーション
++ (void)bound:(UIView *)view duration:(float)duration delay:(NSTimeInterval)delay boundScale:(CGFloat)boundScale
+{
+    [UIView beginAnimations:nil context:nil];
+    [UIView setAnimationDuration:duration];
+    [UIView setAnimationDelay:delay];
+    view.transform = CGAffineTransformMakeScale(boundScale, boundScale);
+    [UIView commitAnimations];
+    
+    [UIView beginAnimations:nil context:nil];
+    [UIView setAnimationDuration:duration];
+    [UIView setAnimationDelay:delay + duration];
+    view.transform = CGAffineTransformMakeScale(1.0, 1.0);
+    [UIView commitAnimations];
+}
+
 // XY方向に平行移動
 + (void)translate:(UIView *)imageView duration:(float)duration delay:(NSTimeInterval)delay movePosition:(float)position
 {

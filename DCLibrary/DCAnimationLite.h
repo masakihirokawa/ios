@@ -16,6 +16,7 @@
 + (void)scale:(UIView *)imageView duration:(float)duration delay:(NSTimeInterval)delay aimScale:(float)scale;
 + (void)scaleUp:(UIView *)view duration:(float)duration delay:(NSTimeInterval)delay isBound:(BOOL)isBound boundScale:(CGFloat)boundScale;
 + (void)scaleDown:(UIView *)view duration:(float)duration delay:(NSTimeInterval)delay;
++ (void)bound:(UIView *)view duration:(float)duration delay:(NSTimeInterval)delay boundScale:(CGFloat)boundScale;
 + (void)translate:(UIView *)imageView duration:(float)duration delay:(NSTimeInterval)delay movePosition:(float)position;
 
 @end
