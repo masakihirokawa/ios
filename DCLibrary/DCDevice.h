@@ -45,6 +45,8 @@ typedef NS_ENUM(NSUInteger, deviceId) {
 + (CGFloat)   screenWidth;
 + (CGFloat)   screenHeight;
 + (CGRect)    screenRect;
++ (BOOL)      renderAt2x;
++ (BOOL)      renderAt3x;
 + (BOOL)      isJapaneseLanguage;
 + (BOOL)      isFrenchLanguage;
 + (BOOL)      isRussianLanguage;

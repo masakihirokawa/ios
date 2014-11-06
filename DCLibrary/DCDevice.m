@@ -25,23 +25,23 @@ static CGFloat const SCR_HEIGHT_5_5INCH = 736.0;
             CGSize result = [[UIScreen mainScreen] bounds].size;
             CGFloat scale = [UIScreen mainScreen].scale;
             result = CGSizeMake(result.width * scale, result.height * scale);
-            if(result.height == SCR_HEIGHT_3_5INCH * 2){
+            if (result.height == SCR_HEIGHT_3_5INCH * 2){
                 return IPHONE4;
             }
             
-            if(result.height == SCR_HEIGHT_4INCH * 2){
+            if (result.height == SCR_HEIGHT_4INCH * 2){
                 return IPHONE5;
             }
             
-            if(result.height == SCR_HEIGHT_4_7INCH * 2){
+            if (result.height == SCR_HEIGHT_4_7INCH * 2){
                 return IPHONE6;
             }
             
-            if(result.height == SCR_HEIGHT_5_5INCH * 2){
+            if (result.height == SCR_HEIGHT_5_5INCH * 2){
                 return IPHONE6_PLUS;
             }
         } else {
-            return (IPHONE3);
+            return IPHONE3;
         }
     } else {
         if ([[UIScreen mainScreen] respondsToSelector:@selector(scale)]) {
@@ -194,6 +194,18 @@ static CGFloat const SCR_HEIGHT_5_5INCH = 736.0;
 + (CGRect)screenRect
 {
     return CGRectMake(0, 0, [DCDevice screenWidth], [DCDevice screenHeight]);
+}
+
+// スクリーンスケールが2倍であるか取得
++ (BOOL)renderAt2x
+{
+    return [UIScreen mainScreen].nativeScale >= 2.0 && [UIScreen mainScreen].nativeScale < 3.0;
+}
+
+// スクリーンスケールが3倍であるか取得
++ (BOOL)renderAt3x
+{
+    return [UIScreen mainScreen].nativeScale >= 3.0;
 }
 
 // 言語設定取得（日本語）
