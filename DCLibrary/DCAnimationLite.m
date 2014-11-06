@@ -58,51 +58,39 @@
     view.transform = CGAffineTransformMakeScale(0.1f, 0.1f);
     view.alpha = 0.0;
     
-    [UIView beginAnimations:nil context:nil];
-    [UIView setAnimationDuration:duration];
-    [UIView setAnimationDelay:delay];
-    view.transform = CGAffineTransformMakeScale(isBound ? boundScale : 1.0, isBound ? boundScale : 1.0);
-    view.alpha = 1.0;
-    [UIView commitAnimations];
-    
-    [UIView beginAnimations:nil context:nil];
-    [UIView setAnimationDuration:duration];
-    [UIView setAnimationDelay:delay + duration];
-    view.transform = CGAffineTransformMakeScale(1.0, 1.0);
-    [UIView commitAnimations];
+    [UIView animateWithDuration:duration delay:delay options:UIViewAnimationOptionCurveLinear animations:^{
+        view.transform = CGAffineTransformMakeScale(isBound ? boundScale : 1.0, isBound ? boundScale : 1.0);
+        view.alpha = 1.0;
+    } completion:^(BOOL finished){
+        [UIView animateWithDuration:duration delay:0.0 options:UIViewAnimationOptionCurveEaseInOut animations:^{
+            view.transform = CGAffineTransformMakeScale(1.0, 1.0);
+        } completion:nil];
+    }];
 }
 
 // 縮小アニメーション
 + (void)scaleDown:(UIView *)view duration:(float)duration delay:(NSTimeInterval)delay
 {
-    [UIView beginAnimations:nil context:nil];
-    [UIView setAnimationDuration:duration];
-    [UIView setAnimationDelay:delay];
-    view.transform = CGAffineTransformMakeScale(0.1f, 0.1f);
-    view.alpha = 0.0;
-    [UIView commitAnimations];
-    
-    [UIView beginAnimations:nil context:nil];
-    [UIView setAnimationDuration:duration];
-    [UIView setAnimationDelay:delay + duration];
-    view.transform = CGAffineTransformMakeScale(1.0, 1.0);
-    [UIView commitAnimations];
+    [UIView animateWithDuration:duration delay:delay options:UIViewAnimationOptionCurveLinear animations:^{
+        view.transform = CGAffineTransformMakeScale(0.1f, 0.1f);
+        view.alpha = 0.0;
+    } completion:^(BOOL finished){
+        [UIView animateWithDuration:duration delay:0.0 options:UIViewAnimationOptionCurveEaseInOut animations:^{
+            view.transform = CGAffineTransformMakeScale(1.0, 1.0);
+        } completion:nil];
+    }];
 }
 
 // バウンドアニメーション
 + (void)bound:(UIView *)view duration:(float)duration delay:(NSTimeInterval)delay boundScale:(CGFloat)boundScale
 {
-    [UIView beginAnimations:nil context:nil];
-    [UIView setAnimationDuration:duration];
-    [UIView setAnimationDelay:delay];
-    view.transform = CGAffineTransformMakeScale(boundScale, boundScale);
-    [UIView commitAnimations];
-    
-    [UIView beginAnimations:nil context:nil];
-    [UIView setAnimationDuration:duration];
-    [UIView setAnimationDelay:delay + duration];
-    view.transform = CGAffineTransformMakeScale(1.0, 1.0);
-    [UIView commitAnimations];
+    [UIView animateWithDuration:duration delay:delay options:UIViewAnimationOptionCurveLinear animations:^{
+        view.transform = CGAffineTransformMakeScale(boundScale, boundScale);
+    } completion:^(BOOL finished){
+        [UIView animateWithDuration:duration delay:0.0 options:UIViewAnimationOptionCurveEaseInOut animations:^{
+            view.transform = CGAffineTransformMakeScale(1.0, 1.0);
+        } completion:nil];
+    }];
 }
 
 // XY方向に平行移動
