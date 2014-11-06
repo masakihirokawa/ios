@@ -39,6 +39,7 @@ typedef NS_ENUM(NSUInteger, deviceId) {
 + (BOOL)      over4inch;
 + (BOOL)      isIOS6;
 + (BOOL)      isIOS7;
++ (BOOL)      underIOS7;
 + (BOOL)      overIOS7;
 + (BOOL)      isIOS8;
 + (CGFloat)   iOSVersion;
@@ -47,6 +48,7 @@ typedef NS_ENUM(NSUInteger, deviceId) {
 + (CGRect)    screenRect;
 + (BOOL)      renderAt2x;
 + (BOOL)      renderAt3x;
++ (BOOL)      vertual5_5inch;
 + (BOOL)      isJapaneseLanguage;
 + (BOOL)      isFrenchLanguage;
 + (BOOL)      isRussianLanguage;

@@ -124,6 +124,14 @@ static CGFloat const SCR_HEIGHT_5_5INCH = 736.0;
     return ([(NSString *)[a objectAtIndex:0] intValue] >= 7);
 }
 
+// iOS7以前であるか
++ (BOOL)underIOS7
+{
+    NSString *osversion = [UIDevice currentDevice].systemVersion;
+    NSArray  *a = [osversion componentsSeparatedByString:@"."];
+    return ([(NSString *)[a objectAtIndex:0] intValue] <= 7);
+}
+
 // iOS7以降であるか
 + (BOOL)overIOS7
 {
@@ -206,6 +214,16 @@ static CGFloat const SCR_HEIGHT_5_5INCH = 736.0;
 + (BOOL)renderAt3x
 {
     return [UIScreen mainScreen].nativeScale >= 3.0;
+}
+
+// スクリーンスケールが拡大された5.5インチ端末のものであるか取得
++ (BOOL)vertual5_5inch
+{
+    if ([DCDevice underIOS7]) {
+        return NO;
+    }
+    
+    return [UIScreen mainScreen].nativeScale >= 2.608;
 }
 
 // 言語設定取得（日本語）
