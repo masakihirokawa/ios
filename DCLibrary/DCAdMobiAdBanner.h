@@ -1,15 +1,24 @@
 //
-//  DCBanner.h
+//  DCAdMobiAdBanner.h
 //
 //  Created by Masaki Hirokawa on 2013/09/12.
 //  Copyright (c) 2013 Masaki Hirokawa. All rights reserved.
 //
 
 #import <Foundation/Foundation.h>
-#import "GADBannerView.h"
 #import <iAd/iAd.h>
 
+<<<<<<< Updated upstream:DCLibrary/DCBanner.h
 @interface DCBanner : NSObject <ADBannerViewDelegate, GADBannerViewDelegate> {
+=======
+<<<<<<< HEAD:DCLibrary/Ad/DCAdMobiAdBanner.h
+@import GoogleMobileAds;
+
+@interface DCAdMobiAdBanner : NSObject <ADBannerViewDelegate, GADBannerViewDelegate> {
+=======
+@interface DCBanner : NSObject <ADBannerViewDelegate, GADBannerViewDelegate> {
+>>>>>>> origin/master:DCLibrary/DCBanner.h
+>>>>>>> Stashed changes:DCLibrary/Ad/DCAdMobiAdBanner.h
     BOOL isiAdFailed;
     BOOL isAdMobFailed;
 }

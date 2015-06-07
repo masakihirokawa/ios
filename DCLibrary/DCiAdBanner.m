@@ -12,6 +12,7 @@
 
 @synthesize iAdView                   = _iAdView;
 @synthesize currentRootViewController = _currentRootViewController;
+@synthesize loaded                    = _loaded;
 
 #pragma mark - Shared Manager
 
@@ -55,6 +56,23 @@ static id sharedInstance = nil;
     }
 }
 
+// バナー非表示
+- (void)hideAdBanner:(BOOL)hidden
+{
+    if (self.iAdView.superview) {
+        self.iAdView.hidden = hidden;
+    }
+}
+
+// バナーを最前面に配置
+- (void)insertAdBanner
+{
+    if (self.iAdView.superview) {
+        NSUInteger subviewsCount = [[self.currentRootViewController.view subviews] count];
+        [self.currentRootViewController.view insertSubview:self.iAdView atIndex:subviewsCount + 1];
+    }
+}
+
 #pragma mark - iAd Banner
 
 - (void)showIADBanner:(UIView *)view yPos:(CGFloat)yPos
@@ -76,11 +94,19 @@ static id sharedInstance = nil;
 
 - (void)bannerViewDidLoadAd:(ADBannerView *)banner
 {
+    _loaded = YES;
+    
+    isiAdFailed = !_loaded;
 }
 
 - (void)bannerView:(ADBannerView *)banner didFailToReceiveAdWithError:(NSError *)error
 {
-    isiAdFailed = YES;
+    _loaded = NO;
+    
+    isiAdFailed = _loaded;
+    
+    // バナー再読み込み
+    [self showAdBanner:self.currentRootViewController yPos:self.iAdView.frame.origin.y];
 }
 
 - (void)bannerViewActionDidFinish:(ADBannerView *)banner {

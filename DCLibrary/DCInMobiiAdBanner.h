@@ -1,19 +1,24 @@
 //
-//  DCiAdBanner.h
-//  DoliceGraphicArtsWallpaper
+//  DCInMobiiAdBanner.h
 //
-//  Created by Dolice on 2014/06/16.
-//  Copyright (c) 2014年 Masaki Hirokawa. All rights reserved.
+//  Created by Dolice on 2015/05/20.
+//  Copyright (c) 2015 Masaki Hirokawa. All rights reserved.
 //
 
 #import <Foundation/Foundation.h>
 #import <iAd/iAd.h>
+#import "IMBanner.h"
+#import "IMBannerDelegate.h"
+#import "IMError.h"
 
-@interface DCiAdBanner : NSObject <ADBannerViewDelegate> {
-    BOOL isiAdFailed;
+@interface DCInMobiiAdBanner : NSObject <IMBannerDelegate, ADBannerViewDelegate> {
+    CGFloat bannerY;
+    BOOL    isInMobiFailed;
+    BOOL    isiAdFailed;
 }
 
 #pragma mark - property
+@property (nonatomic, strong) IMBanner         *inMobiView;
 @property (nonatomic, strong) ADBannerView     *iAdView;
 @property (nonatomic, strong) UIViewController *currentRootViewController;
 @property (nonatomic, assign) BOOL             loaded;

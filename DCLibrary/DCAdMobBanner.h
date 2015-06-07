@@ -6,8 +6,15 @@
 //
 
 #import <Foundation/Foundation.h>
-#import "GADBannerView.h"
 
+<<<<<<< Updated upstream:DCLibrary/DCAdMobBanner.h
+=======
+<<<<<<< HEAD:DCLibrary/Ad/DCAdMobBanner.h
+@import GoogleMobileAds;
+
+=======
+>>>>>>> origin/master:DCLibrary/DCAdMobBanner.h
+>>>>>>> Stashed changes:DCLibrary/Ad/DCAdMobBanner.h
 @interface DCAdMobBanner : NSObject <GADBannerViewDelegate>
 
 #pragma mark - property
