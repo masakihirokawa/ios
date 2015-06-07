@@ -29,6 +29,8 @@
 + (NSArray *)sortArrayForNumber:(NSArray *)array ascending:(BOOL)ascending;
 + (NSArray *)distinctArray:(NSArray *)array;
 + (NSArray *)arrayByRange:(int)min max:(int)max;
++ (NSArray *)arrayCutout:(NSArray *)array start:(NSUInteger)start length:(NSUInteger)length;
++ (NSArray *)loopArray:(NSArray *)list index:(int)index;
 + (NSString *)getStrFromPlist:(NSString *)key;
 
 @end

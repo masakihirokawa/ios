@@ -243,6 +243,35 @@
     return array;
 }
 
+// 配列の範囲を指定し切り出したリストを取得
++ (NSArray *)arrayCutout:(NSArray *)array start:(NSUInteger)start length:(NSUInteger)length
+{
+    int range = (int)[array count] - (int)start;
+    if (range < length) {
+        return [array subarrayWithRange:NSMakeRange(start, range)];
+    }
+    
+    return [array subarrayWithRange:NSMakeRange(start, length)];
+}
+
+// 配列をループして取得
++ (NSArray *)loopArray:(NSArray *)list index:(int)index
+{
+    NSMutableArray *loopList = [[NSMutableArray alloc] initWithArray:list];
+    
+    NSMutableArray *frontList = [[NSMutableArray alloc] init];
+    for (int i = 0; i < index; i++) {
+        [frontList addObject:loopList[i]];
+    }
+    
+    for (int i = 0; i < [frontList count]; i++) {
+        [loopList removeObjectAtIndex:0];
+        [loopList addObject:frontList[i]];
+    }
+    
+    return loopList;
+}
+
 #pragma mark - Get Str from info.plist
 
 // info.plistから文字列取得
