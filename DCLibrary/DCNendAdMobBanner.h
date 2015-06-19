@@ -1,22 +1,23 @@
 //
-//  DCAdMobiAdBanner.h
+//  DCNendAdMobBanner.h
 //
-//  Created by Masaki Hirokawa on 2013/09/12.
-//  Copyright (c) 2013 Masaki Hirokawa. All rights reserved.
+//  Created by Dolice on 2015/06/19.
+//  Copyright (c) 2015 Masaki Hirokawa. All rights reserved.
 //
 
 #import <Foundation/Foundation.h>
-#import <iAd/iAd.h>
+#import "NADView.h"
 
 @import GoogleMobileAds;
 
-@interface DCAdMobiAdBanner : NSObject <ADBannerViewDelegate, GADBannerViewDelegate> {
-    BOOL isiAdFailed;
-    BOOL isAdMobFailed;
+@interface DCNendAdMobBanner : NSObject <NADViewDelegate, GADBannerViewDelegate> {
+    CGFloat bannerY;
+    BOOL    isNendFailed;
+    BOOL    isAdMobFailed;
 }
 
 #pragma mark - property
-@property (nonatomic, strong) ADBannerView     *iAdView;
+@property (nonatomic, strong) NADView          *nendView;
 @property (nonatomic, strong) GADBannerView    *gadView;
 @property (nonatomic, strong) UIViewController *currentRootViewController;
 @property (nonatomic, assign) BOOL             loaded;
