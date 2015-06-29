@@ -1,20 +1,23 @@
 //
-//  DCiAdBanner.h
-//  DoliceGraphicArtsWallpaper
+//  DCAdMobiAdBanner.h
 //
-//  Created by Dolice on 2014/06/16.
-//  Copyright (c) 2014年 Masaki Hirokawa. All rights reserved.
+//  Created by Masaki Hirokawa on 2013/09/12.
+//  Copyright (c) 2013 Masaki Hirokawa. All rights reserved.
 //
 
 #import <Foundation/Foundation.h>
 #import <iAd/iAd.h>
 
-@interface DCiAdBanner : NSObject <ADBannerViewDelegate> {
+@import GoogleMobileAds;
+
+@interface DCAdMobiAdBanner : NSObject <ADBannerViewDelegate, GADBannerViewDelegate> {
     BOOL isiAdFailed;
+    BOOL isAdMobFailed;
 }
 
 #pragma mark - property
 @property (nonatomic, strong) ADBannerView     *iAdView;
+@property (nonatomic, strong) GADBannerView    *gadView;
 @property (nonatomic, strong) UIViewController *currentRootViewController;
 @property (nonatomic, assign) BOOL             loaded;
 

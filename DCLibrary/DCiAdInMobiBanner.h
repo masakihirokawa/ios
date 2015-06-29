@@ -1,22 +1,25 @@
 //
-//  DCBanner.h
+//  DCiAdInMobiBanner.h
 //
-//  Created by Masaki Hirokawa on 2013/09/12.
-//  Copyright (c) 2013 Masaki Hirokawa. All rights reserved.
+//  Created by Dolice on 2015/06/29.
+//  Copyright (c) 2015 Masaki Hirokawa. All rights reserved.
 //
 
 #import <Foundation/Foundation.h>
-#import "GADBannerView.h"
 #import <iAd/iAd.h>
+#import "IMBanner.h"
+#import "IMBannerDelegate.h"
+#import "IMError.h"
 
-@interface DCBanner : NSObject <ADBannerViewDelegate, GADBannerViewDelegate> {
-    BOOL isiAdFailed;
-    BOOL isAdMobFailed;
+@interface DCiAdInMobiBanner : NSObject <ADBannerViewDelegate, IMBannerDelegate> {
+    CGFloat bannerY;
+    BOOL    isiAdFailed;
+    BOOL    isInMobiFailed;
 }
 
 #pragma mark - property
 @property (nonatomic, strong) ADBannerView     *iAdView;
-@property (nonatomic, strong) GADBannerView    *gadView;
+@property (nonatomic, strong) IMBanner         *inMobiView;
 @property (nonatomic, strong) UIViewController *currentRootViewController;
 @property (nonatomic, assign) BOOL             loaded;
 

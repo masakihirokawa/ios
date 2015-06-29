@@ -1,20 +1,20 @@
 //
-//  DCiAdBanner.h
-//  DoliceGraphicArtsWallpaper
+//  DCNendBanner.h
 //
-//  Created by Dolice on 2014/06/16.
-//  Copyright (c) 2014年 Masaki Hirokawa. All rights reserved.
+//  Created by Dolice on 2015/05/22.
+//  Copyright (c) 2015 Masaki Hirokawa. All rights reserved.
 //
 
 #import <Foundation/Foundation.h>
-#import <iAd/iAd.h>
+#import "NADView.h"
 
-@interface DCiAdBanner : NSObject <ADBannerViewDelegate> {
-    BOOL isiAdFailed;
+@interface DCNendBanner : NSObject <NADViewDelegate> {
+    CGFloat bannerY;
+    BOOL    isNendFailed;
 }
 
 #pragma mark - property
-@property (nonatomic, strong) ADBannerView     *iAdView;
+@property (nonatomic, strong) NADView          *nendView;
 @property (nonatomic, strong) UIViewController *currentRootViewController;
 @property (nonatomic, assign) BOOL             loaded;
 

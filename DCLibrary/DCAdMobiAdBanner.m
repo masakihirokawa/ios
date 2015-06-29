@@ -5,9 +5,9 @@
 //  Copyright (c) 2013 Masaki Hirokawa. All rights reserved.
 //
 
-#import "DCBanner.h"
+#import "DCAdMobiAdBanner.h"
 
-@implementation DCBanner
+@implementation DCAdMobiAdBanner
 
 @synthesize iAdView                   = _iAdView;
 @synthesize gadView                   = _gadView;
@@ -47,23 +47,23 @@ static id sharedInstance = nil;
         self.currentRootViewController = viewController;
         if (isAdMobFailed) {
             // iAd
-            [self showIADBanner:viewController.view yPos:yPos];
+            [self showiAdBanner:viewController.view yPos:yPos];
         } else if (isiAdFailed) {
             // AdMob
-            [self showGADBanner:viewController.view yPos:yPos];
+            [self showAdMobBanner:viewController.view yPos:yPos];
         } else {
             // AdMob
-            [self showGADBanner:viewController.view yPos:yPos];
+            [self showAdMobBanner:viewController.view yPos:yPos];
         }
     } else if (isAdMobFailed) {
         // AdMobの取得に失敗した場合は iAdに切り替える
-        [self showIADBanner:viewController.view yPos:yPos];
+        [self showiAdBanner:viewController.view yPos:yPos];
     } else if (isiAdFailed) {
         // iAdの取得に失敗した場合は AdMobに切り替える
-        [self showGADBanner:viewController.view yPos:yPos];
+        [self showAdMobBanner:viewController.view yPos:yPos];
     } else {
         // AdMob
-        [self showGADBanner:viewController.view yPos:yPos];
+        [self showAdMobBanner:viewController.view yPos:yPos];
     }
 }
 
@@ -107,13 +107,13 @@ static id sharedInstance = nil;
 
 #pragma mark - AdMob Banner
 
-- (void)showGADBanner:(UIView *)targetView yPos:(CGFloat)yPos
+- (void)showAdMobBanner:(UIView *)targetView yPos:(CGFloat)yPos
 {
     if (!self.gadView) {
         self.gadView = [[GADBannerView alloc] initWithAdSize:GADAdSizeFullWidthPortraitWithHeight(GAD_SIZE_320x50.height)];
         self.gadView.adUnitID = GAD_UNIT_ID;
         self.gadView.delegate = self;
-        [self loadGADBanner:targetView yPos:yPos];
+        [self loadAdMobBanner:targetView yPos:yPos];
     }
     
     if (self.iAdView.superview) {
@@ -122,11 +122,11 @@ static id sharedInstance = nil;
     
     if (![self.gadView.superview isEqual:targetView]) {
         [self.gadView removeFromSuperview];
-        [self loadGADBanner:targetView yPos:yPos];
+        [self loadAdMobBanner:targetView yPos:yPos];
     }
 }
 
-- (void)loadGADBanner:(UIView *)view yPos:(CGFloat)yPos
+- (void)loadAdMobBanner:(UIView *)view yPos:(CGFloat)yPos
 {
     self.gadView.rootViewController = self.currentRootViewController;
     
@@ -140,7 +140,7 @@ static id sharedInstance = nil;
 
 #pragma mark - iAd Banner
 
-- (void)showIADBanner:(UIView *)view yPos:(CGFloat)yPos
+- (void)showiAdBanner:(UIView *)view yPos:(CGFloat)yPos
 {
     [self removeAdBanner];
     
@@ -175,17 +175,14 @@ static id sharedInstance = nil;
 
 - (void)adViewDidDismissScreen:(GADBannerView *)bannerView
 {
-    
 }
 
 - (void)adViewWillDismissScreen:(GADBannerView *)bannerView
 {
-    
 }
 
 - (void)adViewWillLeaveApplication:(GADBannerView *)bannerView
 {
-    
 }
 
 #pragma mark - iAd delegate method
