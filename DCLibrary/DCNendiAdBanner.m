@@ -1,15 +1,15 @@
 //
-//  DCInMobiiAdBanner.m
+//  DCNendiAdBanner.m
 //
 //  Created by Dolice on 2015/05/20.
 //  Copyright (c) 2015 Masaki Hirokawa. All rights reserved.
 //
 
-#import "DCInMobiiAdBanner.h"
+#import "DCNendiAdBanner.h"
 
-@implementation DCInMobiiAdBanner
+@implementation DCNendiAdBanner
 
-@synthesize inMobiView                = _inMobiView;
+@synthesize nendView                  = _nendView;
 @synthesize iAdView                   = _iAdView;
 @synthesize currentRootViewController = _currentRootViewController;
 @synthesize loaded                    = _loaded;
@@ -46,33 +46,33 @@ static id sharedInstance = nil;
     bannerY = yPos;
     if (![viewController isEqual:self.currentRootViewController]) {
         self.currentRootViewController = viewController;
-        if (isInMobiFailed) {
+        if (isNendFailed) {
             // iAd
             [self showiAdBanner:viewController.view];
         } else if (isiAdFailed) {
-            // InMobi
-            [self showInMobiBanner:viewController.view];
+            // Nend
+            [self showNendBanner:viewController.view];
         } else {
-            // InMobi
-            [self showInMobiBanner:viewController.view];
+            // Nend
+            [self showNendBanner:viewController.view];
         }
-    } else if (isInMobiFailed) {
-        // InMobiの取得に失敗した場合は iAdに切り替える
+    } else if (isNendFailed) {
+        // Nendの取得に失敗した場合は iAdに切り替える
         [self showiAdBanner:viewController.view];
     } else if (isiAdFailed) {
-        // iAdの取得に失敗した場合は InMobiに切り替える
-        [self showInMobiBanner:viewController.view];
+        // iAdの取得に失敗した場合は Nendに切り替える
+        [self showNendBanner:viewController.view];
     } else {
-        // InMobi
-        [self showInMobiBanner:viewController.view];
+        // Nend
+        [self showNendBanner:viewController.view];
     }
 }
 
 // バナー削除
 - (void)removeAdBanner
 {
-    if (self.inMobiView.superview) {
-        [self.inMobiView removeFromSuperview];
+    if (self.nendView.superview) {
+        [self.nendView removeFromSuperview];
     }
     
     if (self.iAdView.superview) {
@@ -83,8 +83,8 @@ static id sharedInstance = nil;
 // バナー非表示
 - (void)hideAdBanner:(BOOL)hidden
 {
-    if (self.inMobiView.superview) {
-        self.inMobiView.hidden = hidden;
+    if (self.nendView.superview) {
+        self.nendView.hidden = hidden;
     }
     
     if (self.iAdView.superview) {
@@ -95,9 +95,9 @@ static id sharedInstance = nil;
 // バナーを最前面に配置
 - (void)insertAdBanner
 {
-    if (self.inMobiView.superview) {
+    if (self.nendView.superview) {
         NSUInteger subviewsCount = [[self.currentRootViewController.view subviews] count];
-        [self.currentRootViewController.view insertSubview:self.inMobiView atIndex:subviewsCount + 1];
+        [self.currentRootViewController.view insertSubview:self.nendView atIndex:subviewsCount + 1];
     }
     
     if (self.iAdView.superview) {
@@ -106,9 +106,9 @@ static id sharedInstance = nil;
     }
 }
 
-#pragma mark - InMobi Banner
+#pragma mark - Nend Banner
 
-- (void)showInMobiBanner:(UIView *)targetView
+- (void)showNendBanner:(UIView *)targetView
 {
     [self removeAdBanner];
     
@@ -118,12 +118,14 @@ static id sharedInstance = nil;
     CGFloat screenWidth = [[UIScreen mainScreen] bounds].size.width;
     CGFloat bannerX     = roundf((screenWidth / 2) - (BANNER_WIDTH / 2));
     
-    self.inMobiView = [[IMBanner alloc] initWithFrame:CGRectMake(bannerX, bannerY, BANNER_WIDTH, BANNER_HEIGHT)
-                                                appId:INMOBI_UNIT_ID adSize:IM_UNIT_320x50];
-    self.inMobiView.delegate = self;
-    [targetView addSubview:self.inMobiView];
+    self.nendView = [[NADView alloc] initWithFrame:CGRectMake(bannerX, bannerY, BANNER_WIDTH, BANNER_HEIGHT)];
+    self.nendView.isOutputLog = NO;
+    self.nendView.nendApiKey = NEND_API_KEY;
+    self.nendView.nendSpotID = NEND_SPOT_ID;
+    self.nendView.delegate = self;
+    [targetView addSubview:self.nendView];
     
-    [self.inMobiView loadBanner];
+    [self.nendView load];
 }
 
 #pragma mark - iAd Banner
@@ -138,43 +140,23 @@ static id sharedInstance = nil;
     [view addSubview:self.iAdView];
 }
 
-#pragma mark - InMobi delegate method
+#pragma mark - Nend delegate method
 
-- (void)bannerDidReceiveAd:(IMBanner *)banner
+- (void)nadViewDidFinishLoad:(NADView *)adView
 {
     _loaded = YES;
     
-    isInMobiFailed = !_loaded;
+    isNendFailed = !_loaded;
 }
 
-- (void)banner:(IMBanner *)banner didFailToReceiveAdWithError:(IMError *)error
+- (void)nadViewDidFailToReceiveAd:(NADView *)adView
 {
     _loaded = NO;
     
-    isInMobiFailed = !_loaded;
+    isNendFailed = !_loaded;
     
     // バナー再読み込み
     [self showAdBanner:self.currentRootViewController yPos:bannerY];
-}
-
-- (void)bannerDidInteract:(IMBanner *)banner withParams:(NSDictionary *)dictionary
-{
-}
-
-- (void)bannerWillPresentScreen:(IMBanner *)banner
-{
-}
-
-- (void)bannerWillDismissScreen:(IMBanner *)banner
-{
-}
-
-- (void)bannerDidDismissScreen:(IMBanner *)banner
-{
-}
-
-- (void)bannerWillLeaveApplication:(IMBanner *)banner
-{
 }
 
 #pragma mark - iAd delegate method

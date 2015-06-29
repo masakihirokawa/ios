@@ -1,16 +1,16 @@
 //
-//  DCInMobiiAdBanner.m
+//  DCInMobiAdMobBanner.m
 //
-//  Created by Dolice on 2015/05/20.
+//  Created by Dolice on 2015/06/19.
 //  Copyright (c) 2015 Masaki Hirokawa. All rights reserved.
 //
 
-#import "DCInMobiiAdBanner.h"
+#import "DCInMobiAdMobBanner.h"
 
-@implementation DCInMobiiAdBanner
+@implementation DCInMobiAdMobBanner
 
 @synthesize inMobiView                = _inMobiView;
-@synthesize iAdView                   = _iAdView;
+@synthesize gadView                   = _gadView;
 @synthesize currentRootViewController = _currentRootViewController;
 @synthesize loaded                    = _loaded;
 
@@ -23,20 +23,10 @@ static id sharedInstance = nil;
     @synchronized(self) {
         if (!sharedInstance) {
             sharedInstance = [[self alloc] init];
-            [sharedInstance initAdView];
         }
     }
     
     return sharedInstance;
-}
-
-#pragma mark Initialize
-
-- (void)initAdView
-{
-    self.iAdView = [[ADBannerView alloc] initWithFrame:CGRectMake(0, 0, 320, 50)];
-    self.iAdView.backgroundColor = [UIColor clearColor];
-    self.iAdView.delegate = self;
 }
 
 #pragma mark - public method
@@ -47,9 +37,9 @@ static id sharedInstance = nil;
     if (![viewController isEqual:self.currentRootViewController]) {
         self.currentRootViewController = viewController;
         if (isInMobiFailed) {
-            // iAd
-            [self showiAdBanner:viewController.view];
-        } else if (isiAdFailed) {
+            // AdMob
+            [self showAdMobBanner:viewController.view];
+        } else if (isAdMobFailed) {
             // InMobi
             [self showInMobiBanner:viewController.view];
         } else {
@@ -57,10 +47,10 @@ static id sharedInstance = nil;
             [self showInMobiBanner:viewController.view];
         }
     } else if (isInMobiFailed) {
-        // InMobiの取得に失敗した場合は iAdに切り替える
-        [self showiAdBanner:viewController.view];
-    } else if (isiAdFailed) {
-        // iAdの取得に失敗した場合は InMobiに切り替える
+        // InMobiの取得に失敗した場合は AdMobに切り替える
+        [self showAdMobBanner:viewController.view];
+    } else if (isAdMobFailed) {
+        // AdMobの取得に失敗した場合は InMobiに切り替える
         [self showInMobiBanner:viewController.view];
     } else {
         // InMobi
@@ -75,8 +65,8 @@ static id sharedInstance = nil;
         [self.inMobiView removeFromSuperview];
     }
     
-    if (self.iAdView.superview) {
-        [self.iAdView removeFromSuperview];
+    if (self.gadView.superview) {
+        [self.gadView removeFromSuperview];
     }
 }
 
@@ -87,8 +77,8 @@ static id sharedInstance = nil;
         self.inMobiView.hidden = hidden;
     }
     
-    if (self.iAdView.superview) {
-        self.iAdView.hidden = hidden;
+    if (self.gadView.superview) {
+        self.gadView.hidden = hidden;
     }
 }
 
@@ -100,9 +90,9 @@ static id sharedInstance = nil;
         [self.currentRootViewController.view insertSubview:self.inMobiView atIndex:subviewsCount + 1];
     }
     
-    if (self.iAdView.superview) {
+    if (self.gadView.superview) {
         NSUInteger subviewsCount = [[self.currentRootViewController.view subviews] count];
-        [self.currentRootViewController.view insertSubview:self.iAdView atIndex:subviewsCount + 1];
+        [self.currentRootViewController.view insertSubview:self.gadView atIndex:subviewsCount + 1];
     }
 }
 
@@ -126,16 +116,37 @@ static id sharedInstance = nil;
     [self.inMobiView loadBanner];
 }
 
-#pragma mark - iAd Banner
+#pragma mark - AdMob Banner
 
-- (void)showiAdBanner:(UIView *)view
+- (void)showAdMobBanner:(UIView *)targetView
 {
-    [self removeAdBanner];
+    if (!self.gadView) {
+        self.gadView = [[GADBannerView alloc] initWithAdSize:GADAdSizeFullWidthPortraitWithHeight(GAD_SIZE_320x50.height)];
+        self.gadView.adUnitID = GAD_UNIT_ID;
+        self.gadView.delegate = self;
+        [self loadAdMobBanner:targetView yPos:bannerY];
+    }
     
-    CGRect iAdViewFrame = self.iAdView.frame;
-    iAdViewFrame.origin = CGPointMake(0, bannerY);
-    self.iAdView.frame = iAdViewFrame;
-    [view addSubview:self.iAdView];
+    if (self.inMobiView.superview) {
+        [self.inMobiView removeFromSuperview];
+    }
+    
+    if (![self.gadView.superview isEqual:targetView]) {
+        [self.gadView removeFromSuperview];
+        [self loadAdMobBanner:targetView yPos:bannerY];
+    }
+}
+
+- (void)loadAdMobBanner:(UIView *)view yPos:(CGFloat)yPos
+{
+    self.gadView.rootViewController = self.currentRootViewController;
+    
+    CGRect gadViewFrame = self.gadView.frame;
+    gadViewFrame.origin = CGPointMake(0, yPos);
+    self.gadView.frame = gadViewFrame;
+    
+    [view addSubview:self.gadView];
+    [self.gadView loadRequest:[GADRequest request]];
 }
 
 #pragma mark - InMobi delegate method
@@ -177,30 +188,38 @@ static id sharedInstance = nil;
 {
 }
 
-#pragma mark - iAd delegate method
+#pragma mark - AdMob delegate method
 
-- (void)bannerViewWillLoadAd:(ADBannerView *)banner
-{
-}
-
-- (void)bannerViewDidLoadAd:(ADBannerView *)banner
+- (void)adViewDidReceiveAd:(GADBannerView *)bannerView
 {
     _loaded = YES;
     
-    isiAdFailed = !_loaded;
+    isAdMobFailed = !_loaded;
 }
-
-- (void)bannerView:(ADBannerView *)banner didFailToReceiveAdWithError:(NSError *)error
+- (void)adView:(GADBannerView *)bannerView didFailToReceiveAdWithError:(GADRequestError *)error
 {
     _loaded = NO;
     
-    isiAdFailed = _loaded;
+    isAdMobFailed = !_loaded;
     
     // バナー再読み込み
     [self showAdBanner:self.currentRootViewController yPos:bannerY];
 }
 
-- (void)bannerViewActionDidFinish:(ADBannerView *)banner {
+- (void)adViewWillPresentScreen:(GADBannerView *)bannerView
+{
+}
+
+- (void)adViewDidDismissScreen:(GADBannerView *)bannerView
+{
+}
+
+- (void)adViewWillDismissScreen:(GADBannerView *)bannerView
+{
+}
+
+- (void)adViewWillLeaveApplication:(GADBannerView *)bannerView
+{
 }
 
 @end
