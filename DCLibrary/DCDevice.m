@@ -146,6 +146,12 @@ static CGFloat const SCR_HEIGHT_5_5INCH = 736.0;
     return ([(NSString *)[a objectAtIndex:0] intValue] >= 8);
 }
 
+// iOS8以降であるか
++ (BOOL)overIOS8
+{
+    return [DCDevice isIOS8];
+}
+
 // 3.5インチ端末であるか
 + (BOOL)is3_5inch
 {

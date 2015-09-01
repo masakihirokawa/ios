@@ -42,6 +42,7 @@ typedef NS_ENUM(NSUInteger, deviceId) {
 + (BOOL)      underIOS7;
 + (BOOL)      overIOS7;
 + (BOOL)      isIOS8;
++ (BOOL)      overIOS8;
 + (CGFloat)   iOSVersion;
 + (CGFloat)   screenWidth;
 + (CGFloat)   screenHeight;
