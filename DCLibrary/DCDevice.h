@@ -34,6 +34,7 @@ typedef NS_ENUM(NSUInteger, deviceId) {
 + (BOOL)      isLegacy;
 + (BOOL)      is3_5inch;
 + (BOOL)      is4inch;
++ (BOOL)      over4_7inch;
 + (BOOL)      is4_7inch;
 + (BOOL)      is5_5inch;
 + (BOOL)      over4inch;

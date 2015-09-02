@@ -173,6 +173,13 @@ static CGFloat const SCR_HEIGHT_5_5INCH = 736.0;
     return (screenSize.width == SCR_WIDTH_4_7INCH && screenSize.height == SCR_HEIGHT_4_7INCH);
 }
 
+// 4.7インチ以上の端末であるか
++ (BOOL)over4_7inch
+{
+    CGSize screenSize = [[UIScreen mainScreen] bounds].size;
+    return (screenSize.width >= SCR_WIDTH_4_7INCH && screenSize.height >= SCR_HEIGHT_4_7INCH);
+}
+
 // 5.5インチ端末であるか
 + (BOOL)is5_5inch
 {
@@ -240,7 +247,8 @@ static CGFloat const SCR_HEIGHT_5_5INCH = 736.0;
     dispatch_once(&onceToken, ^{
         NSArray *languages = [NSLocale preferredLanguages];
         NSString *currentLanguage = [languages objectAtIndex:0];
-        isJapanese = [currentLanguage compare:@"ja"] == NSOrderedSame;
+        isJapanese = [currentLanguage compare:@"ja"] == NSOrderedSame ||
+        [currentLanguage rangeOfString:@"ja"].location != NSNotFound;
     });
     
     return isJapanese;
@@ -254,7 +262,8 @@ static CGFloat const SCR_HEIGHT_5_5INCH = 736.0;
     dispatch_once(&onceToken, ^{
         NSArray *languages = [NSLocale preferredLanguages];
         NSString *currentLanguage = [languages objectAtIndex:0];
-        isFrench = [currentLanguage compare:@"fr"] == NSOrderedSame;
+        isFrench = [currentLanguage compare:@"fr"] == NSOrderedSame ||
+        [currentLanguage rangeOfString:@"fr"].location != NSNotFound;
     });
     
     return isFrench;
@@ -268,7 +277,8 @@ static CGFloat const SCR_HEIGHT_5_5INCH = 736.0;
     dispatch_once(&onceToken, ^{
         NSArray *languages = [NSLocale preferredLanguages];
         NSString *currentLanguage = [languages objectAtIndex:0];
-        isRussian = [currentLanguage compare:@"ru"] == NSOrderedSame;
+        isRussian = [currentLanguage compare:@"ru"] == NSOrderedSame ||
+        [currentLanguage rangeOfString:@"ru"].location != NSNotFound;
     });
     
     return isRussian;
@@ -282,9 +292,8 @@ static CGFloat const SCR_HEIGHT_5_5INCH = 736.0;
     dispatch_once(&onceToken, ^{
         NSArray *languages = [NSLocale preferredLanguages];
         NSString *currentLanguage = [languages objectAtIndex:0];
-        isChinese =
-            [currentLanguage compare:@"zh-Hans"] == NSOrderedSame ||
-            [currentLanguage compare:@"zh-Hant"] == NSOrderedSame;
+        isChinese = ([currentLanguage compare:@"zh-Hans"] == NSOrderedSame || [currentLanguage compare:@"zh-Hant"] == NSOrderedSame) ||
+        ([currentLanguage rangeOfString:@"zh-Hans"].location != NSNotFound || [currentLanguage rangeOfString:@"zh-Hans"].location != NSNotFound);
     });
     
     return isChinese;
@@ -298,7 +307,8 @@ static CGFloat const SCR_HEIGHT_5_5INCH = 736.0;
     dispatch_once(&onceToken, ^{
         NSArray *languages = [NSLocale preferredLanguages];
         NSString *currentLanguage = [languages objectAtIndex:0];
-        isKorean = [currentLanguage compare:@"ko"] == NSOrderedSame;
+        isKorean = [currentLanguage compare:@"ko"] == NSOrderedSame ||
+        [currentLanguage rangeOfString:@"ko"].location != NSNotFound;
     });
     
     return isKorean;
@@ -312,7 +322,8 @@ static CGFloat const SCR_HEIGHT_5_5INCH = 736.0;
     dispatch_once(&onceToken, ^{
         NSArray *languages = [NSLocale preferredLanguages];
         NSString *currentLanguage = [languages objectAtIndex:0];
-        isThai = [currentLanguage compare:@"th"] == NSOrderedSame;
+        isThai = [currentLanguage compare:@"th"] == NSOrderedSame ||
+        [currentLanguage rangeOfString:@"th"].location != NSNotFound;
     });
     
     return isThai;
@@ -322,7 +333,7 @@ static CGFloat const SCR_HEIGHT_5_5INCH = 736.0;
 + (BOOL)isMultiByteLanguage
 {
     return [DCDevice isJapaneseLanguage] || [DCDevice isRussianLanguage] || [DCDevice isChineseLanguage] ||
-           [DCDevice isKoreanLanguage] || [DCDevice isThaiLanguage];
+    [DCDevice isKoreanLanguage] || [DCDevice isThaiLanguage];
 }
 
 @end
