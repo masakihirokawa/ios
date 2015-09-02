@@ -43,13 +43,13 @@ static id sharedInstance = nil;
     CGFloat const screenWidth = [[UIScreen mainScreen] bounds].size.width;
     CGFloat const bannerX     = roundf((screenWidth / 2) - (kAdstirAdSize320x50.size.width / 2));
     
-    _adStirView = [[AdstirMraidView alloc] initWithAdSize:kAdstirAdSize320x50 origin:CGPointMake(bannerX, bannerY)
+    self.adStirView = [[AdstirMraidView alloc] initWithAdSize:kAdstirAdSize320x50 origin:CGPointMake(bannerX, bannerY)
                                                     media:ADSTIR_MEDIA_ID spot:ADSTIR_SPOT_ID];
-    _adStirView.delegate = self;
-    _adStirView.intervalTime = 30;
-    [viewController.view addSubview:_adStirView];
+    self.adStirView.delegate = self;
+    self.adStirView.intervalTime = 30;
+    [viewController.view addSubview:self.adStirView];
     
-    [_adStirView start];
+    [self.adStirView start];
     
     _loaded = YES;
 }
