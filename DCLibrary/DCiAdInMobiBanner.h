@@ -9,7 +9,7 @@
 #import <iAd/iAd.h>
 #import "IMBanner.h"
 #import "IMBannerDelegate.h"
-#import "IMError.h"
+#import "IMRequestStatus.h"
 
 @interface DCiAdInMobiBanner : NSObject <ADBannerViewDelegate, IMBannerDelegate> {
     CGFloat bannerY;

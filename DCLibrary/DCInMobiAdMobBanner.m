@@ -109,11 +109,11 @@ static id sharedInstance = nil;
     CGFloat bannerX     = roundf((screenWidth / 2) - (BANNER_WIDTH / 2));
     
     self.inMobiView = [[IMBanner alloc] initWithFrame:CGRectMake(bannerX, bannerY, BANNER_WIDTH, BANNER_HEIGHT)
-                                                appId:INMOBI_UNIT_ID adSize:IM_UNIT_320x50];
+                                          placementId:INMOBI_PLACEMENT_ID];
     self.inMobiView.delegate = self;
     [targetView addSubview:self.inMobiView];
     
-    [self.inMobiView loadBanner];
+    [self.inMobiView load];
 }
 
 #pragma mark - AdMob Banner
@@ -121,10 +121,11 @@ static id sharedInstance = nil;
 - (void)showAdMobBanner:(UIView *)targetView
 {
     if (!self.gadView) {
-        self.gadView = [[GADBannerView alloc] initWithAdSize:GADAdSizeFullWidthPortraitWithHeight(GAD_SIZE_320x50.height)];
+        self.gadView = [[GADBannerView alloc] initWithAdSize:kGADAdSizeBanner];
+        //self.gadView = [[GADBannerView alloc] initWithAdSize:GADAdSizeFullWidthPortraitWithHeight(GAD_SIZE_320x50.height)];
         self.gadView.adUnitID = GAD_UNIT_ID;
         self.gadView.delegate = self;
-        [self loadAdMobBanner:targetView yPos:bannerY];
+        [self loadAdMobBanner:targetView];
     }
     
     if (self.inMobiView.superview) {
@@ -133,16 +134,19 @@ static id sharedInstance = nil;
     
     if (![self.gadView.superview isEqual:targetView]) {
         [self.gadView removeFromSuperview];
-        [self loadAdMobBanner:targetView yPos:bannerY];
+        [self loadAdMobBanner:targetView];
     }
 }
 
-- (void)loadAdMobBanner:(UIView *)view yPos:(CGFloat)yPos
+- (void)loadAdMobBanner:(UIView *)view
 {
     self.gadView.rootViewController = self.currentRootViewController;
     
+    CGFloat const screenWidth = [[UIScreen mainScreen] bounds].size.width;
+    CGFloat const bannerX     = roundf((screenWidth / 2) - (kGADAdSizeBanner.size.width / 2));
+    
     CGRect gadViewFrame = self.gadView.frame;
-    gadViewFrame.origin = CGPointMake(0, yPos);
+    gadViewFrame.origin = CGPointMake(bannerX, bannerY);
     self.gadView.frame = gadViewFrame;
     
     [view addSubview:self.gadView];
@@ -151,14 +155,14 @@ static id sharedInstance = nil;
 
 #pragma mark - InMobi delegate method
 
-- (void)bannerDidReceiveAd:(IMBanner *)banner
+- (void)bannerDidFinishLoading:(IMBanner *)banner
 {
     _loaded = YES;
     
     isInMobiFailed = !_loaded;
 }
 
-- (void)banner:(IMBanner *)banner didFailToReceiveAdWithError:(IMError *)error
+- (void)banner:(IMBanner *)banner didFailToLoadWithError:(IMRequestStatus *)error
 {
     _loaded = NO;
     
@@ -168,11 +172,19 @@ static id sharedInstance = nil;
     [self showAdBanner:self.currentRootViewController yPos:bannerY];
 }
 
-- (void)bannerDidInteract:(IMBanner *)banner withParams:(NSDictionary *)dictionary
+- (void)banner:(IMBanner *)banner didInteractWithParams:(NSDictionary *)params
+{
+}
+
+- (void)userWillLeaveApplicationFromBanner:(IMBanner *)banner
 {
 }
 
 - (void)bannerWillPresentScreen:(IMBanner *)banner
+{
+}
+
+- (void)bannerDidPresentScreen:(IMBanner *)banner
 {
 }
 
@@ -184,7 +196,7 @@ static id sharedInstance = nil;
 {
 }
 
-- (void)bannerWillLeaveApplication:(IMBanner *)banner
+- (void)banner:(IMBanner *)banner rewardActionCompletedWithRewards:(NSDictionary *)rewards
 {
 }
 

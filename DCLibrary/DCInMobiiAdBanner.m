@@ -119,11 +119,11 @@ static id sharedInstance = nil;
     CGFloat bannerX     = roundf((screenWidth / 2) - (BANNER_WIDTH / 2));
     
     self.inMobiView = [[IMBanner alloc] initWithFrame:CGRectMake(bannerX, bannerY, BANNER_WIDTH, BANNER_HEIGHT)
-                                                appId:INMOBI_UNIT_ID adSize:IM_UNIT_320x50];
+                                                placementId:INMOBI_PLACEMENT_ID];
     self.inMobiView.delegate = self;
     [targetView addSubview:self.inMobiView];
     
-    [self.inMobiView loadBanner];
+    [self.inMobiView load];
 }
 
 #pragma mark - iAd Banner
@@ -140,14 +140,14 @@ static id sharedInstance = nil;
 
 #pragma mark - InMobi delegate method
 
-- (void)bannerDidReceiveAd:(IMBanner *)banner
+- (void)bannerDidFinishLoading:(IMBanner *)banner
 {
     _loaded = YES;
     
     isInMobiFailed = !_loaded;
 }
 
-- (void)banner:(IMBanner *)banner didFailToReceiveAdWithError:(IMError *)error
+- (void)banner:(IMBanner *)banner didFailToLoadWithError:(IMRequestStatus *)error
 {
     _loaded = NO;
     
@@ -157,11 +157,19 @@ static id sharedInstance = nil;
     [self showAdBanner:self.currentRootViewController yPos:bannerY];
 }
 
-- (void)bannerDidInteract:(IMBanner *)banner withParams:(NSDictionary *)dictionary
+- (void)banner:(IMBanner *)banner didInteractWithParams:(NSDictionary *)params
+{
+}
+
+- (void)userWillLeaveApplicationFromBanner:(IMBanner *)banner
 {
 }
 
 - (void)bannerWillPresentScreen:(IMBanner *)banner
+{
+}
+
+- (void)bannerDidPresentScreen:(IMBanner *)banner
 {
 }
 
@@ -173,7 +181,7 @@ static id sharedInstance = nil;
 {
 }
 
-- (void)bannerWillLeaveApplication:(IMBanner *)banner
+- (void)banner:(IMBanner *)banner rewardActionCompletedWithRewards:(NSDictionary *)rewards
 {
 }
 

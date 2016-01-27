@@ -43,27 +43,28 @@ static id sharedInstance = nil;
 
 - (void)showAdBanner:(UIViewController *)viewController yPos:(CGFloat)yPos
 {
+    bannerY = yPos;
     if (![viewController isEqual:self.currentRootViewController]) {
         self.currentRootViewController = viewController;
         if (isAdMobFailed) {
             // iAd
-            [self showiAdBanner:viewController.view yPos:yPos];
+            [self showiAdBanner:viewController.view];
         } else if (isiAdFailed) {
             // AdMob
-            [self showAdMobBanner:viewController.view yPos:yPos];
+            [self showAdMobBanner:viewController.view];
         } else {
             // AdMob
-            [self showAdMobBanner:viewController.view yPos:yPos];
+            [self showAdMobBanner:viewController.view];
         }
     } else if (isAdMobFailed) {
         // AdMobの取得に失敗した場合は iAdに切り替える
-        [self showiAdBanner:viewController.view yPos:yPos];
+        [self showiAdBanner:viewController.view];
     } else if (isiAdFailed) {
         // iAdの取得に失敗した場合は AdMobに切り替える
-        [self showAdMobBanner:viewController.view yPos:yPos];
+        [self showAdMobBanner:viewController.view];
     } else {
         // AdMob
-        [self showAdMobBanner:viewController.view yPos:yPos];
+        [self showAdMobBanner:viewController.view];
     }
 }
 
@@ -107,13 +108,14 @@ static id sharedInstance = nil;
 
 #pragma mark - AdMob Banner
 
-- (void)showAdMobBanner:(UIView *)targetView yPos:(CGFloat)yPos
+- (void)showAdMobBanner:(UIView *)targetView
 {
     if (!self.gadView) {
-        self.gadView = [[GADBannerView alloc] initWithAdSize:GADAdSizeFullWidthPortraitWithHeight(GAD_SIZE_320x50.height)];
+        self.gadView = [[GADBannerView alloc] initWithAdSize:kGADAdSizeBanner];
+        //self.gadView = [[GADBannerView alloc] initWithAdSize:GADAdSizeFullWidthPortraitWithHeight(GAD_SIZE_320x50.height)];
         self.gadView.adUnitID = GAD_UNIT_ID;
         self.gadView.delegate = self;
-        [self loadAdMobBanner:targetView yPos:yPos];
+        [self loadAdMobBanner:targetView];
     }
     
     if (self.iAdView.superview) {
@@ -122,16 +124,19 @@ static id sharedInstance = nil;
     
     if (![self.gadView.superview isEqual:targetView]) {
         [self.gadView removeFromSuperview];
-        [self loadAdMobBanner:targetView yPos:yPos];
+        [self loadAdMobBanner:targetView];
     }
 }
 
-- (void)loadAdMobBanner:(UIView *)view yPos:(CGFloat)yPos
+- (void)loadAdMobBanner:(UIView *)view
 {
     self.gadView.rootViewController = self.currentRootViewController;
     
+    CGFloat const screenWidth = [[UIScreen mainScreen] bounds].size.width;
+    CGFloat const bannerX     = roundf((screenWidth / 2) - (kGADAdSizeBanner.size.width / 2));
+    
     CGRect gadViewFrame = self.gadView.frame;
-    gadViewFrame.origin = CGPointMake(0, yPos);
+    gadViewFrame.origin = CGPointMake(bannerX, bannerY);
     self.gadView.frame = gadViewFrame;
     
     [view addSubview:self.gadView];
@@ -140,14 +145,13 @@ static id sharedInstance = nil;
 
 #pragma mark - iAd Banner
 
-- (void)showiAdBanner:(UIView *)view yPos:(CGFloat)yPos
+- (void)showiAdBanner:(UIView *)view
 {
     [self removeAdBanner];
     
     CGRect iAdViewFrame = self.iAdView.frame;
-    iAdViewFrame.origin = CGPointMake(0, yPos);
+    iAdViewFrame.origin = CGPointMake(0, bannerY);
     self.iAdView.frame = iAdViewFrame;
-    
     [view addSubview:self.iAdView];
 }
 
@@ -166,7 +170,7 @@ static id sharedInstance = nil;
     isAdMobFailed = !_loaded;
     
     // バナー再読み込み
-    [self showAdBanner:self.currentRootViewController yPos:self.gadView.frame.origin.y];
+    [self showAdBanner:self.currentRootViewController yPos:bannerY];
 }
 
 - (void)adViewWillPresentScreen:(GADBannerView *)bannerView
@@ -205,7 +209,7 @@ static id sharedInstance = nil;
     isiAdFailed = _loaded;
     
     // バナー再読み込み
-    [self showAdBanner:self.currentRootViewController yPos:self.iAdView.frame.origin.y];
+    [self showAdBanner:self.currentRootViewController yPos:bannerY];
 }
 
 - (void)bannerViewActionDidFinish:(ADBannerView *)banner {

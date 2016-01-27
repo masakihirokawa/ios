@@ -9,7 +9,11 @@
 
 @import GoogleMobileAds;
 
-@interface DCAdMobBanner : NSObject <GADBannerViewDelegate>
+@interface DCAdMobBanner : NSObject <GADBannerViewDelegate> {
+    CGFloat bannerX;
+    CGFloat bannerY;
+    BOOL    isAdMobFailed;
+}
 
 #pragma mark - property
 @property (nonatomic, strong) GADBannerView    *gadView;

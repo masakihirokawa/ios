@@ -1,16 +1,16 @@
 //
-//  DCiAdAdStirBanner.m
+//  DCiAdMillennialMediaBanner.m
 //
-//  Created by Dolice on 2015/09/02.
+//  Created by Dolice on 2015/09/09.
 //  Copyright © 2015 Masaki Hirokawa. All rights reserved.
 //
 
-#import "DCiAdAdStirBanner.h"
+#import "DCiAdMillennialMediaBanner.h"
 
-@implementation DCiAdAdStirBanner
+@implementation DCiAdMillennialMediaBanner
 
 @synthesize iAdView                   = _iAdView;
-@synthesize adStirView                = _adStirView;
+@synthesize millennialMediaAd         = _millennialMediaAd;
 @synthesize currentRootViewController = _currentRootViewController;
 @synthesize loaded                    = _loaded;
 
@@ -47,9 +47,9 @@ static id sharedInstance = nil;
     if (![viewController isEqual:self.currentRootViewController]) {
         self.currentRootViewController = viewController;
         if (isiAdFailed) {
-            // AdStir
-            [self showAdStirBanner:viewController.view];
-        } else if (isAdStirFailed) {
+            // Millennial Media
+            [self showMillennialMediaBanner:viewController.view];
+        } else if (isMillennialMediaFailed) {
             // iAd
             [self showiAdBanner:viewController.view];
         } else {
@@ -57,10 +57,10 @@ static id sharedInstance = nil;
             [self showiAdBanner:viewController.view];
         }
     } else if (isiAdFailed) {
-        // iAdの取得に失敗した場合は AdStirに切り替える
-        [self showAdStirBanner:viewController.view];
-    } else if (isAdStirFailed) {
-        // AdStirの取得に失敗した場合は iAdに切り替える
+        // iAdの取得に失敗した場合は Millennial Mediaに切り替える
+        [self showMillennialMediaBanner:viewController.view];
+    } else if (isMillennialMediaFailed) {
+        // Millennial Mediaの取得に失敗した場合は iAdに切り替える
         [self showiAdBanner:viewController.view];
     } else {
         // iAd
@@ -75,8 +75,8 @@ static id sharedInstance = nil;
         [self.iAdView removeFromSuperview];
     }
     
-    if (self.adStirView.superview) {
-        [self.adStirView removeFromSuperview];
+    if (self.millennialMediaAd.view.superview) {
+        [self.millennialMediaAd.view removeFromSuperview];
     }
 }
 
@@ -87,8 +87,8 @@ static id sharedInstance = nil;
         self.iAdView.hidden = hidden;
     }
     
-    if (self.adStirView.superview) {
-        self.adStirView.hidden = hidden;
+    if (self.millennialMediaAd.view.superview) {
+        self.millennialMediaAd.view.hidden = hidden;
     }
 }
 
@@ -100,9 +100,9 @@ static id sharedInstance = nil;
         [self.currentRootViewController.view insertSubview:self.iAdView atIndex:subviewsCount + 1];
     }
     
-    if (self.adStirView.superview) {
+    if (self.millennialMediaAd.view.superview) {
         NSUInteger subviewsCount = [[self.currentRootViewController.view subviews] count];
-        [self.currentRootViewController.view insertSubview:self.adStirView atIndex:subviewsCount + 1];
+        [self.currentRootViewController.view insertSubview:self.millennialMediaAd.view atIndex:subviewsCount + 1];
     }
 }
 
@@ -118,24 +118,23 @@ static id sharedInstance = nil;
     [view addSubview:self.iAdView];
 }
 
-#pragma mark - AdStir Banner
+#pragma mark - Millennial Media Banner
 
-- (void)showAdStirBanner:(UIView *)targetView
+- (void)showMillennialMediaBanner:(UIView *)targetView
 {
     [self removeAdBanner];
     
-    CGFloat const screenWidth = [[UIScreen mainScreen] bounds].size.width;
-    CGFloat const bannerX     = roundf((screenWidth / 2) - (kAdstirAdSize320x50.size.width / 2));
+    CGFloat const screenWidth  = [[UIScreen mainScreen] bounds].size.width;
+    CGFloat const bannerWidth  = 320;
+    CGFloat const bannerHeight = 50;
+    CGFloat const bannerX      = roundf((screenWidth / 2) - (bannerWidth / 2));
     
-    self.adStirView = [[AdstirMraidView alloc] initWithAdSize:kAdstirAdSize320x50 origin:CGPointMake(bannerX, bannerY)
-                                                        media:ADSTIR_MEDIA_ID spot:ADSTIR_SPOT_ID];
-    self.adStirView.delegate = self;
-    self.adStirView.intervalTime = 30;
-    [targetView addSubview:self.adStirView];
-    
-    [self.adStirView start];
-    
-    _loaded = YES;
+    self.millennialMediaAd = [[MMInlineAd alloc] initWithPlacementId:MMEDIA_APID
+                                                              adSize:MMInlineAdSizeBanner];
+    [self.millennialMediaAd.view setFrame:CGRectMake(bannerX, bannerY, bannerWidth, bannerHeight)];
+    self.millennialMediaAd.delegate = self;
+    [targetView addSubview:self.millennialMediaAd.view];
+    [self.millennialMediaAd request:nil];
 }
 
 #pragma mark - iAd delegate method
@@ -164,37 +163,72 @@ static id sharedInstance = nil;
 - (void)bannerViewActionDidFinish:(ADBannerView *)banner {
 }
 
-#pragma mark - AdStir delegate method
+#pragma mark - Millennial Media delegate method
 
-- (void)adstirMraidViewWillPresentScreen:(AdstirMraidView *)mraidView
+- (UIViewController *)viewControllerForPresentingModalView
 {
-    //NSLog(@"adstirMraidViewWillPresentScreen");
+    return self.currentRootViewController;
 }
 
-- (void)adstirMraidViewDidPresentScreen:(AdstirMraidView *)mraidView
+- (void)inlineAdRequestDidSucceed:(MMInlineAd *)ad
 {
-    //NSLog(@"adstirMraidViewDidPresentScreen");
+    //NSLog(@"inlineAdRequestDidSucceed");
     
     _loaded = YES;
     
-    isAdStirFailed = !_loaded;
+    isMillennialMediaFailed = !_loaded;
 }
 
-- (void)adstirMraidViewWillDismissScreen:(AdstirMraidView *)mraidView
+- (void)inlineAd:(MMInlineAd *)ad requestDidFailWithError:(NSError*)error
 {
-    //NSLog(@"adstirMraidViewWillDismissScreen");
-}
-
-- (void)adstirMraidViewWillLeaveApplication:(AdstirMraidView *)mraidView
-{
-    //NSLog(@"adstirMraidViewWillLeaveApplication");
+    //NSLog(@"requestDidFailWithError");
     
     _loaded = NO;
     
-    isAdStirFailed = !_loaded;
+    isMillennialMediaFailed = !_loaded;
     
     // バナー再読み込み
     [self showAdBanner:self.currentRootViewController yPos:bannerY];
+}
+
+- (void)inlineAdContentTapped:(MMInlineAd *)ad
+{
+    
+}
+
+- (void)inlineAd:(MMInlineAd *)ad willResizeTo:(CGRect)frame isClosing:(BOOL)isClosingResize
+{
+    
+}
+
+- (void)inlineAd:(MMInlineAd *)ad didResizeTo:(CGRect)frame isClosing:(BOOL)isClosingResize
+{
+    
+}
+
+- (void)inlineAdWillPresentModal:(MMInlineAd *)a
+{
+    
+}
+
+- (void)inlineAdDidPresentModal:(MMInlineAd *)ad
+{
+    
+}
+
+- (void)inlineAdWillCloseModal:(MMInlineAd *)ad
+{
+    
+}
+
+- (void)inlineAdDidCloseModal:(MMInlineAd *)ad
+{
+    
+}
+
+- (void)inlineAdWillLeaveApplication:(MMInlineAd *)ad
+{
+    
 }
 
 @end

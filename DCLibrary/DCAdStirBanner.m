@@ -83,12 +83,12 @@ static id sharedInstance = nil;
 
 - (void)adstirMraidViewWillPresentScreen:(AdstirMraidView *)mraidView
 {
-    NSLog(@"adstirMraidViewWillPresentScreen");
+    //NSLog(@"adstirMraidViewWillPresentScreen");
 }
 
 - (void)adstirMraidViewDidPresentScreen:(AdstirMraidView *)mraidView
 {
-    NSLog(@"adstirMraidViewDidPresentScreen");
+    //NSLog(@"adstirMraidViewDidPresentScreen");
     
     _loaded = YES;
     
@@ -97,12 +97,12 @@ static id sharedInstance = nil;
 
 - (void)adstirMraidViewWillDismissScreen:(AdstirMraidView *)mraidView
 {
-    NSLog(@"adstirMraidViewWillDismissScreen");
+    //NSLog(@"adstirMraidViewWillDismissScreen");
 }
 
 - (void)adstirMraidViewWillLeaveApplication:(AdstirMraidView *)mraidView
 {
-    NSLog(@"adstirMraidViewWillLeaveApplication");
+    //NSLog(@"adstirMraidViewWillLeaveApplication");
     
     _loaded = NO;
     

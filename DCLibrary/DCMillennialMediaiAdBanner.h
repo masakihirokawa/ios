@@ -1,24 +1,22 @@
 //
-//  DCInMobiiAdBanner.h
+//  DCMillennialMediaiAdBanner.h
 //
-//  Created by Dolice on 2015/05/20.
-//  Copyright (c) 2015 Masaki Hirokawa. All rights reserved.
+//  Created by Dolice on 2015/09/09.
+//  Copyright © 2015 Masaki Hirokawa. All rights reserved.
 //
 
 #import <Foundation/Foundation.h>
+#import <MMAdSDK/MMAdSDK.h>
 #import <iAd/iAd.h>
-#import "IMBanner.h"
-#import "IMBannerDelegate.h"
-#import "IMRequestStatus.h"
 
-@interface DCInMobiiAdBanner : NSObject <IMBannerDelegate, ADBannerViewDelegate> {
+@interface DCMillennialMediaiAdBanner : NSObject <MMInlineDelegate, ADBannerViewDelegate> {
     CGFloat bannerY;
-    BOOL    isInMobiFailed;
+    BOOL    isMillennialMediaFailed;
     BOOL    isiAdFailed;
 }
 
 #pragma mark - property
-@property (nonatomic, strong) IMBanner         *inMobiView;
+@property (nonatomic, retain) MMInlineAd       *millennialMediaAd;
 @property (nonatomic, strong) ADBannerView     *iAdView;
 @property (nonatomic, strong) UIViewController *currentRootViewController;
 @property (nonatomic, assign) BOOL             loaded;

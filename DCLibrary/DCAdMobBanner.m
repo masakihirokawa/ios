@@ -34,7 +34,12 @@ static id sharedInstance = nil;
 - (void)showAdBanner:(UIViewController *)viewController yPos:(CGFloat)yPos
 {
     self.currentRootViewController = viewController;
-    [self showGADBanner:viewController.view yPos:yPos];
+    
+    CGFloat const screenWidth = [[UIScreen mainScreen] bounds].size.width;
+    bannerX = roundf((screenWidth / 2) - (kGADAdSizeBanner.size.width / 2));
+    bannerY = yPos;
+    
+    [self showAdMobBanner:viewController.view];
 }
 
 // バナー削除
@@ -64,27 +69,28 @@ static id sharedInstance = nil;
 
 #pragma mark - AdMob Banner
 
-- (void)showGADBanner:(UIView *)targetView yPos:(CGFloat)yPos
+- (void)showAdMobBanner:(UIView *)targetView
 {
     if (!self.gadView) {
-        self.gadView = [[GADBannerView alloc] initWithAdSize:GADAdSizeFullWidthPortraitWithHeight(GAD_SIZE_320x50.height)];
+        self.gadView = [[GADBannerView alloc] initWithAdSize:kGADAdSizeBanner];
+        //self.gadView = [[GADBannerView alloc] initWithAdSize:GADAdSizeFullWidthPortraitWithHeight(GAD_SIZE_320x50.height)];
         self.gadView.adUnitID = GAD_UNIT_ID;
         self.gadView.delegate = self;
-        [self loadGADBanner:targetView yPos:yPos];
+        [self loadAdMobBanner:targetView];
     }
     
     if (![self.gadView.superview isEqual:targetView]) {
         [self.gadView removeFromSuperview];
-        [self loadGADBanner:targetView yPos:yPos];
+        [self loadAdMobBanner:targetView];
     }
 }
 
-- (void)loadGADBanner:(UIView *)view yPos:(CGFloat)yPos
+- (void)loadAdMobBanner:(UIView *)view
 {
     self.gadView.rootViewController = self.currentRootViewController;
     
     CGRect gadViewFrame = self.gadView.frame;
-    gadViewFrame.origin = CGPointMake(0, yPos);
+    gadViewFrame.origin = CGPointMake(bannerX, bannerY);
     self.gadView.frame = gadViewFrame;
     
     [view addSubview:self.gadView];
@@ -96,10 +102,17 @@ static id sharedInstance = nil;
 - (void)adViewDidReceiveAd:(GADBannerView *)bannerView
 {
     _loaded = YES;
+    
+    isAdMobFailed = !_loaded;
 }
 - (void)adView:(GADBannerView *)bannerView didFailToReceiveAdWithError:(GADRequestError *)error
 {
     _loaded = NO;
+    
+    isAdMobFailed = !_loaded;
+    
+    // バナー再読み込み
+    [self showAdBanner:self.currentRootViewController yPos:bannerY];
 }
 
 - (void)adViewWillPresentScreen:(GADBannerView *)bannerView

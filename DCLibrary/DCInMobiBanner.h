@@ -8,7 +8,7 @@
 #import <Foundation/Foundation.h>
 #import "IMBanner.h"
 #import "IMBannerDelegate.h"
-#import "IMError.h"
+#import "IMRequestStatus.h"
 
 @interface DCInMobiBanner : NSObject <IMBannerDelegate> {
     CGFloat bannerY;

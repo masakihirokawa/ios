@@ -101,10 +101,11 @@ static id sharedInstance = nil;
 - (void)showAdMobBanner:(UIView *)targetView
 {
     if (!self.gadView) {
-        self.gadView = [[GADBannerView alloc] initWithAdSize:GADAdSizeFullWidthPortraitWithHeight(GAD_SIZE_320x50.height)];
+        self.gadView = [[GADBannerView alloc] initWithAdSize:kGADAdSizeBanner];
+        //self.gadView = [[GADBannerView alloc] initWithAdSize:GADAdSizeFullWidthPortraitWithHeight(GAD_SIZE_320x50.height)];
         self.gadView.adUnitID = GAD_UNIT_ID;
         self.gadView.delegate = self;
-        [self loadAdMobBanner:targetView yPos:bannerY];
+        [self loadAdMobBanner:targetView];
     }
     
     if (self.nendView.superview) {
@@ -113,16 +114,19 @@ static id sharedInstance = nil;
     
     if (![self.gadView.superview isEqual:targetView]) {
         [self.gadView removeFromSuperview];
-        [self loadAdMobBanner:targetView yPos:bannerY];
+        [self loadAdMobBanner:targetView];
     }
 }
 
-- (void)loadAdMobBanner:(UIView *)view yPos:(CGFloat)yPos
+- (void)loadAdMobBanner:(UIView *)view
 {
     self.gadView.rootViewController = self.currentRootViewController;
     
+    CGFloat const screenWidth = [[UIScreen mainScreen] bounds].size.width;
+    CGFloat const bannerX     = roundf((screenWidth / 2) - (kGADAdSizeBanner.size.width / 2));
+    
     CGRect gadViewFrame = self.gadView.frame;
-    gadViewFrame.origin = CGPointMake(0, yPos);
+    gadViewFrame.origin = CGPointMake(bannerX, bannerY);
     self.gadView.frame = gadViewFrame;
     
     [view addSubview:self.gadView];

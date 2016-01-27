@@ -1,16 +1,16 @@
 //
-//  DCiAdAdStirBanner.m
+//  DCiAdAdGenerationBanner.m
 //
-//  Created by Dolice on 2015/09/02.
+//  Created by Dolice on 2015/09/08.
 //  Copyright © 2015 Masaki Hirokawa. All rights reserved.
 //
 
-#import "DCiAdAdStirBanner.h"
+#import "DCiAdAdGenerationBanner.h"
 
-@implementation DCiAdAdStirBanner
+@implementation DCiAdAdGenerationBanner
 
 @synthesize iAdView                   = _iAdView;
-@synthesize adStirView                = _adStirView;
+@synthesize adGenerationView          = _adGenerationView;
 @synthesize currentRootViewController = _currentRootViewController;
 @synthesize loaded                    = _loaded;
 
@@ -47,9 +47,9 @@ static id sharedInstance = nil;
     if (![viewController isEqual:self.currentRootViewController]) {
         self.currentRootViewController = viewController;
         if (isiAdFailed) {
-            // AdStir
-            [self showAdStirBanner:viewController.view];
-        } else if (isAdStirFailed) {
+            // Ad Generation
+            [self showAdGenerationBanner:viewController.view];
+        } else if (isAdGenerationFailed) {
             // iAd
             [self showiAdBanner:viewController.view];
         } else {
@@ -57,10 +57,10 @@ static id sharedInstance = nil;
             [self showiAdBanner:viewController.view];
         }
     } else if (isiAdFailed) {
-        // iAdの取得に失敗した場合は AdStirに切り替える
-        [self showAdStirBanner:viewController.view];
-    } else if (isAdStirFailed) {
-        // AdStirの取得に失敗した場合は iAdに切り替える
+        // iAdの取得に失敗した場合は Ad Generationに切り替える
+        [self showAdGenerationBanner:viewController.view];
+    } else if (isAdGenerationFailed) {
+        // Ad Generationの取得に失敗した場合は iAdに切り替える
         [self showiAdBanner:viewController.view];
     } else {
         // iAd
@@ -75,8 +75,8 @@ static id sharedInstance = nil;
         [self.iAdView removeFromSuperview];
     }
     
-    if (self.adStirView.superview) {
-        [self.adStirView removeFromSuperview];
+    if (self.adGenerationView.view.superview) {
+        [self.adGenerationView.view removeFromSuperview];
     }
 }
 
@@ -87,8 +87,8 @@ static id sharedInstance = nil;
         self.iAdView.hidden = hidden;
     }
     
-    if (self.adStirView.superview) {
-        self.adStirView.hidden = hidden;
+    if (self.adGenerationView.view.superview) {
+        self.adGenerationView.view.hidden = hidden;
     }
 }
 
@@ -100,9 +100,9 @@ static id sharedInstance = nil;
         [self.currentRootViewController.view insertSubview:self.iAdView atIndex:subviewsCount + 1];
     }
     
-    if (self.adStirView.superview) {
+    if (self.adGenerationView.view.superview) {
         NSUInteger subviewsCount = [[self.currentRootViewController.view subviews] count];
-        [self.currentRootViewController.view insertSubview:self.adStirView atIndex:subviewsCount + 1];
+        [self.currentRootViewController.view insertSubview:self.adGenerationView.view atIndex:subviewsCount + 1];
     }
 }
 
@@ -118,24 +118,29 @@ static id sharedInstance = nil;
     [view addSubview:self.iAdView];
 }
 
-#pragma mark - AdStir Banner
+#pragma mark - Ad Generation Banner
 
-- (void)showAdStirBanner:(UIView *)targetView
+- (void)showAdGenerationBanner:(UIView *)targetView
 {
     [self removeAdBanner];
     
     CGFloat const screenWidth = [[UIScreen mainScreen] bounds].size.width;
-    CGFloat const bannerX     = roundf((screenWidth / 2) - (kAdstirAdSize320x50.size.width / 2));
+    CGFloat const bannerX     = roundf((screenWidth / 2) - (kADGAdSize_Sp_Width / 2));
     
-    self.adStirView = [[AdstirMraidView alloc] initWithAdSize:kAdstirAdSize320x50 origin:CGPointMake(bannerX, bannerY)
-                                                        media:ADSTIR_MEDIA_ID spot:ADSTIR_SPOT_ID];
-    self.adStirView.delegate = self;
-    self.adStirView.intervalTime = 30;
-    [targetView addSubview:self.adStirView];
+    NSDictionary *adGenerationParams = @{@"locationid" : AD_GENERATION_APPID,
+                                         @"adtype" : @(kADG_AdType_Sp),
+                                         @"originx" : @(bannerX),
+                                         @"originy" : @(bannerY),
+                                         @"w" : @(0),
+                                         @"h" : @(0)};
     
-    [self.adStirView start];
-    
-    _loaded = YES;
+    self.adGenerationView = [[ADGManagerViewController alloc] initWithAdParams:adGenerationParams
+                                                                        adView:targetView];
+    self.adGenerationView.delegate = self;
+    //[self.adGenerationView setPreLoad:YES];
+    [self.adGenerationView setFillerRetry:NO];
+    [self.adGenerationView loadRequest];
+    [self.adGenerationView resumeRefresh];
 }
 
 #pragma mark - iAd delegate method
@@ -164,37 +169,41 @@ static id sharedInstance = nil;
 - (void)bannerViewActionDidFinish:(ADBannerView *)banner {
 }
 
-#pragma mark - AdStir delegate method
+#pragma mark - Ad Generation delegate method
 
-- (void)adstirMraidViewWillPresentScreen:(AdstirMraidView *)mraidView
+- (void)ADGManagerViewControllerReceiveAd:(ADGManagerViewController *)adgManagerViewController
 {
-    //NSLog(@"adstirMraidViewWillPresentScreen");
-}
-
-- (void)adstirMraidViewDidPresentScreen:(AdstirMraidView *)mraidView
-{
-    //NSLog(@"adstirMraidViewDidPresentScreen");
+    //NSLog(@"%@", @"ADGManagerViewControllerReceiveAd");
     
     _loaded = YES;
     
-    isAdStirFailed = !_loaded;
+    isAdGenerationFailed = !_loaded;
 }
 
-- (void)adstirMraidViewWillDismissScreen:(AdstirMraidView *)mraidView
+- (void)ADGManagerViewControllerFailedToReceiveAd:(ADGManagerViewController *)adgManagerViewController code:(kADGErrorCode)code
 {
-    //NSLog(@"adstirMraidViewWillDismissScreen");
-}
-
-- (void)adstirMraidViewWillLeaveApplication:(AdstirMraidView *)mraidView
-{
-    //NSLog(@"adstirMraidViewWillLeaveApplication");
+    //NSLog(@"%@", @"ADGManagerViewControllerFailedToReceiveAd");
     
     _loaded = NO;
     
-    isAdStirFailed = !_loaded;
+    isAdGenerationFailed = !_loaded;
     
-    // バナー再読み込み
-    [self showAdBanner:self.currentRootViewController yPos:bannerY];
+    switch (code) {
+        case kADGErrorCodeExceedLimit:
+        case kADGErrorCodeNeedConnection:
+            break;
+        default:
+            // バナー再読み込み
+            [self showAdBanner:self.currentRootViewController yPos:bannerY];
+            //[self.adGenerationView loadRequest];
+            
+            break;
+    }
+}
+
+- (void)ADGManagerViewControllerOpenUrl:(ADGManagerViewController *)adgManagerViewController
+{
+    //NSLog(@"%@", @"ADGManagerViewControllerOpenUrl");
 }
 
 @end
