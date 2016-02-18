@@ -19,10 +19,11 @@
 @property (nonatomic, strong) GADBannerView    *gadView;
 @property (nonatomic, strong) UIViewController *currentRootViewController;
 @property (nonatomic, assign) BOOL             loaded;
+@property (nonatomic, assign) BOOL             useSmartBanner;
 
 #pragma mark - public method
 + (id)sharedManager;
-- (void)showAdBanner:(UIViewController *)viewController yPos:(CGFloat)yPos;
+- (void)showAdBanner:(UIViewController *)viewController yPos:(CGFloat)yPos useSmartBanner:(BOOL)useSmartBanner;
 - (void)removeAdBanner;
 - (void)hideAdBanner:(BOOL)hidden;
 - (void)insertAdBanner;
