@@ -77,7 +77,6 @@ static id sharedInstance = nil;
     if (!self.gadView) {
         if (self.useSmartBanner) {
             self.gadView = [[GADBannerView alloc] initWithAdSize:kGADAdSizeSmartBannerPortrait];
-            //self.gadView = [[GADBannerView alloc] initWithAdSize:GADAdSizeFullWidthPortraitWithHeight(GAD_SIZE_320x50.height)];
         } else {
             self.gadView = [[GADBannerView alloc] initWithAdSize:kGADAdSizeBanner];
         }
@@ -99,9 +98,15 @@ static id sharedInstance = nil;
     CGRect gadViewFrame = self.gadView.frame;
     gadViewFrame.origin = CGPointMake(bannerX, bannerY);
     self.gadView.frame = gadViewFrame;
-    
     [view addSubview:self.gadView];
-    [self.gadView loadRequest:[GADRequest request]];
+    
+    GADRequest *request = [GADRequest request];
+    if (GAD_TEST_MODE) {
+        request.testDevices = @[kGADSimulatorID,
+                                GAD_TEST_DEVICE_ID
+                                ];
+    }
+    [self.gadView loadRequest:request];
 }
 
 #pragma mark - delegate method
