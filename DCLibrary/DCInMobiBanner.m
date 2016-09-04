@@ -49,7 +49,6 @@ static id sharedInstance = nil;
     self.inMobiView = [[IMBanner alloc] initWithFrame:CGRectMake(bannerX, bannerY, BANNER_WIDTH, BANNER_HEIGHT)
                                                 placementId:INMOBI_PLACEMENT_ID];
     self.inMobiView.delegate = self;
-    self.inMobiView.transitionAnimation = UIViewAnimationTransitionNone;
     [viewController.view addSubview:self.inMobiView];
     
     [self.inMobiView load];
