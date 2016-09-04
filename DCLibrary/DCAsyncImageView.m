@@ -9,13 +9,10 @@
 
 @implementation DCAsyncImageView
 
-CGFloat const AI_SMALL_SIZE = 20;
-CGFloat const AI_LARGE_SIZE = 50;
-
 #pragma mark -
 
 // サーバから画像を読み込み
-- (void)loadImage:(NSString *)url backgroundColor:(UIColor *)backgroundColor showIndicator:(BOOL)showIndicator indicatorType:(NSUInteger)indicatorType
+- (void)loadImage:(NSString *)url backgroundColor:(UIColor *)backgroundColor showIndicator:(BOOL)showIndicator indicatorType:(NSUInteger)indicatorType delegate:(id)delegate
 {
     [self abort];
     
@@ -26,12 +23,25 @@ CGFloat const AI_LARGE_SIZE = 50;
         self.backgroundColor = backgroundColor;
     }
     
-    // サーバに画像をリクエスト
-    data = [[NSMutableData alloc] initWithCapacity:0];
-    NSURLRequest *req = [NSURLRequest requestWithURL:[NSURL URLWithString:url]
-                                         cachePolicy:NSURLRequestUseProtocolCachePolicy
-                                     timeoutInterval:30.0];
-    conn = [[NSURLConnection alloc] initWithRequest:req delegate:self];
+    // レスポンスデータ初期化
+    _responseData = [[NSMutableData alloc] initWithCapacity:0];
+    
+    // 通信処理開始
+    NSURLSessionConfiguration *sessionConfiguration = [NSURLSessionConfiguration defaultSessionConfiguration];
+    sessionConfiguration.timeoutIntervalForRequest  = DC_AIV_TIME_OUT_REQUEST;
+    sessionConfiguration.timeoutIntervalForResource = DC_AIV_TIME_OUT_RESOURCE;
+    
+    _session = [NSURLSession sessionWithConfiguration:sessionConfiguration
+                                             delegate:self
+                                        delegateQueue:[NSOperationQueue mainQueue]];
+    
+    NSURLRequest *request = [NSURLRequest requestWithURL:[NSURL URLWithString:url]
+                                             cachePolicy:NSURLRequestUseProtocolCachePolicy
+                                         timeoutInterval:30.0];
+    
+    NSURLSessionDataTask *dataTask = [_session dataTaskWithRequest:request];
+    
+    [dataTask resume];
     
     // アクティビティインジケータ表示
     if (showIndicator) {
@@ -39,47 +49,70 @@ CGFloat const AI_LARGE_SIZE = 50;
     }
 }
 
+#pragma mark - delegate method
+
 // サーバからレスポンスを受け取った時の処理
-- (void)connection:(NSURLConnection *)connection didReceiveResponse:(NSURLResponse *)response
+- (void)URLSession:(NSURLSession *)session dataTask:(NSURLSessionDataTask *)dataTask
+didReceiveResponse:(NSURLResponse *)response
+ completionHandler:(void (^)(NSURLSessionResponseDisposition disposition))completionHandler
 {
-    [data setLength:0];
+    //NSLog(@"サーバからレスポンスを受け取った時の処理");
+    
+    NSHTTPURLResponse *httpResponse = (NSHTTPURLResponse *)response;
+    if (httpResponse.statusCode == 200) {
+        completionHandler(NSURLSessionResponseAllow);
+    } else {
+        completionHandler(NSURLSessionResponseCancel);
+    }
+    
+    [_responseData setLength:0];
 }
 
 // サーバからデータを受け取った時の処理
-- (void)connection:(NSURLConnection *)connection didReceiveData:(NSData *)nsdata
+- (void)URLSession:(NSURLSession *)session dataTask:(NSURLSessionDataTask *)dataTask didReceiveData:(NSData *)data
 {
-    [data appendData:nsdata];
-}
-
-// サーバからエラーが返ってきた時の処理
-- (void)connection:(NSURLConnection *)connection didFailWithError:(NSError *)error
-{
-    [self abort];
-}
-
-// 読み込みが完了した時の処理
-- (void)connectionDidFinishLoading:(NSURLConnection *)connection
-{
-    // 画像を表示
-    self.image = [UIImage imageWithData:data];
+    //NSLog(@"サーバからデータを受け取った時の処理");
     
-    // アクティビティインジケータ非表示
-    [self stopActivityIndicator];
-    
-    // 通信終了
-    [self abort];
+    //_responseData = [NSMutableData data];
+    [_responseData appendData:data];
 }
 
-// 通信終了
+// サーバからレスポンスが返ってきた時の処理
+- (void)URLSession:(NSURLSession *)session task:(NSURLSessionTask *)task didCompleteWithError:(NSError *)error
+{
+    if (!error) {
+        //NSLog(@"正常終了");
+        
+        // 画像を表示
+        self.image = [UIImage imageWithData:_responseData];
+        
+        // アクティビティインジケータ非表示
+        [self stopActivityIndicator];
+        
+        // 通信終了
+        [self abort];
+    } else {
+        //NSLog(@"エラー終了");
+        
+        // 通信終了
+        [self abort];
+    }
+}
+
+#pragma mark - Abort
+
+// 通信終了処理
 - (void)abort
 {
-    if (conn != nil) {
-        [conn cancel];
-        conn = nil;
+    //NSLog(@"通信終了処理");
+    
+    if (_session != nil) {
+        [_session invalidateAndCancel];
+        _session = nil;
     }
     
-    if (data != nil) {
-        data = nil;
+    if (_responseData != nil) {
+        _responseData = nil;
     }
 }
 
@@ -93,21 +126,19 @@ CGFloat const AI_LARGE_SIZE = 50;
     switch (indicatorType) {
         case AI_GRAY:
             _indicator.activityIndicatorViewStyle = UIActivityIndicatorViewStyleGray;
+            
             break;
         case AI_WHITE_SMALL:
             _indicator.activityIndicatorViewStyle = UIActivityIndicatorViewStyleWhite;
+            
             break;
         case AI_WHITE_LARGE:
             _indicator.activityIndicatorViewStyle = UIActivityIndicatorViewStyleWhiteLarge;
+            
             break;
     }
     
-    if (indicatorType == AI_WHITE_LARGE) {
-        _indicator.frame = CGRectMake(0, 0, AI_LARGE_SIZE, AI_LARGE_SIZE);
-    } else {
-        _indicator.frame = CGRectMake(0, 0, AI_SMALL_SIZE, AI_SMALL_SIZE);
-    }
-    
+    _indicator.frame = indicatorType == AI_WHITE_LARGE ? DC_AIV_AI_LARGE_RECT : DC_AIV_AI_SMALL_RECT;
     _indicator.center = self.center;
     _indicator.hidesWhenStopped = YES;
     [_indicator startAnimating];

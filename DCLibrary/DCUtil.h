@@ -24,7 +24,7 @@
 + (NSString *)trimDicimalDigitCharacterSet:(NSString *)string;
 + (NSString *)trimFirstCharacterSet:(NSString *)string searchString:(NSString *)searchString;
 + (NSString *)omissionText:(NSString *)string maxBytes:(NSUInteger)maxBytes;
-+ (NSString *)serverResponseStr:(NSString *)url httpMethod:(NSString *)httpMethod;
++ (NSString *)serverResponseStr:(NSString *)urlStr httpMethod:(NSString *)httpMethod;
 + (NSArray *)sortArray:(NSArray *)array ascending:(BOOL)ascending;
 + (NSArray *)sortArrayForNumber:(NSArray *)array ascending:(BOOL)ascending;
 + (NSArray *)distinctArray:(NSArray *)array;

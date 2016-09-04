@@ -93,7 +93,9 @@
                                                                              message:message
                                                                       preferredStyle:UIAlertControllerStyleAlert];
     
-    if (otherButtonTitles == nil) otherButtonTitles = @"OK";
+    if (otherButtonTitles == nil) {
+        otherButtonTitles = @"OK";
+    }
     [alertController addAction:[UIAlertAction actionWithTitle:otherButtonTitles
                                                         style:UIAlertActionStyleDefault handler:nil]];
     
@@ -161,24 +163,26 @@
 // サーバのレスポンスを文字列で取得
 + (NSString *)serverResponseStr:(NSString *)url httpMethod:(NSString *)httpMethod
 {
-    NSMutableURLRequest *reqest = [NSMutableURLRequest requestWithURL:[NSURL URLWithString:url]];
-    [reqest setHTTPMethod:httpMethod];
+    __block NSData *responseData = nil;
     
-    NSURLConnection *connection = [[NSURLConnection alloc] initWithRequest:reqest delegate:self];
-    NSString        *responseStr;
-    if (connection) {
-        NSURLResponse *response = nil;
-        NSError       *error    = nil;
-        NSData        *responseData = [NSURLConnection sendSynchronousRequest:reqest returningResponse:&response error:&error];
-        if (error) {
-            responseStr = NULL;
-        } else {
-            responseStr = [[NSString alloc] initWithData:responseData encoding:NSUTF8StringEncoding];
-        }
-    } else {
-        responseStr = NULL;
+    NSURLRequest *request = [NSURLRequest requestWithURL:[NSURL URLWithString:url]
+                                             cachePolicy:NSURLRequestUseProtocolCachePolicy
+                                         timeoutInterval:30.0];
+    
+    [[[NSURLSession sharedSession] dataTaskWithRequest:request
+                                     completionHandler:^(NSData *data, NSURLResponse *response, NSError *error) {
+                                         if (!error) {
+                                             responseData = data;
+                                         } else {
+                                             responseData = NULL;
+                                         }
+                                     }] resume];
+    
+    if (responseData == NULL) {
+        return NULL;
     }
-    return responseStr;
+    
+    return [[NSString alloc] initWithData:responseData encoding:NSUTF8StringEncoding];
 }
 
 #pragma mark - Array
@@ -194,9 +198,8 @@
 // 配列（Number型）をソートして取得
 + (NSArray *)sortArrayForNumber:(NSArray *)array ascending:(BOOL)ascending
 {
-    NSArray *sortedNumberList = @[];
     if (ascending) {
-        sortedNumberList = [array sortedArrayUsingComparator:^(id value1, id value2) {
+        NSArray *sortedNumberList = [array sortedArrayUsingComparator:^(id value1, id value2) {
             int intValueA = [(NSNumber *)value1 intValue];
             int intValueB = [(NSNumber *)value2 intValue];
             
@@ -208,8 +211,10 @@
                 return NSOrderedSame;
             }
         }];
+        
+        return sortedNumberList;
     } else {
-        sortedNumberList = [array sortedArrayUsingComparator:^(id value1, id value2) {
+        NSArray *sortedNumberList = [array sortedArrayUsingComparator:^(id value1, id value2) {
             int intValueA = [(NSNumber *)value2 intValue];
             int intValueB = [(NSNumber *)value1 intValue];
             
@@ -221,9 +226,9 @@
                 return NSOrderedSame;
             }
         }];
+        
+        return sortedNumberList;
     }
-    
-    return sortedNumberList;
 }
 
 // 配列の重複データを削除して取得

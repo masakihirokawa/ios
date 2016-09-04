@@ -10,7 +10,7 @@
 @interface DCDate : NSObject
 
 #pragma mark - public method
-+ (UIDatePicker *)picker:(id)delegate rect:(CGRect)rect mode:(UIDatePickerMode)mode minuteInterval:(NSUInteger)minuteInterval dateText:(NSString *)dateText dateFormat:(NSString *)dateFormat action:(SEL)action;
++ (UIDatePicker *)picker:(id)delegate rect:(CGRect)rect mode:(UIDatePickerMode)mode minuteInterval:(NSUInteger)minuteInterval dateText:(NSString *)dateText dateFormat:(NSString *)dateFormat backgroundColor:(UIColor *)backgroundColor action:(SEL)action;
 + (NSDate *)date:(NSString *)dateText dateFormat:(NSString *)dateFormat;
 + (NSString *)dateText:(NSString *)dateFormat;
 + (NSInteger)pickerYear;

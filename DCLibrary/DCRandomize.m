@@ -17,8 +17,7 @@
     NSMutableArray *shuffledList = [[NSMutableArray alloc] initWithArray:array];
     long i = [shuffledList count];
     while (--i) {
-        //int j = rand() % (i + 1);
-        int j = arc4random_uniform((int)i + 1);
+        int j = rand() % (i + 1);
         [shuffledList exchangeObjectAtIndex:i withObjectAtIndex:j];
     }
     

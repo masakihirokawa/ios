@@ -190,7 +190,8 @@ static CGFloat const SCR_HEIGHT_5_5INCH = 736.0;
 // 4インチ以上の端末であるか
 + (BOOL)over4inch
 {
-    return [DCDevice is4inch] || [DCDevice is4_7inch] || [DCDevice is5_5inch];
+    CGSize screenSize = [[UIScreen mainScreen] bounds].size;
+    return (screenSize.width >= SCR_WIDTH && screenSize.height >= SCR_HEIGHT_4INCH);
 }
 
 // iOSのバージョン取得
