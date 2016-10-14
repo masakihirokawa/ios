@@ -17,14 +17,14 @@
     NSMutableArray *shuffledList = [[NSMutableArray alloc] initWithArray:array];
     long i = [shuffledList count];
     while (--i) {
-        int j = rand() % (i + 1);
+        int j = arc4random_uniform((int)i + 1);
         [shuffledList exchangeObjectAtIndex:i withObjectAtIndex:j];
     }
     
     return shuffledList;
 }
 
-// 指定した範囲内の数値をシャッフルして配列取得
+// 指定した範囲内の数値をシャッフルして取得
 + (NSArray *)shuffle:(int)min max:(int)max
 {
     NSMutableArray *tmpList = [NSMutableArray array];

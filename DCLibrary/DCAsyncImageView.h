@@ -16,9 +16,9 @@
 
 #pragma mark - enumerator
 typedef NS_ENUM(NSUInteger, indicatorType) {
-    AI_GRAY        = 1,
-    AI_WHITE_SMALL = 2,
-    AI_WHITE_LARGE = 3
+    DC_AIV_AI_GRAY        = 1,
+    DC_AIV_AI_WHITE_SMALL = 2,
+    DC_AIV_AI_WHITE_LARGE = 3
 };
 
 #pragma mark - property

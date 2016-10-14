@@ -7,9 +7,6 @@
 
 #import <Foundation/Foundation.h>
 #import <Social/Social.h>
-#import "DMActivityInstagram.h"
-#import "LINEActivity.h"
-#import "VUPinboardActivity.h"
 
 @interface DCSocial : NSObject
 

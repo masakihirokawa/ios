@@ -11,49 +11,34 @@
 
 #pragma mark - Image View
 
-// 画像の取得
+// イメージビューの取得
 + (UIImageView *)imageView:(NSString *)imageName imageExt:(NSString *)imageExt rect:(CGRect)rect
 {
-    UIImage *image = [DCImage getUIImageFromResources:imageName ext:imageExt];
+    UIImage *const image = [DCImage getUIImageFromResources:imageName ext:imageExt];
+    
     UIImageView *imageView = [[UIImageView alloc] initWithFrame:rect];
     imageView.image = image;
     imageView.contentMode = UIViewContentModeScaleAspectFill;
     imageView.autoresizingMask =
-        UIViewAutoresizingFlexibleLeftMargin |
-        UIViewAutoresizingFlexibleRightMargin |
-        UIViewAutoresizingFlexibleTopMargin |
-        UIViewAutoresizingFlexibleBottomMargin;
-    return (imageView);
+    UIViewAutoresizingFlexibleLeftMargin | UIViewAutoresizingFlexibleRightMargin |
+    UIViewAutoresizingFlexibleTopMargin | UIViewAutoresizingFlexibleBottomMargin;
+    
+    return imageView;
 }
 
-#pragma mark - Mask Image
-
-// 画像にマスク適用
-+ (UIImage *)mask:(UIImage *)image withMask:(UIImage *)maskImage
-{
-    CGImageRef maskRef = maskImage.CGImage;
-    CGImageRef mask = CGImageMaskCreate(CGImageGetWidth(maskRef),
-                                        CGImageGetHeight(maskRef),
-                                        CGImageGetBitsPerComponent(maskRef),
-                                        CGImageGetBitsPerPixel(maskRef),
-                                        CGImageGetBytesPerRow(maskRef),
-                                        CGImageGetDataProvider(maskRef), NULL, false);
-    CGImageRef masked = CGImageCreateWithMask([image CGImage], mask);
-    return ([UIImage imageWithCGImage:masked]);
-}
-
-#pragma mark - Resize Image
+#pragma mark - Resize image
 
 // 画像のリサイズ
 + (UIImage *)resize:(UIImage *)image rect:(CGRect)rect
 {
     UIGraphicsBeginImageContext(rect.size);
     [image drawInRect:rect];
-    UIImage* resizedImage = UIGraphicsGetImageFromCurrentImageContext();
+    UIImage *resizedImage = UIGraphicsGetImageFromCurrentImageContext();
     CGContextRef context = UIGraphicsGetCurrentContext();
     CGContextSetInterpolationQuality(context, kCGInterpolationHigh);
     UIGraphicsEndImageContext();
-    return (resizedImage);
+    
+    return resizedImage;
 }
 
 #pragma mark - Fill image
@@ -61,9 +46,9 @@
 // イメージの塗りカラーを指定して取得
 + (UIImage *)imageWithColor:(UIColor *)color
 {
-    CGRect rect = CGRectMake(0.0, 0.0, 1.0, 1.0);
+    CGRect const rect = CGRectMake(0.0, 0.0, 1.0, 1.0);
     UIGraphicsBeginImageContext(rect.size);
-    CGContextRef context = UIGraphicsGetCurrentContext();
+    CGContextRef const context = UIGraphicsGetCurrentContext();
     
     CGContextSetFillColorWithColor(context, [color CGColor]);
     CGContextFillRect(context, rect);
@@ -79,21 +64,22 @@
 // 画像ファイル名取得
 + (NSString *)getImgFileName:(NSString *)src
 {
-    NSArray *a = [src componentsSeparatedByString:@"."];
-    CGSize screenSize = [[UIScreen mainScreen] bounds].size;
-    BOOL is4inch = screenSize.width == 320.0 && screenSize.height == 568.0;
-    if(is4inch) {
+    NSArray *const a = [src componentsSeparatedByString:@"."];
+    CGSize const screenSize = [[UIScreen mainScreen] bounds].size;
+    BOOL const is4inch = screenSize.width == 320.0 && screenSize.height == 568.0;
+    if (is4inch) {
         return [NSString stringWithFormat:@"%@-568h@2x.%@", [a objectAtIndex:0], [a objectAtIndex:1]];
     }
+    
     return [NSString stringWithFormat:@"%@@2x.%@", [a objectAtIndex:0], [a objectAtIndex:1]];
 }
 
 // 画像ファイル取得
-+ (UIImage *)getUIImageFromResources:(NSString*)fileName ext:(NSString*)ext
++ (UIImage *)getUIImageFromResources:(NSString *)fileName ext:(NSString *)ext
 {
-    NSString *path = [[NSBundle mainBundle] pathForResource:fileName ofType:ext];
-    UIImage *img = [[UIImage alloc] initWithContentsOfFile:path];
-    return (img);
+    NSString *const path = [[NSBundle mainBundle] pathForResource:fileName ofType:ext];
+    
+    return [[UIImage alloc] initWithContentsOfFile:path];
 }
 
 @end

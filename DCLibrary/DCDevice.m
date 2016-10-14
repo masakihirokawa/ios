@@ -17,13 +17,15 @@ static CGFloat const SCR_HEIGHT_4INCH   = 568.0;
 static CGFloat const SCR_HEIGHT_4_7INCH = 667.0;
 static CGFloat const SCR_HEIGHT_5_5INCH = 736.0;
 
+#pragma mark -
+
 // iOSデバイス名の取得
 + (NSUInteger)deviceId
 {
     if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPhone) {
         if ([[UIScreen mainScreen] respondsToSelector:@selector(scale)]) {
             CGSize result = [[UIScreen mainScreen] bounds].size;
-            CGFloat scale = [UIScreen mainScreen].scale;
+            CGFloat const scale = [UIScreen mainScreen].scale;
             result = CGSizeMake(result.width * scale, result.height * scale);
             if (result.height == SCR_HEIGHT_3_5INCH * 2){
                 return IPHONE4;
@@ -108,90 +110,128 @@ static CGFloat const SCR_HEIGHT_5_5INCH = 736.0;
     return [DCDevice isIphone3] || [DCDevice isIphone4] || [DCDevice isIpad];
 }
 
-// iOS6以降であるか
+// iOS 6以降であるか
 + (BOOL)isIOS6
 {
-    NSString *osversion = [UIDevice currentDevice].systemVersion;
-    NSArray  *a = [osversion componentsSeparatedByString:@"."];
+    NSString *const osversion = [UIDevice currentDevice].systemVersion;
+    NSArray  *const a = [osversion componentsSeparatedByString:@"."];
+    
     return ([(NSString *)[a objectAtIndex:0] intValue] >= 6);
 }
 
-// iOS7以降であるか
+// iOS 7以降であるか
 + (BOOL)isIOS7
 {
-    NSString *osversion = [UIDevice currentDevice].systemVersion;
-    NSArray  *a = [osversion componentsSeparatedByString:@"."];
+    NSString *const osversion = [UIDevice currentDevice].systemVersion;
+    NSArray  *const a = [osversion componentsSeparatedByString:@"."];
+    
     return ([(NSString *)[a objectAtIndex:0] intValue] >= 7);
 }
 
-// iOS7以前であるか
+// iOS 7以前であるか
 + (BOOL)underIOS7
 {
-    NSString *osversion = [UIDevice currentDevice].systemVersion;
-    NSArray  *a = [osversion componentsSeparatedByString:@"."];
+    NSString *const osversion = [UIDevice currentDevice].systemVersion;
+    NSArray  *const a = [osversion componentsSeparatedByString:@"."];
+    
     return ([(NSString *)[a objectAtIndex:0] intValue] <= 7);
 }
 
-// iOS7以降であるか
+// iOS 7以降であるか
 + (BOOL)overIOS7
 {
     return [DCDevice isIOS7];
 }
 
-// iOS8以降であるか
+// iOS 8以降であるか
 + (BOOL)isIOS8
 {
-    NSString *osversion = [UIDevice currentDevice].systemVersion;
-    NSArray  *a = [osversion componentsSeparatedByString:@"."];
+    NSString *const osversion = [UIDevice currentDevice].systemVersion;
+    NSArray  *const a = [osversion componentsSeparatedByString:@"."];
+    
     return ([(NSString *)[a objectAtIndex:0] intValue] >= 8);
 }
 
-// iOS8以降であるか
+// iOS 8以降であるか
 + (BOOL)overIOS8
 {
     return [DCDevice isIOS8];
 }
 
+// iOS 9以降であるか
++ (BOOL)isIOS9
+{
+    NSString *const osversion = [UIDevice currentDevice].systemVersion;
+    NSArray  *const a = [osversion componentsSeparatedByString:@"."];
+    
+    return ([(NSString *)[a objectAtIndex:0] intValue] >= 9);
+}
+
+// iOS 9以降であるか
++ (BOOL)overIOS9
+{
+    return [DCDevice isIOS9];
+}
+
+// iOS 10以降であるか
++ (BOOL)isIOS10
+{
+    NSString *const osversion = [UIDevice currentDevice].systemVersion;
+    NSArray  *const a = [osversion componentsSeparatedByString:@"."];
+    
+    return ([(NSString *)[a objectAtIndex:0] intValue] >= 10);
+}
+
+// iOS 10以降であるか
++ (BOOL)overIOS10
+{
+    return [DCDevice isIOS10];
+}
+
 // 3.5インチ端末であるか
 + (BOOL)is3_5inch
 {
-    CGSize screenSize = [[UIScreen mainScreen] bounds].size;
+    CGSize const screenSize = [[UIScreen mainScreen] bounds].size;
+    
     return (screenSize.width == SCR_WIDTH && screenSize.height == SCR_HEIGHT_3_5INCH);
 }
 
 // 4インチ端末であるか
 + (BOOL)is4inch
 {
-    CGSize screenSize = [[UIScreen mainScreen] bounds].size;
+    CGSize const screenSize = [[UIScreen mainScreen] bounds].size;
+    
     return (screenSize.width == SCR_WIDTH && screenSize.height == SCR_HEIGHT_4INCH);
+}
+
+// 4インチ以上の端末であるか
++ (BOOL)over4inch
+{
+    return [DCDevice is4inch] || [DCDevice is4_7inch] || [DCDevice is5_5inch];
 }
 
 // 4.7インチ端末であるか
 + (BOOL)is4_7inch
 {
-    CGSize screenSize = [[UIScreen mainScreen] bounds].size;
+    CGSize const screenSize = [[UIScreen mainScreen] bounds].size;
+    
     return (screenSize.width == SCR_WIDTH_4_7INCH && screenSize.height == SCR_HEIGHT_4_7INCH);
 }
 
 // 4.7インチ以上の端末であるか
 + (BOOL)over4_7inch
 {
-    CGSize screenSize = [[UIScreen mainScreen] bounds].size;
+    CGSize const screenSize = [[UIScreen mainScreen] bounds].size;
+    
     return (screenSize.width >= SCR_WIDTH_4_7INCH && screenSize.height >= SCR_HEIGHT_4_7INCH);
 }
 
 // 5.5インチ端末であるか
 + (BOOL)is5_5inch
 {
-    CGSize screenSize = [[UIScreen mainScreen] bounds].size;
+    CGSize const screenSize = [[UIScreen mainScreen] bounds].size;
+    
     return (screenSize.width == SCR_WIDTH_5_5INCH && screenSize.height == SCR_HEIGHT_5_5INCH);
-}
-
-// 4インチ以上の端末であるか
-+ (BOOL)over4inch
-{
-    CGSize screenSize = [[UIScreen mainScreen] bounds].size;
-    return (screenSize.width >= SCR_WIDTH && screenSize.height >= SCR_HEIGHT_4INCH);
 }
 
 // iOSのバージョン取得
@@ -212,10 +252,16 @@ static CGFloat const SCR_HEIGHT_5_5INCH = 736.0;
     return [[UIScreen mainScreen] bounds].size.height;
 }
 
-// スクリーンのサイズを取得
+// スクリーンのレクタングルを取得
 + (CGRect)screenRect
 {
-    return CGRectMake(0, 0, [DCDevice screenWidth], [DCDevice screenHeight]);
+    return [[UIScreen mainScreen] bounds];
+}
+
+// スクリーンのサイズを取得
++ (CGSize)screenSize
+{
+    return [[UIScreen mainScreen] bounds].size;
 }
 
 // スクリーンスケールが2倍であるか取得
@@ -255,6 +301,21 @@ static CGFloat const SCR_HEIGHT_5_5INCH = 736.0;
     return isJapanese;
 }
 
+// 言語設定取得（英語）
++ (BOOL)isEnglishLanguage
+{
+    static BOOL isEnglish;
+    static dispatch_once_t onceToken;
+    dispatch_once(&onceToken, ^{
+        NSArray *languages = [NSLocale preferredLanguages];
+        NSString *currentLanguage = [languages objectAtIndex:0];
+        isEnglish = [currentLanguage compare:@"en"] == NSOrderedSame ||
+        [currentLanguage rangeOfString:@"en"].location != NSNotFound;
+    });
+    
+    return isEnglish;
+}
+
 // 言語設定取得（フランス語）
 + (BOOL)isFrenchLanguage
 {
@@ -268,6 +329,21 @@ static CGFloat const SCR_HEIGHT_5_5INCH = 736.0;
     });
     
     return isFrench;
+}
+
+// 言語設定取得（イタリア語）
++ (BOOL)isItalianLanguage
+{
+    static BOOL isItalian;
+    static dispatch_once_t onceToken;
+    dispatch_once(&onceToken, ^{
+        NSArray *languages = [NSLocale preferredLanguages];
+        NSString *currentLanguage = [languages objectAtIndex:0];
+        isItalian = [currentLanguage compare:@"it"] == NSOrderedSame ||
+        [currentLanguage rangeOfString:@"it"].location != NSNotFound;
+    });
+    
+    return isItalian;
 }
 
 // 言語設定取得（ロシア語）
@@ -285,19 +361,36 @@ static CGFloat const SCR_HEIGHT_5_5INCH = 736.0;
     return isRussian;
 }
 
-// 言語設定取得（中国語）
-+ (BOOL)isChineseLanguage
+// 言語設定取得（簡体中国語）
++ (BOOL)isSimplifiedChineseLanguage
 {
-    static BOOL isChinese;
+    static BOOL isSimplifiedChinese;
     static dispatch_once_t onceToken;
     dispatch_once(&onceToken, ^{
         NSArray *languages = [NSLocale preferredLanguages];
         NSString *currentLanguage = [languages objectAtIndex:0];
-        isChinese = ([currentLanguage compare:@"zh-Hans"] == NSOrderedSame || [currentLanguage compare:@"zh-Hant"] == NSOrderedSame) ||
-        ([currentLanguage rangeOfString:@"zh-Hans"].location != NSNotFound || [currentLanguage rangeOfString:@"zh-Hans"].location != NSNotFound);
+        isSimplifiedChinese = [currentLanguage compare:@"zh-Hans"] == NSOrderedSame ||
+        [currentLanguage rangeOfString:@"zh-Hans"].location != NSNotFound;
     });
     
-    return isChinese;
+    return isSimplifiedChinese;
+}
+
+// 言語設定取得（繁体中国語）
++ (BOOL)isTraditionalChineseLanguage
+{
+    static BOOL isTraditionalChinese;
+    static dispatch_once_t onceToken;
+    dispatch_once(&onceToken, ^{
+        NSArray *languages = [NSLocale preferredLanguages];
+        NSString *currentLanguage = [languages objectAtIndex:0];
+        isTraditionalChinese =
+        ([currentLanguage compare:@"zh-Hant"] == NSOrderedSame || [currentLanguage rangeOfString:@"zh-Hant"].location != NSNotFound) ||
+        ([currentLanguage compare:@"zh-TW"] == NSOrderedSame || [currentLanguage rangeOfString:@"zh-TW"].location != NSNotFound) ||
+        ([currentLanguage compare:@"zh-HK"] == NSOrderedSame || [currentLanguage rangeOfString:@"zh-HK"].location != NSNotFound);
+    });
+    
+    return isTraditionalChinese;
 }
 
 // 言語設定取得（韓国語）
@@ -333,8 +426,8 @@ static CGFloat const SCR_HEIGHT_5_5INCH = 736.0;
 // 言語設定取得（マルチバイト言語か否か）
 + (BOOL)isMultiByteLanguage
 {
-    return [DCDevice isJapaneseLanguage] || [DCDevice isRussianLanguage] || [DCDevice isChineseLanguage] ||
-    [DCDevice isKoreanLanguage] || [DCDevice isThaiLanguage];
+    return [DCDevice isJapaneseLanguage] || [DCDevice isRussianLanguage] || [DCDevice isTraditionalChineseLanguage] ||
+    [DCDevice isSimplifiedChineseLanguage] || [DCDevice isKoreanLanguage] || [DCDevice isThaiLanguage];
 }
 
 @end

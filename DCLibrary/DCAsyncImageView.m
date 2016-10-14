@@ -36,7 +36,8 @@
                                         delegateQueue:[NSOperationQueue mainQueue]];
     
     NSURLRequest *request = [NSURLRequest requestWithURL:[NSURL URLWithString:url]
-                                             cachePolicy:NSURLRequestUseProtocolCachePolicy
+                             //cachePolicy:NSURLRequestUseProtocolCachePolicy
+                                             cachePolicy:NSURLRequestReturnCacheDataElseLoad
                                          timeoutInterval:30.0];
     
     NSURLSessionDataTask *dataTask = [_session dataTaskWithRequest:request];
@@ -73,7 +74,6 @@ didReceiveResponse:(NSURLResponse *)response
 {
     //NSLog(@"サーバからデータを受け取った時の処理");
     
-    //_responseData = [NSMutableData data];
     [_responseData appendData:data];
 }
 
@@ -124,21 +124,21 @@ didReceiveResponse:(NSURLResponse *)response
     _indicator = [[UIActivityIndicatorView alloc] init];
     
     switch (indicatorType) {
-        case AI_GRAY:
+        case DC_AIV_AI_GRAY:
             _indicator.activityIndicatorViewStyle = UIActivityIndicatorViewStyleGray;
             
             break;
-        case AI_WHITE_SMALL:
+        case DC_AIV_AI_WHITE_SMALL:
             _indicator.activityIndicatorViewStyle = UIActivityIndicatorViewStyleWhite;
             
             break;
-        case AI_WHITE_LARGE:
+        case DC_AIV_AI_WHITE_LARGE:
             _indicator.activityIndicatorViewStyle = UIActivityIndicatorViewStyleWhiteLarge;
             
             break;
     }
     
-    _indicator.frame = indicatorType == AI_WHITE_LARGE ? DC_AIV_AI_LARGE_RECT : DC_AIV_AI_SMALL_RECT;
+    _indicator.frame = indicatorType == DC_AIV_AI_WHITE_LARGE ? DC_AIV_AI_LARGE_RECT : DC_AIV_AI_SMALL_RECT;
     _indicator.center = self.center;
     _indicator.hidesWhenStopped = YES;
     [_indicator startAnimating];

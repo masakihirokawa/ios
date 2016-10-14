@@ -13,6 +13,8 @@ static UIActivityIndicatorView *indicator_;
 static UIView                  *overlay_;
 static BOOL                    showOverlay_;
 
+#pragma mark -
+
 // アニメーション開始
 + (void)start:(id)view center:(CGPoint)center styleId:(NSInteger)styleId hidesWhenStopped:(BOOL)hidesWhenStopped showOverlay:(BOOL)showOverlay
 {
@@ -21,22 +23,25 @@ static BOOL                    showOverlay_;
     
     // スタイルを設定
     switch (styleId) {
-        case GRAY:
+        case DC_AI_GRAY:
             DCActivityIndicator.indicator.activityIndicatorViewStyle = UIActivityIndicatorViewStyleGray;
+            
             break;
-        case WHITE:
+        case DC_AI_WHITE:
             DCActivityIndicator.indicator.activityIndicatorViewStyle = UIActivityIndicatorViewStyleWhite;
+            
             break;
-        case WHITE_LARGE:
+        case DC_AI_WHITE_LARGE:
             DCActivityIndicator.indicator.activityIndicatorViewStyle = UIActivityIndicatorViewStyleWhiteLarge;
+            
             break;
     }
     
     // スタイルに応じて寸法変更
     if (DCActivityIndicator.indicator.activityIndicatorViewStyle == UIActivityIndicatorViewStyleWhiteLarge) {
-        DCActivityIndicator.indicator.frame = CGRectMake(0, 0, INDICATOR_LARGE_SIZE, INDICATOR_LARGE_SIZE);
+        DCActivityIndicator.indicator.frame = DC_AI_LARGE_RECT;
     } else {
-        DCActivityIndicator.indicator.frame = CGRectMake(0, 0, INDICATOR_SMALL_SIZE, INDICATOR_SMALL_SIZE);
+        DCActivityIndicator.indicator.frame = DC_AI_SMALL_RECT;
     }
     
     // 座標をセンターに指定
@@ -53,9 +58,9 @@ static BOOL                    showOverlay_;
     
     // オーバーレイ表示
     if (showOverlay_) {
-        CGSize screenSize = [[UIScreen mainScreen] bounds].size;
-        overlay_ = [[UIView alloc] initWithFrame:CGRectMake(0, 0, screenSize.width, screenSize.height)];
-        overlay_.backgroundColor = [UIColor colorWithRed:0 green:0 blue:0 alpha:0.5f];
+        CGSize const screenSize = [[UIScreen mainScreen] bounds].size;
+        overlay_ = [[UIView alloc] initWithFrame:CGRectMake(0.0, 0.0, screenSize.width, screenSize.height)];
+        overlay_.backgroundColor = [UIColor colorWithRed:0.0 green:0.0 blue:0.0 alpha:0.5f];
         [view addSubview:overlay_];
     }
     

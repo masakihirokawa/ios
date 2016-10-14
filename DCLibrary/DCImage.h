@@ -12,7 +12,6 @@
 #pragma mark - public method
 + (UIImageView *)imageView:(NSString *)imageName imageExt:(NSString *)ext rect:(CGRect)rect;
 + (UIImage *)imageWithColor:(UIColor *)color;
-+ (UIImage *)mask:(UIImage *)image withMask:(UIImage *)maskImage;
 + (UIImage *)resize:(UIImage *)image rect:(CGRect)rect;
 + (NSString *)getImgFileName:(NSString *)src;
 + (UIImage *)getUIImageFromResources:(NSString*)fileName ext:(NSString*)ext;

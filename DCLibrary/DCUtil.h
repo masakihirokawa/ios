@@ -11,7 +11,6 @@
 
 #pragma mark - public method
 + (void)setIdleTimerDisabled:(BOOL)isDisabled;
-+ (void)socialShare:(id)delegate shareText:(NSString *)shareText shareImage:(UIImage *)shareImage;
 + (void)copyToPasteBoard:(NSString *)copyText alertTitle:(NSString *)alertTitle alertMessage:(NSString *)alertMessage delegate:(id)delegate;
 + (void)openUrl:(NSString *)url;
 + (void)openReviewUrl:(NSString *)appStoreId;

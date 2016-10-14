@@ -9,27 +9,12 @@
 
 @implementation DCUtil
 
-#pragma mark - Idle Timer
+#pragma mark - Idle timer
 
 // 自動スリープ禁止の切り替え
 + (void)setIdleTimerDisabled:(BOOL)isDisabled
 {
     [[UIApplication sharedApplication] setIdleTimerDisabled:isDisabled];
-}
-
-#pragma mark - Social Share
-
-// シェアする
-+ (void)socialShare:(id)delegate shareText:(NSString *)shareText shareImage:(UIImage *)shareImage
-{
-    if([UIActivityViewController class]) {
-        NSString *textToShare = shareText;
-        UIImage *imageToShare = shareImage;
-        NSArray *itemsToShare = [[NSArray alloc] initWithObjects:textToShare, imageToShare, nil];
-        UIActivityViewController *activityVC = [[UIActivityViewController alloc] initWithActivityItems:itemsToShare applicationActivities:nil];
-        activityVC.excludedActivityTypes = [[NSArray alloc] initWithObjects: UIActivityTypePrint, UIActivityTypeCopyToPasteboard, UIActivityTypeAssignToContact, UIActivityTypeSaveToCameraRoll, UIActivityTypeMessage, UIActivityTypePostToWeibo, nil];
-        [delegate presentViewController:activityVC animated:YES completion:nil];
-    }
 }
 
 #pragma mark - Copy to Paste Board
@@ -42,14 +27,14 @@
     [board setValue:copyText forPasteboardType:@"public.utf8-plain-text"];
     
     // コピー完了アラート表示
-    if ([self isIOS8]) {
+    if ([self overIOS8]) {
         [DCUtil showAlertController:alertTitle message:alertMessage cancelButtonTitle:nil otherButtonTitles:nil delegate:delegate];
     } else {
         [DCUtil showAlert:alertTitle message:alertMessage cancelButtonTitle:nil otherButtonTitles:nil];
     }
 }
 
-#pragma mark - Open Url
+#pragma mark - Open URL
 
 // URLを開く
 + (void)openUrl:(NSString *)url
@@ -63,7 +48,7 @@
 + (void)openReviewUrl:(NSString *)appStoreId
 {
     NSString *reviewUrl;
-    if ([DCUtil isIOS7] || [DCUtil isIOS8]) {
+    if ([DCUtil overIOS7]) {
         reviewUrl = [NSString stringWithFormat:@"itms-apps://itunes.apple.com/app/id%@", appStoreId];
     } else {
         reviewUrl = [NSString stringWithFormat:@"itms-apps://itunes.apple.com/WebObjects/MZStore.woa/wa/viewContentsUserReviews?id=%@&onlyLatestVersion=true&pageNumber=0&sortOrdering=1&type=Purple+Software", appStoreId];
@@ -77,32 +62,32 @@
 // アラート表示
 + (void)showAlert:(NSString *)title message:(NSString *)message cancelButtonTitle:(NSString *)cancelButtonTitle otherButtonTitles:(NSString *)otherButtonTitles
 {
-    if (otherButtonTitles == nil) otherButtonTitles = @"OK";
-    UIAlertView *alert = [[UIAlertView alloc] initWithTitle:title
-                                                    message:message
-                                                   delegate:self
-                                          cancelButtonTitle:cancelButtonTitle
-                                          otherButtonTitles:otherButtonTitles, nil];
+    if (otherButtonTitles == nil) {
+        otherButtonTitles = NSLocalizedString(@"OK", nil);
+    }
+    
+    UIAlertView *alert = [[UIAlertView alloc] initWithTitle:title message:message delegate:self
+                                          cancelButtonTitle:cancelButtonTitle otherButtonTitles:otherButtonTitles, nil];
     [alert show];
 }
 
-// アラート表示（iOS 8）
+// アラート表示（iOS 8以降）
 + (void)showAlertController:(NSString *)title message:(NSString *)message cancelButtonTitle:(NSString *)cancelButtonTitle otherButtonTitles:(NSString *)otherButtonTitles delegate:(id)delegate
 {
-    UIAlertController *alertController = [UIAlertController alertControllerWithTitle:title
-                                                                             message:message
+    UIAlertController *alertController = [UIAlertController alertControllerWithTitle:title message:message
                                                                       preferredStyle:UIAlertControllerStyleAlert];
     
     if (otherButtonTitles == nil) {
-        otherButtonTitles = @"OK";
+        otherButtonTitles = NSLocalizedString(@"OK", nil);
     }
+    
     [alertController addAction:[UIAlertAction actionWithTitle:otherButtonTitles
                                                         style:UIAlertActionStyleDefault handler:nil]];
     
     [delegate presentViewController:alertController animated:YES completion:nil];
 }
 
-#pragma mark - Trim Strings
+#pragma mark - Trim strings
 
 // 前後にある半角スペースのトリミング
 + (NSString *)trimWhitespaceCharacterSet:(NSString *)string
@@ -138,9 +123,11 @@
 + (NSString *)trimFirstCharacterSet:(NSString *)string searchString:(NSString *)searchString
 {
     if ([string hasPrefix:searchString]) {
-        NSString *newString = [string substringWithRange:NSMakeRange(searchString.length, string.length - searchString.length)];
+        NSString *const newString = [string substringWithRange:NSMakeRange(searchString.length, string.length - searchString.length)];
+        
         return newString;
     }
+    
     return string;
 }
 
@@ -149,13 +136,13 @@
 // テキストを指定したバイト数に省略し省略記号を付与
 + (NSString *)omissionText:(NSString *)string maxBytes:(NSUInteger)maxBytes
 {
-    const NSUInteger ELLIPSIS_BYTES = 1;
-    NSString  *text = string;
-    NSInteger textBytes = [text length];
+    NSUInteger const ELLIPSIS_BYTES = 1;
+    NSInteger  const textBytes      = [string length];
     if (textBytes > maxBytes) {
-        text = [NSString stringWithFormat:@"%@%@", [text substringToIndex:maxBytes - ELLIPSIS_BYTES], @"..."];
+        return [NSString stringWithFormat:@"%@%@", [string substringToIndex:maxBytes - ELLIPSIS_BYTES], @"..."];
     }
-    return text;
+    
+    return string;
 }
 
 #pragma mark - Server response
@@ -277,32 +264,35 @@
     return loopList;
 }
 
-#pragma mark - Get Str from info.plist
+#pragma mark - Get strings from info.plist
 
 // info.plistから文字列取得
 + (NSString *)getStrFromPlist:(NSString *)key
 {
-    NSString *path = [[NSBundle mainBundle] pathForResource:@"string" ofType:@"plist"];
-    NSDictionary *plist = [NSDictionary dictionaryWithContentsOfFile:path];
-    NSString *ret = [plist objectForKey:key];
+    NSString     *const path  = [[NSBundle mainBundle] pathForResource:@"string" ofType:@"plist"];
+    NSDictionary *const plist = [NSDictionary dictionaryWithContentsOfFile:path];
+    NSString     *const ret   = [plist objectForKey:key];
+    
     return [ret stringByReplacingOccurrencesOfString:@"\\n" withString:@"\n"];
 }
 
 #pragma mark - private method
 
-// iOS7以降であるか
-+ (BOOL)isIOS7
+// iOS 7以降であるか
++ (BOOL)overIOS7
 {
-    NSString *osversion = [UIDevice currentDevice].systemVersion;
-    NSArray  *a = [osversion componentsSeparatedByString:@"."];
+    NSString *const osversion = [UIDevice currentDevice].systemVersion;
+    NSArray  *const a = [osversion componentsSeparatedByString:@"."];
+    
     return ([(NSString *)[a objectAtIndex:0] intValue] >= 7);
 }
 
-// iOS8以降であるか
-+ (BOOL)isIOS8
+// iOS 8以降であるか
++ (BOOL)overIOS8
 {
-    NSString *osversion = [UIDevice currentDevice].systemVersion;
-    NSArray  *a = [osversion componentsSeparatedByString:@"."];
+    NSString *const osversion = [UIDevice currentDevice].systemVersion;
+    NSArray  *const a = [osversion componentsSeparatedByString:@"."];
+    
     return ([(NSString *)[a objectAtIndex:0] intValue] >= 8);
 }
 

@@ -11,12 +11,13 @@
 
 static NSTimer *timer;
 
+#pragma mark -
+
 // タイマー定義
 + (void)setTimer:(CGFloat)timeInterval delegate:(id)delegate selector:(SEL)selector userInfo:(NSDictionary *)userInfo
 {
     timer = [NSTimer scheduledTimerWithTimeInterval:timeInterval
-                                             target:delegate selector:selector userInfo:userInfo
-                                            repeats:YES];
+                                             target:delegate selector:selector userInfo:userInfo repeats:YES];
 }
 
 // タイマー削除
@@ -31,8 +32,7 @@ static NSTimer *timer;
 + (void)setDelayTimer:(CGFloat)timeInterval delegate:(id)delegate selector:(SEL)selector userInfo:(NSDictionary *)userInfo
 {
     timer = [NSTimer scheduledTimerWithTimeInterval:timeInterval
-                                             target:delegate selector:selector userInfo:userInfo
-                                            repeats:NO];
+                                             target:delegate selector:selector userInfo:userInfo repeats:NO];
 }
 
 // タイマー取得

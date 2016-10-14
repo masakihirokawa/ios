@@ -9,6 +9,8 @@
 
 @implementation DCAnimationLite
 
+#pragma mark -
+
 // フェードアニメーション
 + (void)fade:(UIView *)imageView duration:(float)duration delay:(NSTimeInterval)delay isFadeIn:(BOOL)isFadeIn
 {
