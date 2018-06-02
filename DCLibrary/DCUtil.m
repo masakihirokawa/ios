@@ -27,7 +27,7 @@
     [board setValue:copyText forPasteboardType:@"public.utf8-plain-text"];
     
     // コピー完了アラート表示
-    if ([self overIOS8]) {
+    if (@available(iOS 8, *)) {
         [DCUtil showAlertController:alertTitle message:alertMessage cancelButtonTitle:nil otherButtonTitles:nil delegate:delegate];
     } else {
         [DCUtil showAlert:alertTitle message:alertMessage cancelButtonTitle:nil otherButtonTitles:nil];
@@ -48,13 +48,27 @@
 + (void)openReviewUrl:(NSString *)appStoreId
 {
     NSString *reviewUrl;
-    if ([DCUtil overIOS7]) {
-        reviewUrl = [NSString stringWithFormat:@"itms-apps://itunes.apple.com/app/id%@", appStoreId];
+    if (@available(iOS 8, *)) {
+        reviewUrl = [NSString stringWithFormat:@"itms-apps://itunes.apple.com/app/id%@?mt=8&action=write-review", appStoreId];
+    } else if (@available(iOS 7, *)) {
+        reviewUrl = [NSString stringWithFormat:@"itms-apps://itunes.apple.com/app/id%@?mt=8", appStoreId];
     } else {
         reviewUrl = [NSString stringWithFormat:@"itms-apps://itunes.apple.com/WebObjects/MZStore.woa/wa/viewContentsUserReviews?id=%@&onlyLatestVersion=true&pageNumber=0&sortOrdering=1&type=Purple+Software", appStoreId];
     }
     
     [DCUtil openUrl:reviewUrl];
+}
+
+// アプリ内レビューが使用可能か取得
++ (BOOL)availableStoreReviewController
+{
+    if (@available(iOS 10.3, *)) {
+        if ([SKStoreReviewController class]) {
+            return YES;
+        }
+    }
+    
+    return NO;
 }
 
 #pragma mark - Show Alert
@@ -264,6 +278,34 @@
     return loopList;
 }
 
+#pragma mark - Colors
+
+// 色をRGBカラーコードから変換して取得
++ (UIColor *)colorWithRedCode:(int)red green:(int)green blue:(int)blue alpha:(CGFloat)alpha
+{
+    CGFloat const redCode   = [DCUtil colorCode:red];
+    CGFloat const greenCode = [DCUtil colorCode:green];
+    CGFloat const blueCode  = [DCUtil colorCode:blue];
+    
+    return [UIColor colorWithRed:redCode green:greenCode blue:blueCode alpha:alpha];
+}
+
+// RGBカラーコード取得
++ (CGFloat)colorCode:(int)color
+{
+    int const rgbMax = 255;
+    
+    if (!color) {
+        return 0.0;
+    }
+    
+    if (color > rgbMax) {
+        return 1.0;
+    }
+    
+    return [@(color) floatValue] / rgbMax;
+}
+
 #pragma mark - Get strings from info.plist
 
 // info.plistから文字列取得
@@ -276,24 +318,39 @@
     return [ret stringByReplacingOccurrencesOfString:@"\\n" withString:@"\n"];
 }
 
-#pragma mark - private method
+#pragma mark - Number
 
-// iOS 7以降であるか
-+ (BOOL)overIOS7
+// 桁数の取得
++ (int)digits:(int)value
 {
-    NSString *const osversion = [UIDevice currentDevice].systemVersion;
-    NSArray  *const a = [osversion componentsSeparatedByString:@"."];
+    if (!value) {
+        return 1;
+    }
     
-    return ([(NSString *)[a objectAtIndex:0] intValue] >= 7);
+    return log10([@(value) doubleValue]) + 1;
 }
 
-// iOS 8以降であるか
-+ (BOOL)overIOS8
+#pragma mark - Local Authentication
+
+// 顔認証・指紋認証が使用できるか取得
++ (BOOL)availableLocalAuthentication
 {
-    NSString *const osversion = [UIDevice currentDevice].systemVersion;
-    NSArray  *const a = [osversion componentsSeparatedByString:@"."];
+    LAContext *context = [[LAContext alloc] init];
     
-    return ([(NSString *)[a objectAtIndex:0] intValue] >= 8);
+    return [context canEvaluatePolicy:LAPolicyDeviceOwnerAuthenticationWithBiometrics error:nil];
+}
+
+// 顔認証に対応しているか取得
++ (BOOL)availableFaceId
+{
+     LAContext *context = [[LAContext alloc] init];
+     if (@available(iOS 11, *)) {
+         if ([context canEvaluatePolicy:LAPolicyDeviceOwnerAuthenticationWithBiometrics error:nil]) {
+             return context.biometryType == LABiometryTypeFaceID;
+         }
+     }
+    
+    return NO;
 }
 
 @end

@@ -59,6 +59,69 @@
     return image;
 }
 
+#pragma mark - Blur effect
+
+// ぼかし効果付きの背景取得
++ (UIVisualEffectView *)blurEffectView:(CGRect)frame styleId:(NSUInteger)styleId
+{
+    UIBlurEffect *blurEffect;
+    switch (styleId) {
+        case BLUR_EFFECT_REGULAR:
+            if (@available(iOS 10.3, *)) {
+                blurEffect = [UIBlurEffect effectWithStyle:UIBlurEffectStyleRegular];
+            } else {
+                blurEffect = [UIBlurEffect effectWithStyle:UIBlurEffectStyleLight];
+            }
+            
+            break;
+            
+        case BLUR_EFFECT_PROMINENT:
+            if (@available(iOS 10.3, *)) {
+                blurEffect = [UIBlurEffect effectWithStyle:UIBlurEffectStyleProminent];
+            } else {
+                blurEffect = [UIBlurEffect effectWithStyle:UIBlurEffectStyleExtraLight];
+            }
+            
+            break;
+            
+        case BLUR_EFFECT_EXTRA_LIGHT:
+            blurEffect = [UIBlurEffect effectWithStyle:UIBlurEffectStyleExtraLight];
+            
+            break;
+            
+        case BLUR_EFFECT_LIGHT:
+            blurEffect = [UIBlurEffect effectWithStyle:UIBlurEffectStyleLight];
+            
+            break;
+            
+        case BLUR_EFFECT_DARK:
+            blurEffect = [UIBlurEffect effectWithStyle:UIBlurEffectStyleDark];
+            
+            break;
+            
+        default:
+            if (@available(iOS 10.3, *)) {
+                blurEffect = [UIBlurEffect effectWithStyle:UIBlurEffectStyleRegular];
+            } else {
+                blurEffect = [UIBlurEffect effectWithStyle:UIBlurEffectStyleLight];
+            }
+            
+            break;
+    }
+    
+    UIVisualEffectView *blurEffectView = [[UIVisualEffectView alloc] initWithEffect:blurEffect];
+    blurEffectView.frame = frame;
+    blurEffectView.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
+    
+    return blurEffectView;
+}
+
+// ぼかし効果が使用可能か取得
++ (BOOL)availableBlurEffects
+{
+    return !UIAccessibilityIsReduceTransparencyEnabled();
+}
+
 #pragma mark - getter method
 
 // 画像ファイル名取得

@@ -6,6 +6,9 @@
 //
 
 #import <Foundation/Foundation.h>
+#import <StoreKit/StoreKit.h>
+
+@import LocalAuthentication;
 
 @interface DCUtil : NSObject
 
@@ -14,6 +17,7 @@
 + (void)copyToPasteBoard:(NSString *)copyText alertTitle:(NSString *)alertTitle alertMessage:(NSString *)alertMessage delegate:(id)delegate;
 + (void)openUrl:(NSString *)url;
 + (void)openReviewUrl:(NSString *)appStoreId;
++ (BOOL)availableStoreReviewController;
 + (void)showAlert:(NSString *)title message:(NSString *)message cancelButtonTitle:(NSString *)cancelButtonTitle otherButtonTitles:(NSString *)otherButtonTitles;
 + (void)showAlertController:(NSString *)title message:(NSString *)message cancelButtonTitle:(NSString *)cancelButtonTitle otherButtonTitles:(NSString *)otherButtonTitles delegate:(id)delegate;
 + (NSString *)trimWhitespaceCharacterSet:(NSString *)string;
@@ -30,6 +34,10 @@
 + (NSArray *)arrayByRange:(int)min max:(int)max;
 + (NSArray *)arrayCutout:(NSArray *)array start:(NSUInteger)start length:(NSUInteger)length;
 + (NSArray *)loopArray:(NSArray *)list index:(int)index;
++ (UIColor *)colorWithRedCode:(int)red green:(int)green blue:(int)blue alpha:(CGFloat)alpha;
 + (NSString *)getStrFromPlist:(NSString *)key;
++ (int)digits:(int)value;
++ (BOOL)availableLocalAuthentication;
++ (BOOL)availableFaceId;
 
 @end
