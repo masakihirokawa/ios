@@ -31,10 +31,18 @@ static id sharedInstance = nil;
 #pragma mark - public method
 
 // バナー表示
-- (void)showAdBanner:(UIViewController *)viewController yPos:(CGFloat)yPos
+- (void)showAdBanner:(UIViewController *)viewController yPos:(CGFloat)yPos useSmartBanner:(BOOL)useSmartBanner
 {
     self.currentRootViewController = viewController;
-    [self showGADBanner:viewController.view yPos:yPos];
+    
+    self.useSmartBanner = useSmartBanner;
+    if (!self.useSmartBanner) {
+        CGFloat const screenWidth = [[UIScreen mainScreen] bounds].size.width;
+        bannerX = roundf((screenWidth / 2) - (kGADAdSizeBanner.size.width / 2));
+    }
+    bannerY = yPos;
+    
+    [self showAdMobBanner:viewController.view];
 }
 
 // バナー削除
@@ -64,27 +72,32 @@ static id sharedInstance = nil;
 
 #pragma mark - AdMob Banner
 
-- (void)showGADBanner:(UIView *)targetView yPos:(CGFloat)yPos
+- (void)showAdMobBanner:(UIView *)targetView
 {
     if (!self.gadView) {
-        self.gadView = [[GADBannerView alloc] initWithAdSize:GADAdSizeFullWidthPortraitWithHeight(GAD_SIZE_320x50.height)];
+        if (self.useSmartBanner) {
+            self.gadView = [[GADBannerView alloc] initWithAdSize:kGADAdSizeSmartBannerPortrait];
+            //self.gadView = [[GADBannerView alloc] initWithAdSize:GADAdSizeFullWidthPortraitWithHeight(GAD_SIZE_320x50.height)];
+        } else {
+            self.gadView = [[GADBannerView alloc] initWithAdSize:kGADAdSizeBanner];
+        }
         self.gadView.adUnitID = GAD_UNIT_ID;
         self.gadView.delegate = self;
-        [self loadGADBanner:targetView yPos:yPos];
+        [self loadAdMobBanner:targetView];
     }
     
     if (![self.gadView.superview isEqual:targetView]) {
         [self.gadView removeFromSuperview];
-        [self loadGADBanner:targetView yPos:yPos];
+        [self loadAdMobBanner:targetView];
     }
 }
 
-- (void)loadGADBanner:(UIView *)view yPos:(CGFloat)yPos
+- (void)loadAdMobBanner:(UIView *)view
 {
     self.gadView.rootViewController = self.currentRootViewController;
     
     CGRect gadViewFrame = self.gadView.frame;
-    gadViewFrame.origin = CGPointMake(0, yPos);
+    gadViewFrame.origin = CGPointMake(bannerX, bannerY);
     self.gadView.frame = gadViewFrame;
     
     [view addSubview:self.gadView];
@@ -96,10 +109,17 @@ static id sharedInstance = nil;
 - (void)adViewDidReceiveAd:(GADBannerView *)bannerView
 {
     _loaded = YES;
+    
+    isAdMobFailed = !_loaded;
 }
 - (void)adView:(GADBannerView *)bannerView didFailToReceiveAdWithError:(GADRequestError *)error
 {
     _loaded = NO;
+    
+    isAdMobFailed = !_loaded;
+    
+    // バナー再読み込み
+    [self showAdBanner:self.currentRootViewController yPos:bannerY useSmartBanner:self.useSmartBanner];
 }
 
 - (void)adViewWillPresentScreen:(GADBannerView *)bannerView

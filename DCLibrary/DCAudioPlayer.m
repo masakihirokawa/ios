@@ -11,16 +11,24 @@
 
 @synthesize ap_delegate;
 
+CGFloat const VOLUME_SLIDER_WIDTH  = 220;
+CGFloat const VOLUME_SLIDER_HEIGHT = 0;
+CGFloat const MAX_VOLUME           = 1.0;
+CGFloat const MIN_VOLUME           = 0.5f;
+
+#pragma mark -
+
 // 初期化
 - (id)initWithAudio:(NSString *)fileName ext:(NSString *)ext isUseDelegate:(BOOL)isUseDelegate
 {
     if (self = [super init]) {
         // オーディオプレイヤー初期化
-        NSBundle *mainBundle = [NSBundle mainBundle];
-        NSString *filePath = [mainBundle pathForResource:fileName
-                                                  ofType:ext];
-        NSURL *fileUrl = [NSURL fileURLWithPath:filePath];
-        NSError *error = nil;
+        NSBundle *const mainBundle = [NSBundle mainBundle];
+        NSString *const filePath   = [mainBundle pathForResource:fileName ofType:ext];
+        NSURL    *const fileUrl    = [NSURL fileURLWithPath:filePath];
+        
+        NSError  *error = nil;
+        
         AVAudioPlayer *audioPlayer = [[AVAudioPlayer alloc] initWithContentsOfURL:fileUrl error:&error];
 
         // バックグラウンド再生を許可
@@ -28,7 +36,7 @@
         [audioSession setCategory:AVAudioSessionCategoryPlayback error:nil];
         [audioSession setActive:YES error:nil];
         
-        // エラーであれば処理しない
+        // エラーでなければ処理実行
         if (!error) {
             // オーディオプレイヤー保持
             _audioPlayer = audioPlayer;
@@ -42,6 +50,7 @@
             [_audioPlayer prepareToPlay];
         }
     }
+    
     return self;
 }
 
@@ -81,18 +90,16 @@
 // ボリュームコントロールスライダー
 - (UISlider *)volumeControlSlider:(id)delegate point:(CGPoint)point defaultValue:(float)defaultValue selector:(SEL)selector
 {
-    UISlider *audioVolumeSlider = [[UISlider alloc] initWithFrame:CGRectMake(point.x,
-                                                                             point.y,
-                                                                             AUDIO_VOLUME_SLIDER_WIDTH,
-                                                                             AUDIO_VOLUME_SLIDER_HEIGHT)];
-    audioVolumeSlider.minimumValue = AUDIO_MIN_VOLUME;
-    audioVolumeSlider.maximumValue = AUDIO_MAX_VOLUME;
-    if (defaultValue > AUDIO_MAX_VOLUME) defaultValue = AUDIO_MAX_VOLUME;
-    if (defaultValue < AUDIO_MIN_VOLUME) defaultValue = AUDIO_MIN_VOLUME;
+    UISlider *audioVolumeSlider = [[UISlider alloc] initWithFrame:CGRectMake(point.x, point.y,
+                                                                             VOLUME_SLIDER_WIDTH, VOLUME_SLIDER_HEIGHT)];
+    audioVolumeSlider.minimumValue = 0.0;
+    audioVolumeSlider.maximumValue = 1.0;
+    if (defaultValue > MAX_VOLUME) defaultValue = MAX_VOLUME;
+    if (defaultValue < MIN_VOLUME) defaultValue = MIN_VOLUME;
     audioVolumeSlider.value = defaultValue;
-    [audioVolumeSlider addTarget:delegate
-                          action:selector
-                forControlEvents:UIControlEventValueChanged];
+    
+    [audioVolumeSlider addTarget:delegate action:selector forControlEvents:UIControlEventValueChanged];
+    
     return audioVolumeSlider;
 }
 
@@ -108,8 +115,25 @@
 - (void)setCurrentTime:(NSTimeInterval)currentTime
 {
     if (_audioPlayer) {
+        /*
+        if (currentTime >= [self duration]) {
+            currentTime = [self duration] - 0.01f;
+        }
+         */
         _audioPlayer.currentTime = currentTime;
     }
+}
+
+// 現在の再生フレーム取得
+- (NSTimeInterval)currentTime
+{
+    return _audioPlayer.currentTime;
+}
+
+// オーディオの長さ取得
+- (NSTimeInterval)duration
+{
+    return _audioPlayer.duration;
 }
 
 // ループ回数指定
@@ -126,13 +150,25 @@
     return _audioPlayer.playing;
 }
 
-#pragma mark - AVAudioPlayerDelegate
+#pragma mark - delegate method
 
 - (void)audioPlayerDidFinishPlaying:(AVAudioPlayer *)player successfully:(BOOL)successfully
 {
     if (successfully) {
-        // ここでデリゲートメソッドを指定する
-        
+        /*
+        MusicViewController *musicViewController = [[MusicViewController alloc] init];
+        self.ap_delegate = (id)musicViewController;
+        [self.ap_delegate onEndPlaybackEvent];
+         */
+        /*
+        if ([Common sharedManager].isAllPlayMode) {
+            // 次のミュージックを再生
+            [self.ap_delegate playNextMusic];
+        } else {
+            // ミュージック一時停止アイコン削除
+            [self.ap_delegate removeAudioPauseControl];
+        }
+         */
     }
 }
 

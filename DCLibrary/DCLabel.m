@@ -9,6 +9,8 @@
 
 @implementation DCLabel
 
+#pragma mark -
+
 // 通常のラベル取得
 + (UILabel *)planeLabel:(CGRect)rect text:(NSString *)text font:(UIFont *)font textColor:(UIColor *)textColor textAlignment:(NSTextAlignment)textAlignment backgroundColor:(UIColor *)backgroundColor
 {

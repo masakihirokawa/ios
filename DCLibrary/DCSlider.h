@@ -10,7 +10,8 @@
 @interface DCSlider : UISlider
 
 #pragma mark - public method
-+ (UISlider *)planeSlider:(id)delegate rect:(CGRect)rect minVolume:(CGFloat)minVolume maxVolume:(CGFloat)maxVolume defaultVolume:(CGFloat)defaultVolume continuous:(BOOL)continuous tag:(NSUInteger)tag selector:(SEL)selector;
-+ (UISlider *)imageSlider:(id)delegate rect:(CGRect)rect minVolume:(CGFloat)minVolume maxVolume:(CGFloat)maxVolume defaultVolume:(CGFloat)defaultVolume continuous:(BOOL)continuous thumbImage:(UIImage *)thumbImage thumbHighlitedImage:(UIImage *)thumbHighlitedImage minImage:(UIImage *)minImage maxImage:(UIImage *)maxImage tag:(NSUInteger)tag selector:(SEL)selector;
++ (UISlider *)planeSlider:(id)delegate rect:(CGRect)rect minValue:(CGFloat)minValue maxValue:(CGFloat)maxValue defaultValue:(CGFloat)defaultValue continuous:(BOOL)continuous tag:(NSUInteger)tag valueChangedEvent:(SEL)valueChangedEvent touchDownEvent:(SEL)touchDownEvent touchUpEvent:(SEL)touchUpEvent;
++ (UISlider *)imageSlider:(id)delegate rect:(CGRect)rect minValue:(CGFloat)minValue maxValue:(CGFloat)maxValue defaultValue:(CGFloat)defaultValue continuous:(BOOL)continuous thumbImage:(UIImage *)thumbImage thumbHighlitedImage:(UIImage *)thumbHighlitedImage minImage:(UIImage *)minImage maxImage:(UIImage *)maxImage tag:(NSUInteger)tag valueChangedEvent:(SEL)valueChangedEvent touchDownEvent:(SEL)touchDownEvent touchUpEvent:(SEL)touchUpEvent;
++ (CGFloat)xPositionFromSliderValue:(UISlider *)slider;
 
 @end

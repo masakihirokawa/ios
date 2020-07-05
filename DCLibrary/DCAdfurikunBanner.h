@@ -1,20 +1,20 @@
 //
-//  DCiAdBanner.h
-//  DoliceGraphicArtsWallpaper
+//  DCAdfurikunBanner.h
 //
-//  Created by Dolice on 2014/06/16.
-//  Copyright (c) 2014年 Masaki Hirokawa. All rights reserved.
+//  Created by Dolice on 2015/09/02.
+//  Copyright © 2015 Masaki Hirokawa. All rights reserved.
 //
 
 #import <Foundation/Foundation.h>
-#import <iAd/iAd.h>
+#import <adfurikunsdk/AdfurikunView.h>
 
-@interface DCiAdBanner : NSObject <ADBannerViewDelegate> {
-    BOOL isiAdFailed;
+@interface DCAdfurikunBanner : NSObject <AdfurikunViewDelegate> {
+    CGFloat bannerY;
+    BOOL    isAdfurikunFailed;
 }
 
 #pragma mark - property
-@property (nonatomic, strong) ADBannerView     *iAdView;
+@property (nonatomic, retain) AdfurikunView    *adfurikunView;
 @property (nonatomic, strong) UIViewController *currentRootViewController;
 @property (nonatomic, assign) BOOL             loaded;
 

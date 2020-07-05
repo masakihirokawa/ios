@@ -9,6 +9,8 @@
 
 @implementation DCAnimationLite
 
+#pragma mark -
+
 // フェードアニメーション
 + (void)fade:(UIView *)imageView duration:(float)duration delay:(NSTimeInterval)delay isFadeIn:(BOOL)isFadeIn
 {
@@ -27,6 +29,18 @@
     [UIView setAnimationDuration:duration];
     [UIView setAnimationDelay:delay];
     [imageView setFrame:rect];
+    [UIView commitAnimations];
+}
+
+// フェード＆スライドアニメーション
++ (void)fadeAndSlide:(UIView *)imageView duration:(float)duration delay:(NSTimeInterval)delay isFadeIn:(BOOL)isFadeIn aimRect:(CGRect)rect
+{
+    [UIView beginAnimations:nil context:NULL];
+    [UIView setAnimationDuration:duration];
+    [UIView setAnimationDelay:delay];
+    [imageView setFrame:rect];
+    imageView.alpha = isFadeIn ? 0.0 : 1.0;
+    imageView.alpha = isFadeIn ? 1.0 : 0.0;
     [UIView commitAnimations];
 }
 

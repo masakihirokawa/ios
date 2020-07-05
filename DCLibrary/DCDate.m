@@ -14,13 +14,13 @@ static UIDatePicker *datePicker;
 #pragma mark - Date Picker
 
 // ピッカー取得
-+ (UIDatePicker *)picker:(id)delegate rect:(CGRect)rect mode:(UIDatePickerMode)mode minuteInterval:(NSUInteger)minuteInterval dateText:(NSString *)dateText dateFormat:(NSString *)dateFormat action:(SEL)action
++ (UIDatePicker *)picker:(id)delegate rect:(CGRect)rect mode:(UIDatePickerMode)mode minuteInterval:(NSUInteger)minuteInterval dateText:(NSString *)dateText dateFormat:(NSString *)dateFormat backgroundColor:(UIColor *)backgroundColor action:(SEL)action
 {
     // ピッカー初期化
     DCDate.datePicker = [[UIDatePicker alloc] initWithFrame:rect];
 
     // 背景色指定
-    DCDate.datePicker.backgroundColor = [UIColor whiteColor];
+    DCDate.datePicker.backgroundColor = backgroundColor;
     
     // 日付の表示モードを変更する
     DCDate.datePicker.datePickerMode = mode;
@@ -157,12 +157,9 @@ static UIDatePicker *datePicker;
     
     // 現在時刻のコンポーネント定義
     NSDateComponents *nowComponents;
-    nowComponents = [[NSCalendar currentCalendar] components:(NSYearCalendarUnit |
-                                                              NSMonthCalendarUnit |
-                                                              NSDayCalendarUnit |
-                                                              NSHourCalendarUnit |
-                                                              NSMinuteCalendarUnit |
-                                                              NSSecondCalendarUnit)
+    nowComponents = [[NSCalendar currentCalendar] components:(NSCalendarUnitYear | NSCalendarUnitMonth |
+                                                              NSCalendarUnitDay | NSCalendarUnitHour |
+                                                              NSCalendarUnitMinute | NSCalendarUnitSecond)
                                                     fromDate:nowDate];
     return nowComponents;
 }
@@ -189,7 +186,7 @@ static UIDatePicker *datePicker;
     NSDate *correctedDate = [referenceDate dateByAddingTimeInterval:timeDiffSeconds];
     
     // カレンダーをグレゴリオ暦で初期化
-    NSCalendar *calendar = [[NSCalendar alloc] initWithCalendarIdentifier:NSGregorianCalendar];
+    NSCalendar *calendar = [[NSCalendar alloc] initWithCalendarIdentifier:NSCalendarIdentifierGregorian];
     
     // 時差を補正した日付からコンポーネント取得
     NSDateComponents *correctedDateComponents = [DCDate dateComponents:calendar fromDate:correctedDate];
@@ -200,9 +197,9 @@ static UIDatePicker *datePicker;
 // コンポーネント取得
 + (NSDateComponents *)dateComponents:(NSCalendar *)calender fromDate:(NSDate *)fromDate
 {
-    NSDateComponents *components = [calender components:(NSYearCalendarUnit | NSWeekCalendarUnit |
-                                                         NSHourCalendarUnit | NSMinuteCalendarUnit|
-                                                         NSSecondCalendarUnit | NSWeekdayCalendarUnit)
+    NSDateComponents *components = [calender components:(NSCalendarUnitYear | NSCalendarUnitWeekOfMonth |
+                                                         NSCalendarUnitHour | NSCalendarUnitMinute |
+                                                         NSCalendarUnitSecond | NSCalendarUnitWeekday)
                                                fromDate:fromDate];
     return components;
 }

@@ -40,13 +40,11 @@ static id sharedInstance = nil;
     
     bannerY = yPos;
     
-    CGFloat const BANNER_WIDTH  = 320;
-    CGFloat const BANNER_HEIGHT = 50;
+    CGFloat const screenWidth = [[UIScreen mainScreen] bounds].size.width;
+    CGFloat const bannerX     = roundf((screenWidth / 2) - (NAD_ADVIEW_SIZE_320x50.width / 2));
     
-    CGFloat screenWidth = [[UIScreen mainScreen] bounds].size.width;
-    CGFloat bannerX     = roundf((screenWidth / 2) - (BANNER_WIDTH / 2));
-    
-    self.nendView = [[NADView alloc] initWithFrame:CGRectMake(bannerX, bannerY, BANNER_WIDTH, BANNER_HEIGHT)];
+    self.nendView = [[NADView alloc] initWithFrame:CGRectMake(bannerX, bannerY,
+                                                              NAD_ADVIEW_SIZE_320x50.width, NAD_ADVIEW_SIZE_320x50.height)];
     self.nendView.isOutputLog = NO;
     self.nendView.nendApiKey = NEND_API_KEY;
     self.nendView.nendSpotID = NEND_SPOT_ID;
