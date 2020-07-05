@@ -26,6 +26,7 @@
 {
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
     if (@available(iOS 10.0, *)) {
         NSString *const tweetText   = [NSString stringWithFormat:@"https://twitter.com/intent/tweet?text=\%@ %@", text, url];
         NSString *const encodedText = [tweetText stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
@@ -41,6 +42,8 @@
         [delegate presentViewController:slc animated:YES completion:nil];
     }
 =======
+=======
+>>>>>>> origin/master
 =======
 >>>>>>> origin/master
     SLComposeViewController *slc = [SLComposeViewController composeViewControllerForServiceType:SLServiceTypeTwitter];
@@ -81,11 +84,16 @@
     if ([UIActivityViewController class]) {
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
         NSString *textToShare  = shareText;
         UIImage  *imageToShare = shareImage;
         
         NSArray *activities   = [[NSArray alloc] init];
         NSArray *itemsToShare = [[NSArray alloc] initWithObjects:textToShare, imageToShare, nil];
+=======
+        NSArray *const activities   = [[NSArray alloc] init];
+        NSArray *const itemsToShare = [[NSArray alloc] initWithObjects:shareText, shareImage, nil];
+>>>>>>> origin/master
 =======
         NSArray *const activities   = [[NSArray alloc] init];
         NSArray *const itemsToShare = [[NSArray alloc] initWithObjects:shareText, shareImage, nil];
