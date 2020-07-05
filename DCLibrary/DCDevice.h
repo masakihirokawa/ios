@@ -17,6 +17,8 @@
 #define SCR_SIZE_4_7INCH CGSizeMake(375.0, 667.0)
 #define SCR_SIZE_5_5INCH CGSizeMake(414.0, 736.0)
 #define SCR_SIZE_5_8INCH CGSizeMake(375.0, 812.0)
+#define SCR_SIZE_6_1INCH CGSizeMake(414.0, 896.0)
+#define SCR_SIZE_6_5INCH CGSizeMake(414.0, 896.0)
 
 @interface DCDevice : NSObject
 
@@ -27,9 +29,11 @@ typedef NS_ENUM(NSUInteger, deviceId) {
     SCR_4_7INCH     = 2,
     SCR_5_5INCH     = 3,
     SCR_5_8INCH     = 4,
-    SCR_IPAD        = 5,
-    SCR_IPAD_RETINA = 6,
-    SCR_UNKNOWN     = 7
+    SCR_6_1INCH     = 5,
+    SCR_6_5INCH     = 6,
+    SCR_IPAD        = 7,
+    SCR_IPAD_RETINA = 8,
+    SCR_UNKNOWN     = 9
 };
 
 #pragma mark - public method
@@ -39,8 +43,10 @@ typedef NS_ENUM(NSUInteger, deviceId) {
 + (BOOL)isiOS9;
 + (BOOL)isiOS10;
 + (BOOL)isiOS11;
++ (BOOL)isiOS12;
++ (BOOL)isiOS13;
++ (BOOL)isiOS14;
 + (CGFloat)iOSVersion;
-
 + (BOOL)is3_5inch;
 + (BOOL)over3_5inch;
 + (BOOL)is4inch;
@@ -51,6 +57,9 @@ typedef NS_ENUM(NSUInteger, deviceId) {
 + (BOOL)over5_5inch;
 + (BOOL)is5_8inch;
 + (BOOL)over5_8inch;
++ (BOOL)is6_1inch;
++ (BOOL)is6_5inch;
++ (BOOL)isiPhoneXSeries;
 + (CGRect)screenRect;
 + (CGSize)screenSize;
 + (CGFloat)screenWidth;
@@ -61,7 +70,6 @@ typedef NS_ENUM(NSUInteger, deviceId) {
 + (BOOL)isiPad;
 + (BOOL)isiPadRetina;
 + (NSUInteger)screenSizeId;
-
 + (BOOL)isJapaneseLanguage;
 + (BOOL)isEnglishLanguage;
 + (BOOL)isFrenchLanguage;

@@ -27,11 +27,7 @@
     [board setValue:copyText forPasteboardType:@"public.utf8-plain-text"];
     
     // コピー完了アラート表示
-    if (@available(iOS 8, *)) {
-        [DCUtil showAlertController:alertTitle message:alertMessage cancelButtonTitle:nil otherButtonTitles:nil delegate:delegate];
-    } else {
-        [DCUtil showAlert:alertTitle message:alertMessage cancelButtonTitle:nil otherButtonTitles:nil];
-    }
+    [DCUtil showAlertController:alertTitle message:alertMessage cancelButtonTitle:nil otherButtonTitles:nil delegate:delegate];
 }
 
 #pragma mark - Open URL
@@ -39,7 +35,7 @@
 // URLを開く
 + (void)openUrl:(NSString *)url
 {
-    [[UIApplication sharedApplication] openURL:[NSURL URLWithString:url]];
+    [[UIApplication sharedApplication] openURL:[NSURL URLWithString:url] options:@{} completionHandler:nil];
 }
 
 #pragma mark - Open Review URL
@@ -74,18 +70,6 @@
 #pragma mark - Show Alert
 
 // アラート表示
-+ (void)showAlert:(NSString *)title message:(NSString *)message cancelButtonTitle:(NSString *)cancelButtonTitle otherButtonTitles:(NSString *)otherButtonTitles
-{
-    if (otherButtonTitles == nil) {
-        otherButtonTitles = NSLocalizedString(@"OK", nil);
-    }
-    
-    UIAlertView *alert = [[UIAlertView alloc] initWithTitle:title message:message delegate:self
-                                          cancelButtonTitle:cancelButtonTitle otherButtonTitles:otherButtonTitles, nil];
-    [alert show];
-}
-
-// アラート表示（iOS 8以降）
 + (void)showAlertController:(NSString *)title message:(NSString *)message cancelButtonTitle:(NSString *)cancelButtonTitle otherButtonTitles:(NSString *)otherButtonTitles delegate:(id)delegate
 {
     UIAlertController *alertController = [UIAlertController alertControllerWithTitle:title message:message
@@ -328,6 +312,20 @@
     }
     
     return log10([@(value) doubleValue]) + 1;
+}
+
+#pragma mark - Encode / Decode
+
+// 文字列をエンコードして取得
++ (NSString *)encodedString:(NSString *)text
+{
+    return [text stringByAddingPercentEncodingWithAllowedCharacters:[NSCharacterSet alphanumericCharacterSet]];
+}
+
+// 文字列をデコードして取得
++ (NSString *)decodedString:(NSString *)text
+{
+    return [text stringByRemovingPercentEncoding];
 }
 
 #pragma mark - Local Authentication

@@ -15,5 +15,6 @@
 + (NSInteger)probability:(int)specify;
 + (NSInteger)range:(int)min max:(int)max;
 + (NSInteger)exact:(int)min max:(int)max exceptId:(int)exceptId;
++ (NSString *)randomStringWithLength:(int)len;
 
 @end

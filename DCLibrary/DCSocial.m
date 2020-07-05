@@ -9,8 +9,6 @@
 
 @implementation DCSocial
 
-#pragma mark -
-
 // Facebookへ投稿
 + (void)postToFacebook:(id)delegate text:(NSString *)text imageName:(NSString *)imageName url:(NSString *)url
 {
@@ -24,9 +22,6 @@
 // Twitterへ投稿
 + (void)postToTwitter:(id)delegate text:(NSString *)text imageName:(NSString *)imageName url:(NSString *)url
 {
-<<<<<<< HEAD
-<<<<<<< HEAD
-<<<<<<< HEAD
     if (@available(iOS 10.0, *)) {
         NSString *const tweetText   = [NSString stringWithFormat:@"https://twitter.com/intent/tweet?text=\%@ %@", text, url];
         NSString *const encodedText = [tweetText stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
@@ -41,17 +36,6 @@
         [slc addURL:[NSURL URLWithString:url]];
         [delegate presentViewController:slc animated:YES completion:nil];
     }
-=======
-=======
->>>>>>> origin/master
-=======
->>>>>>> origin/master
-    SLComposeViewController *slc = [SLComposeViewController composeViewControllerForServiceType:SLServiceTypeTwitter];
-    [slc setInitialText:text];
-    [slc addImage:[UIImage imageNamed:imageName]];
-    [slc addURL:[NSURL URLWithString:url]];
-    [delegate presentViewController:slc animated:YES completion:nil];
->>>>>>> origin/master
 }
 
 // LINEへイメージ投稿
@@ -82,26 +66,11 @@
 + (void)socialShare:(id)delegate shareText:(NSString *)shareText shareImage:(UIImage *)shareImage
 {
     if ([UIActivityViewController class]) {
-<<<<<<< HEAD
-<<<<<<< HEAD
-<<<<<<< HEAD
         NSString *textToShare  = shareText;
         UIImage  *imageToShare = shareImage;
         
         NSArray *activities   = [[NSArray alloc] init];
         NSArray *itemsToShare = [[NSArray alloc] initWithObjects:textToShare, imageToShare, nil];
-=======
-        NSArray *const activities   = [[NSArray alloc] init];
-        NSArray *const itemsToShare = [[NSArray alloc] initWithObjects:shareText, shareImage, nil];
->>>>>>> origin/master
-=======
-        NSArray *const activities   = [[NSArray alloc] init];
-        NSArray *const itemsToShare = [[NSArray alloc] initWithObjects:shareText, shareImage, nil];
->>>>>>> origin/master
-=======
-        NSArray *const activities   = [[NSArray alloc] init];
-        NSArray *const itemsToShare = [[NSArray alloc] initWithObjects:shareText, shareImage, nil];
->>>>>>> origin/master
         
         UIActivityViewController *activityVC = [[UIActivityViewController alloc] initWithActivityItems:itemsToShare
                                                                                  applicationActivities:activities];

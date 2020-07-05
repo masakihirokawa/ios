@@ -47,6 +47,24 @@
     return [DCDevice iOSVersion] >= 11;
 }
 
+// iOS 12であるか
++ (BOOL)isiOS12
+{
+    return [DCDevice iOSVersion] >= 12;
+}
+
+// iOS 13であるか
++ (BOOL)isiOS13
+{
+    return [DCDevice iOSVersion] >= 13;
+}
+
+// iOS 14であるか
++ (BOOL)isiOS14
+{
+    return [DCDevice iOSVersion] >= 14;
+}
+
 // iOSのバージョン取得
 + (CGFloat)iOSVersion
 {
@@ -118,6 +136,24 @@
     return (SCR_WIDTH >= SCR_SIZE_5_8INCH.width && SCR_HEIGHT >= SCR_SIZE_5_8INCH.height);
 }
 
+// 6.1インチ端末であるか
++ (BOOL)is6_1inch
+{
+    return (SCR_WIDTH == SCR_SIZE_6_1INCH.width && SCR_HEIGHT == SCR_SIZE_6_1INCH.height) && [DCDevice renderAt2x];
+}
+
+// 6.5インチ端末であるか
++ (BOOL)is6_5inch
+{
+    return (SCR_WIDTH == SCR_SIZE_6_5INCH.width && SCR_HEIGHT == SCR_SIZE_6_5INCH.height) && [DCDevice renderAt3x];
+}
+
+// iPhone Xシリーズの端末であるか
++ (BOOL)isiPhoneXSeries
+{
+    return [DCDevice is5_8inch] || [DCDevice is6_1inch] || [DCDevice is6_5inch];
+}
+
 // スクリーンのレクタングルを取得
 + (CGRect)screenRect
 {
@@ -180,24 +216,32 @@
             CGSize result = [[UIScreen mainScreen] bounds].size;
             CGFloat const scale = [UIScreen mainScreen].scale;
             result = CGSizeMake(result.width * scale, result.height * scale);
-            if (result.height == SCR_SIZE_3_5INCH.height * 2){
+            if (result.height == SCR_SIZE_3_5INCH.height * 2) {
                 return SCR_3_5INCH;
             }
             
-            if (result.height == SCR_SIZE_4INCH.height * 2){
+            if (result.height == SCR_SIZE_4INCH.height * 2) {
                 return SCR_4INCH;
             }
             
-            if (result.height == SCR_SIZE_4_7INCH.height * 2){
+            if (result.height == SCR_SIZE_4_7INCH.height * 2) {
                 return SCR_4_7INCH;
             }
             
-            if (result.height == SCR_SIZE_5_5INCH.height * 2){
+            if (result.height == SCR_SIZE_5_5INCH.height * 2) {
                 return SCR_5_5INCH;
             }
             
-            if (result.height == SCR_SIZE_5_8INCH.height * 2){
+            if (result.height == SCR_SIZE_5_8INCH.height * 2) {
                 return SCR_5_8INCH;
+            }
+            
+            if (result.height == SCR_SIZE_6_1INCH.height * 2 && [DCDevice renderAt2x]) {
+                return SCR_6_1INCH;
+            }
+            
+            if (result.height == SCR_SIZE_6_5INCH.height * 2 && [DCDevice renderAt3x]) {
+                return SCR_6_5INCH;
             }
         }
     } else {

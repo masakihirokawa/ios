@@ -18,7 +18,6 @@
 + (void)openUrl:(NSString *)url;
 + (void)openReviewUrl:(NSString *)appStoreId;
 + (BOOL)availableStoreReviewController;
-+ (void)showAlert:(NSString *)title message:(NSString *)message cancelButtonTitle:(NSString *)cancelButtonTitle otherButtonTitles:(NSString *)otherButtonTitles;
 + (void)showAlertController:(NSString *)title message:(NSString *)message cancelButtonTitle:(NSString *)cancelButtonTitle otherButtonTitles:(NSString *)otherButtonTitles delegate:(id)delegate;
 + (NSString *)trimWhitespaceCharacterSet:(NSString *)string;
 + (NSString *)trimNewLineCharacterSet:(NSString *)string;
@@ -37,6 +36,8 @@
 + (UIColor *)colorWithRedCode:(int)red green:(int)green blue:(int)blue alpha:(CGFloat)alpha;
 + (NSString *)getStrFromPlist:(NSString *)key;
 + (int)digits:(int)value;
++ (NSString *)encodedString:(NSString *)text;
++ (NSString *)decodedString:(NSString *)text;
 + (BOOL)availableLocalAuthentication;
 + (BOOL)availableFaceId;
 

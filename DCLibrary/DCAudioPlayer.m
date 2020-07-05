@@ -21,34 +21,28 @@ CGFloat const MIN_VOLUME           = 0.5f;
 // 初期化
 - (id)initWithAudio:(NSString *)fileName ext:(NSString *)ext isUseDelegate:(BOOL)isUseDelegate
 {
-    if (self = [super init]) {
-        // オーディオプレイヤー初期化
-        NSBundle *const mainBundle = [NSBundle mainBundle];
-        NSString *const filePath   = [mainBundle pathForResource:fileName ofType:ext];
-        NSURL    *const fileUrl    = [NSURL fileURLWithPath:filePath];
-        
-        NSError  *error = nil;
-        
-        AVAudioPlayer *audioPlayer = [[AVAudioPlayer alloc] initWithContentsOfURL:fileUrl error:&error];
-
-        // バックグラウンド再生を許可
-        AVAudioSession *audioSession = [AVAudioSession sharedInstance];
-        [audioSession setCategory:AVAudioSessionCategoryPlayback error:nil];
-        [audioSession setActive:YES error:nil];
-        
-        // エラーでなければ処理実行
-        if (!error) {
-            // オーディオプレイヤー保持
-            _audioPlayer = audioPlayer;
-            
-            // デリゲート指定
-            if (isUseDelegate) {
-                [_audioPlayer setDelegate:self];
-            }
-            
-            // バッファを保持
-            [_audioPlayer prepareToPlay];
+    // オーディオプレイヤー初期化
+    NSString *const filePath = [[NSBundle mainBundle] pathForResource:fileName ofType:ext];
+    NSURL    *const fileUrl  = [NSURL fileURLWithPath:filePath];
+    
+    NSError  *error = nil;
+    
+    _audioPlayer = [[AVAudioPlayer alloc] initWithContentsOfURL:fileUrl error:&error];
+    
+    // バックグラウンド再生を許可
+    AVAudioSession *audioSession = [AVAudioSession sharedInstance];
+    [audioSession setCategory:AVAudioSessionCategoryPlayback error:nil];
+    [audioSession setActive:YES error:nil];
+    
+    // エラーでなければ処理実行
+    if (!error) {
+        // デリゲート指定
+        if (isUseDelegate) {
+            [_audioPlayer setDelegate:self];
         }
+        
+        // バッファを保持
+        [_audioPlayer prepareToPlay];
     }
     
     return self;
@@ -115,11 +109,6 @@ CGFloat const MIN_VOLUME           = 0.5f;
 - (void)setCurrentTime:(NSTimeInterval)currentTime
 {
     if (_audioPlayer) {
-        /*
-        if (currentTime >= [self duration]) {
-            currentTime = [self duration] - 0.01f;
-        }
-         */
         _audioPlayer.currentTime = currentTime;
     }
 }
@@ -155,20 +144,7 @@ CGFloat const MIN_VOLUME           = 0.5f;
 - (void)audioPlayerDidFinishPlaying:(AVAudioPlayer *)player successfully:(BOOL)successfully
 {
     if (successfully) {
-        /*
-        MusicViewController *musicViewController = [[MusicViewController alloc] init];
-        self.ap_delegate = (id)musicViewController;
-        [self.ap_delegate onEndPlaybackEvent];
-         */
-        /*
-        if ([Common sharedManager].isAllPlayMode) {
-            // 次のミュージックを再生
-            [self.ap_delegate playNextMusic];
-        } else {
-            // ミュージック一時停止アイコン削除
-            [self.ap_delegate removeAudioPauseControl];
-        }
-         */
+        
     }
 }
 
