@@ -1,21 +1,23 @@
 //
 //  DCAdfurikunBanner.h
 //
-//  Created by Dolice on 2015/09/02.
-//  Copyright © 2015 Masaki Hirokawa. All rights reserved.
+//  Created by Dolice on 2020/07/01.
+//  Copyright © 2020 Masaki Hirokawa. All rights reserved.
 //
 
 #import <Foundation/Foundation.h>
-#import <adfurikunsdk/AdfurikunView.h>
+#import <ADFMovieReward/ADFmyBanner.h>
 
-@interface DCAdfurikunBanner : NSObject <AdfurikunViewDelegate> {
+@interface DCAdfurikunBanner : NSObject <ADFmyNativeAdDelegate> {
     CGFloat bannerY;
     BOOL    isAdfurikunFailed;
 }
 
 #pragma mark - property
-@property (nonatomic, retain) AdfurikunView    *adfurikunView;
+@property (nonatomic) ADFmyBanner              *bannerAd;
+@property (nonatomic) ADFNativeAdInfo          *bannerAdInfo;
 @property (nonatomic, strong) UIViewController *currentRootViewController;
+@property (nonatomic, assign) NSTimer          *refreshTimer;
 @property (nonatomic, assign) BOOL             loaded;
 
 #pragma mark - public method
@@ -24,5 +26,6 @@
 - (void)removeAdBanner;
 - (void)hideAdBanner:(BOOL)hidden;
 - (void)insertAdBanner;
+- (void)reloadAdBanner;
 
 @end

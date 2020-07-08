@@ -1,16 +1,18 @@
 //
 //  DCAdfurikunBanner.m
 //
-//  Created by Dolice on 2015/09/02.
-//  Copyright © 2015 Masaki Hirokawa. All rights reserved.
+//  Created by Dolice on 2020/07/01.
+//  Copyright © 2020 Masaki Hirokawa. All rights reserved.
 //
 
 #import "DCAdfurikunBanner.h"
 
 @implementation DCAdfurikunBanner
 
-@synthesize adfurikunView             = _adfurikunView;
+@synthesize bannerAd                  = _bannerAd;
+@synthesize bannerAdInfo              = _bannerAdInfo;
 @synthesize currentRootViewController = _currentRootViewController;
+@synthesize refreshTimer              = _refreshTimer;
 @synthesize loaded                    = _loaded;
 
 #pragma mark - Shared Manager
@@ -30,6 +32,7 @@ static id sharedInstance = nil;
 
 #pragma mark - public method
 
+// バナー表示
 - (void)showAdBanner:(UIViewController *)viewController yPos:(CGFloat)yPos
 {
     [self removeAdBanner];
@@ -40,67 +43,94 @@ static id sharedInstance = nil;
     
     bannerY = yPos;
     
-    CGFloat const screenWidth = [[UIScreen mainScreen] bounds].size.width;
-    CGFloat const bannerX     = roundf((screenWidth / 2) - (ADFRJS_VIEW_SIZE_320x50.width / 2));
-    
-    self.adfurikunView = [[AdfurikunView alloc] initWithFrame:CGRectMake(bannerX, bannerY,
-                                                                         ADFRJS_VIEW_SIZE_320x50.width, ADFRJS_VIEW_SIZE_320x50.height)];
-    self.adfurikunView.delegate = self;
-    self.adfurikunView.appId = ADFURIKUN_APPID;
-    self.adfurikunView.transitionDulation = 0.5f;
-    [viewController.view addSubview:self.adfurikunView];
-    
-    [self.adfurikunView.layer setBorderColor:[UIColor clearColor].CGColor];
-    [self.adfurikunView.layer setBorderWidth:1.0];
-    
-    //[self.adfurikunView testModeEnable];
-    [self.adfurikunView startShowAd];
+    _bannerAd = [ADFmyBanner createInstance:ADFURIKUN_AD_UNIT_ID];
+    [_bannerAd loadAndNotifyTo:self];
 }
 
 // バナー削除
 - (void)removeAdBanner
 {
-    if (self.adfurikunView.superview) {
-        [self.adfurikunView removeFromSuperview];
+    if (_bannerAdInfo) {
+        [_bannerAdInfo.mediaView removeFromSuperview];
+        _bannerAdInfo.mediaView = nil;
+        _bannerAdInfo = nil;
     }
+    
+    [self clearRefreshTimer];
 }
 
 // バナー非表示
 - (void)hideAdBanner:(BOOL)hidden
 {
-    if (self.adfurikunView.superview) {
-        self.adfurikunView.hidden = hidden;
+    if (_bannerAdInfo) {
+        _bannerAdInfo.mediaView.hidden = hidden;
     }
 }
 
 // バナーを最前面に配置
 - (void)insertAdBanner
 {
-    if (self.adfurikunView.superview) {
+    if (_bannerAdInfo) {
         NSUInteger subviewsCount = [[self.currentRootViewController.view subviews] count];
-        [self.currentRootViewController.view insertSubview:self.adfurikunView atIndex:subviewsCount + 1];
+        [self.currentRootViewController.view insertSubview:_bannerAdInfo.mediaView atIndex:subviewsCount + 1];
+    }
+}
+
+// バナーの再読み込み
+- (void)reloadAdBanner {
+    if (_bannerAdInfo) {
+        [self removeAdBanner];
+        [_bannerAd loadAndNotifyTo:self];
+    }
+}
+
+#pragma mark - Refresh Timer
+
+// 広告の自動更新タイマー開始
+- (void)startRefreshTimer
+{
+    _refreshTimer = [NSTimer scheduledTimerWithTimeInterval:10.0 repeats:YES block:^(NSTimer * _Nonnull timer) {
+        [self reloadAdBanner];
+    }];
+}
+
+// 広告の自動更新タイマー削除
+- (void)clearRefreshTimer
+{
+    if (_refreshTimer != nil) {
+        [_refreshTimer invalidate];
+        _refreshTimer = nil;
     }
 }
 
 #pragma mark - delegate method
 
-- (void)adfurikunViewDidFinishLoad:(AdfurikunView *)view
+// バナーの取得に成功した時に呼ばれる
+- (void)onNativeAdLoadFinish:(ADFNativeAdInfo *)info appID:(NSString *)appID
 {
-    //NSLog(@"adfurikunViewDidFinishLoad");
+    //NSLog(@"onNativeAdLoadFinish");
+    
+    _bannerAdInfo = info;
+    
+    CGFloat const bannerWidth  = self.currentRootViewController.view.frame.size.width;
+    CGFloat const bannerHeight = 50.0;
+    
+    _bannerAdInfo.mediaView.frame = CGRectMake(0.0, bannerY, bannerWidth, bannerHeight);
+    [self.currentRootViewController.view addSubview:_bannerAdInfo.mediaView];
+    [_bannerAdInfo playMediaView];
+    
+    [self clearRefreshTimer];
+    [self startRefreshTimer];
     
     _loaded = YES;
     
     isAdfurikunFailed = !_loaded;
 }
 
-- (void)adfurikunViewAdTapped:(AdfurikunView *)view
+// バナーの取得に失敗した時に呼ばれる
+- (void)onNativeAdLoadError:(ADFMovieError *)error appID:(NSString *)appID
 {
-    //NSLog(@"adfurikunViewAdTapped");
-}
-
-- (void)adfurikunViewAdFailed:(AdfurikunView *)view
-{
-    //NSLog(@"adfurikunViewAdFailed");
+    //NSLog(@"Failed to load native ad, error code=%lu, error message=\"%@\"", (unsigned long)error.errorCode, error.errorMessage);
     
     _loaded = NO;
     
