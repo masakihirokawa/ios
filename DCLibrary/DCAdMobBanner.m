@@ -31,18 +31,33 @@ static id sharedInstance = nil;
 #pragma mark - public method
 
 // バナー表示
-- (void)showAdBanner:(UIViewController *)viewController yPos:(CGFloat)yPos useSmartBanner:(BOOL)useSmartBanner
+- (void)showAdBanner:(UIViewController *)viewController yPos:(CGFloat)yPos fadeInDuration:(CGFloat)fadeInDuration
+   useAdaptiveBanner:(BOOL)useAdaptiveBanner useSmartBanner:(BOOL)useSmartBanner usePersonalizedAds:(BOOL)usePersonalizedAds
 {
     self.currentRootViewController = viewController;
-    
+    self.fadeInDuration = fadeInDuration;
+    self.useAdaptiveBanner = useAdaptiveBanner;
     self.useSmartBanner = useSmartBanner;
-    if (!self.useSmartBanner) {
+    self.usePersonalizedAds = usePersonalizedAds;
+    
+    if (!self.useAdaptiveBanner && !self.useSmartBanner) {
         CGFloat const screenWidth = [[UIScreen mainScreen] bounds].size.width;
         bannerX = roundf((screenWidth / 2) - (kGADAdSizeBanner.size.width / 2));
     }
     bannerY = yPos;
     
     [self showAdMobBanner:viewController.view];
+}
+
+// バナーの再読み込み
+- (void)reloadAdBanner:(UIViewController *)viewController usePersonalizedAds:(BOOL)usePersonalizedAds
+{
+    self.currentRootViewController = viewController;
+    self.usePersonalizedAds = usePersonalizedAds;
+    
+    if (self.gadView.superview) {
+        [self loadAdMobBanner:self.currentRootViewController.view];
+    }
 }
 
 // バナー削除
@@ -75,13 +90,14 @@ static id sharedInstance = nil;
 - (void)showAdMobBanner:(UIView *)targetView
 {
     if (!self.gadView) {
-        if (self.useSmartBanner) {
+        if (self.useAdaptiveBanner) {
+            self.gadView = [[GADBannerView alloc] initWithAdSize:GADCurrentOrientationAnchoredAdaptiveBannerAdSizeWithWidth(targetView.frame.size.width)];
+        } else if (self.useSmartBanner) {
             self.gadView = [[GADBannerView alloc] initWithAdSize:kGADAdSizeSmartBannerPortrait];
-            //self.gadView = [[GADBannerView alloc] initWithAdSize:GADAdSizeFullWidthPortraitWithHeight(GAD_SIZE_320x50.height)];
         } else {
             self.gadView = [[GADBannerView alloc] initWithAdSize:kGADAdSizeBanner];
         }
-        self.gadView.adUnitID = GAD_UNIT_ID;
+        self.gadView.adUnitID = GAD_TEST_MODE ? GAD_TEST_UNIT_ID : GAD_UNIT_ID;
         self.gadView.delegate = self;
         [self loadAdMobBanner:targetView];
     }
@@ -99,15 +115,37 @@ static id sharedInstance = nil;
     CGRect gadViewFrame = self.gadView.frame;
     gadViewFrame.origin = CGPointMake(bannerX, bannerY);
     self.gadView.frame = gadViewFrame;
-    
     [view addSubview:self.gadView];
-    [self.gadView loadRequest:[GADRequest request]];
+    
+    GADRequest *request = [GADRequest request];
+    if (GAD_TEST_MODE) {
+        [[GADMobileAds sharedInstance] requestConfiguration].testDeviceIdentifiers = @[kGADSimulatorID,
+                                                                                       GAD_TEST_DEVICE1, GAD_TEST_DEVICE2,
+                                                                                       GAD_TEST_DEVICE3, GAD_TEST_DEVICE4];
+    }
+    
+    if (!self.usePersonalizedAds) {
+        GADExtras *extras = [[GADExtras alloc] init];
+        extras.additionalParameters = @{@"npa": @"1"};
+        [request registerAdNetworkExtras:extras];
+    }
+    //NSLog(@"DCAdMobBanner -> usePersonalizedAds: %d", self.usePersonalizedAds);
+    
+    [self.gadView loadRequest:request];
 }
 
 #pragma mark - delegate method
 
 - (void)adViewDidReceiveAd:(GADBannerView *)bannerView
 {
+    BOOL const useFadeInAnimation = self.fadeInDuration > 0.0;
+    if (useFadeInAnimation) {
+        bannerView.alpha = 0.0;
+        [UIView animateWithDuration:self.fadeInDuration animations:^{
+            bannerView.alpha = 1.0;
+        }];
+    }
+    
     _loaded = YES;
     
     isAdMobFailed = !_loaded;
@@ -119,7 +157,8 @@ static id sharedInstance = nil;
     isAdMobFailed = !_loaded;
     
     // バナー再読み込み
-    [self showAdBanner:self.currentRootViewController yPos:bannerY useSmartBanner:self.useSmartBanner];
+    [self showAdBanner:self.currentRootViewController yPos:bannerY fadeInDuration:self.fadeInDuration
+     useAdaptiveBanner:self.useAdaptiveBanner useSmartBanner:self.useSmartBanner usePersonalizedAds:self.usePersonalizedAds];
 }
 
 - (void)adViewWillPresentScreen:(GADBannerView *)bannerView
