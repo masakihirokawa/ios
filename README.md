@@ -89,8 +89,3 @@ iPhone/iPadのデバイス情報を判別する「DCDevice」クラスです。�
 
 [4種類の機能を搭載する「DCImage」クラス](http://lab.dolice.net/blog/2013/06/17/download-objc-classes-dc-image/ "4種類の機能を搭載する「DCImage」クラス")<br />
 「イメージビューの生成」や「全画面画像の取得」、「マスク適用」に「リサイズ処理」など 4種類の機能を実装する「DCImage」クラスです。
-
-### DCWebViewクラス
-
-[ウェブビューに必要な機能を搭載した「DCWebView」クラス](http://lab.dolice.net/blog/2014/01/05/objc-classes-dc-web-view/ "ウェブビューに必要な機能を搭載した「DCWebView」クラス")<br />
-UIWebViewを使用する際に必要な機能を搭載した「DCWebView」クラスです。
