@@ -12,7 +12,7 @@
 @interface DCAdMobBanner : NSObject <GADBannerViewDelegate> {
     CGFloat bannerX;
     CGFloat bannerY;
-    BOOL    isAdMobFailed;
+    BOOL    isFailed;
 }
 
 #pragma mark - property

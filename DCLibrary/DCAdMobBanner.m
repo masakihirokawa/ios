@@ -120,8 +120,7 @@ static id sharedInstance = nil;
     GADRequest *request = [GADRequest request];
     if (GAD_TEST_MODE) {
         [[GADMobileAds sharedInstance] requestConfiguration].testDeviceIdentifiers = @[kGADSimulatorID,
-                                                                                       GAD_TEST_DEVICE1, GAD_TEST_DEVICE2,
-                                                                                       GAD_TEST_DEVICE3, GAD_TEST_DEVICE4];
+                                                                                       GAD_TEST_DEVICE_ID];
     }
     
     if (!self.usePersonalizedAds) {
@@ -148,13 +147,13 @@ static id sharedInstance = nil;
     
     _loaded = YES;
     
-    isAdMobFailed = !_loaded;
+    isFailed = !_loaded;
 }
 - (void)adView:(GADBannerView *)bannerView didFailToReceiveAdWithError:(GADRequestError *)error
 {
     _loaded = NO;
     
-    isAdMobFailed = !_loaded;
+    isFailed = !_loaded;
     
     // バナー再読み込み
     [self showAdBanner:self.currentRootViewController yPos:bannerY fadeInDuration:self.fadeInDuration
