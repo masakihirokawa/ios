@@ -6,7 +6,7 @@
 //
 
 #import <Foundation/Foundation.h>
-#import "NADView.h"
+#import <NendAd/NADView.h>
 
 @interface DCNendBanner : NSObject <NADViewDelegate> {
     CGFloat bannerY;

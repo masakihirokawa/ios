@@ -45,13 +45,10 @@ static id sharedInstance = nil;
     
     self.nendView = [[NADView alloc] initWithFrame:CGRectMake(bannerX, bannerY,
                                                               NAD_ADVIEW_SIZE_320x50.width, NAD_ADVIEW_SIZE_320x50.height)];
-    self.nendView.isOutputLog = NO;
-    self.nendView.nendApiKey = NEND_API_KEY;
-    self.nendView.nendSpotID = NEND_SPOT_ID;
-    self.nendView.delegate = self;
-    [viewController.view addSubview:self.nendView];
-    
+    [self.nendView setNendID:NEND_SPOT_ID apiKey:NEND_API_KEY];
+    [self.nendView setDelegate:self];
     [self.nendView load];
+    [viewController.view addSubview:self.nendView];
 }
 
 // バナー削除
